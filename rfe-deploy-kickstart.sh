@@ -25,6 +25,9 @@ systemctl restart osbuild-composer
 ################################################################################
 
 
+# password hast:   python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'
+
+
 cat <<EOF > blueprint.toml
 name = "$blueprint_name"
 description = "Sample blueprint"
@@ -38,6 +41,10 @@ version = "*"
 
 [customizations]
 hostname = "edge-node"
+
+[[customizations.sshkey]]
+user = "root"
+key = "<key>"
 
 [[customizations.user]]
 name = "core"
@@ -105,12 +112,15 @@ tar xvf ${image_commit_name}-commit.tar
 cat <<EOF > Dockerfile
 FROM registry.access.redhat.com/ubi8/ubi
 RUN yum -y install nginx && yum clean all
-ADD kickstart.ks /usr/share/nginx/html/
-ADD ${image_commit_name}-commit.tar /usr/share/nginx/html/
+ARG kickstart
+ARG commit
+ADD \$kickstart /usr/share/nginx/html/
+ADD \$commit /usr/share/nginx/html/
 ADD nginx.conf /etc/
 EXPOSE 8080
 CMD ["/usr/sbin/nginx", "-c", "/etc/nginx.conf"]
 EOF
+
 
 
 cat <<EOFIN > kickstart.ks
@@ -172,9 +182,13 @@ EOF
 
 
 
+
+
+
+
 #commit=$(jq '.["ostree-commit"]' < compose.json | awk -F '"' '{print $2}')
 
-podman build -t ${blueprint_name}-commit-repo-$image_commit_name .
+podman build -t ${blueprint_name}-commit-repo-$image_commit_name --build-arg kickstart=kickstart.ks --build-arg commit=${image_commit_name}-commit.tar .
 
 podman run --name ${blueprint_name}-commit-repo-$image_commit_name -d -p 8080:8080 localhost/${blueprint_name}-commit-repo-$image_commit_name
 
