@@ -1,3 +1,2 @@
-ISO
-network-based/blueprint.toml
-non-network-based/blueprint.toml
+blueprint.toml
+kickstart.ks

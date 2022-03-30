@@ -6,8 +6,9 @@ zerombr
 clearpart --all --initlabel
 autopart
 reboot
+user --name=core --group=wheel
 
-ostreesetup --nogpg --osname=rhel --remote=edge --url=http://192.168.122.129:8080/repo/ --ref=rhel/8/x86_64/edge
+ostreesetup --nogpg --osname=rhel --remote=edge --url=http://<repo_server_ip:port>/repo/ --ref=rhel/8/x86_64/edge
 
 %post
 cat << EOF > /etc/greenboot/check/required.d/check-dns.sh

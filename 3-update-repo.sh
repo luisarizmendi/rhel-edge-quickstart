@@ -1,25 +1,24 @@
 #!/bin/bash
 
-
 blueprint_name="factory-edge"
 
 repo_server_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | grep "inet " | awk '{print $2}' | awk -F / '{print $1}')
 
 
-
-################################################################################
-######################################## CREATE & DOWNLOAD IMAGE
-################################################################################
+parent_id=$(curl http://$repo_server_ip:8080/repo/refs/heads/rhel/8/x86_64/edge)
 
 
-# password hast in blueprint:   python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'
 
-echo ""
-echo "Pushing Blueprint..."
+##############
 
 composer-cli blueprints push blueprint.toml
 
 
+
+
+
+composer-cli compose start-ostree --parent $parent_id $blueprint_name edge-commit  > .tmp
+image_commit=$(cat .tmp | awk '{print $2}')
 
 
 # $(!!) Not working in shell script so I use tmp file
@@ -50,10 +49,24 @@ cd images
 composer-cli compose image $image_commit
 cd ..
 
+
+
 ################################################################################
-######################################## PUBLISH IMAGE & create ISO
+######################################## CREATE REPO CONTAINER
 ################################################################################
 
+# Stop previous container
+
+echo ""
+echo "Stopping previous .."
+echo ""
+
+
+podman stop $(podman ps | grep 0.0.0.0:8080 | awk '{print $1}')
+
+# Start repo container
+
+c
 
 echo ""
 echo "Building and running the container serving the image..."
@@ -68,31 +81,9 @@ podman run --name ${blueprint_name}-repo-$image_commit -d -p 8080:8080 ${bluepri
 
 
 
-
 echo ""
+echo "****************************************************************************************"
+echo "OSTree update ready"
+echo "****************************************************************************************"
 echo ""
-echo "Install using standard ISO including this kernel argument:"
-echo ""
-echo "************************************************************************"
-echo ""
-echo "<kernel args> inst.ks=http://$repo_server_ip:8080/kickstart.ks"
-echo ""
-echo "************************************************************************"
-echo ""
-echo ""
-echo ""
-echo "...or create a custom ISO with kickstart.ks embedded (use create_custom_ISO.sh)"
-echo ""
-echo ""
-
-
-
-
-
-
-
-
-
-
-
 
