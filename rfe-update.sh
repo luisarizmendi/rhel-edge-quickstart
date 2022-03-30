@@ -41,12 +41,12 @@ cat ${image_commit_name}-container.tar | podman load  > .tmp
 container_image_id=$(cat .tmp | grep "Loaded image" | awk -F 'sha256:' '{print $2}')
 
 
-podman tag $container_image_id localhost/${blueprint_name}-simp-install-repo-$image_commit_name
+podman tag $container_image_id localhost/${blueprint_name}-repo-$image_commit_name
 
-podman run --name=${blueprint_name}-simp-install-repo-$image_commit_name -d  -p 8082:8080 localhost/${blueprint_name}-simp-install-repo-$image_commit_name
+podman run --name=${blueprint_name}-repo-$image_commit_name -d  -p 8080:8080 localhost/${blueprint_name}-repo-$image_commit_name
 
 # Wait for container to be running
-until [ "$(sudo podman inspect -f '{{.State.Running}}' ${blueprint_name}-simp-install-repo-${image_commit_name})" == "true" ]; do
+until [ "$(sudo podman inspect -f '{{.State.Running}}' ${blueprint_name}-repo-${image_commit_name})" == "true" ]; do
     sleep 1;
 done;
 
