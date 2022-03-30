@@ -1,0 +1,44 @@
+name = "factory-edge"
+description = "Sample blueprint"
+version = "0.0.1"
+modules = [ ]
+groups = [ ]
+
+[[packages]]
+name = "tmux"
+version = "*"
+
+[[packages]]
+name = "tree"
+version = "*"
+
+[[packages]]
+name = "zsh"
+version = "*"
+
+[customizations]
+hostname = "edge-node"
+
+[[customizations.sshkey]]
+user = "root"
+key = "<ssh public key>"
+
+
+[[customizations.user]]
+name = "admin"
+description = "Admin user"
+password = '<password hash obatained with:        python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'       >'
+key = "<ssh public key>"
+home = "/home/admin/"
+shell = "/usr/bin/bash"
+groups = ["users", "wheel"]
+
+
+[[customizations.user]]
+name = "user1"
+description = "Edge user 1"
+password = '<password hash obatained with:        python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'       >'
+key = "<ssh public key>"
+home = "/home/user1/"
+shell = "/usr/bin/bash"
+groups = ["users"]

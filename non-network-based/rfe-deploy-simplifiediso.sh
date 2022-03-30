@@ -6,7 +6,7 @@ blueprint_name="factory-edge"
 
 ## PRE-REQUISITES
 
-dnf install -y podman osbuild-composer composer-cli cockpit-composer bash-completion
+dnf install -y podman osbuild-composer composer-cli cockpit-composer bash-completion httpd
 
 systemctl enable osbuild-composer.socket --now
 systemctl enable cockpit.socket --now
@@ -23,10 +23,12 @@ systemctl restart osbuild-composer
 ######################################## CREATE REPO
 ################################################################################
 
-
  ## passwords:   python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'
 
+
 ### NOTE!!!!:  remember to include a \ before any $ sign in the password hash so the cat does not think is a variable
+
+
 
 cat <<EOF > blueprint.toml
 name = "$blueprint_name"
@@ -36,17 +38,22 @@ modules = [ ]
 groups = [ ]
 
 [[packages]]
-name = "tmux"
+name = "tree"
 version = "*"
 
 [customizations]
 hostname = "edge-node"
 
+[[customizations.sshkey]]
+user = "root"
+key = '<your ssh pub key>'
+
+
 [[customizations.user]]
 name = "core"
 description = "Core user"
 password = '<your password hash>'
-key = '<your key>'
+key = '<your ssh pub key>'
 home = "/home/core/"
 shell = "/usr/bin/bash"
 groups = ["users", "wheel"]
@@ -88,18 +95,13 @@ composer-cli compose image $image_commit_name
 echo ""
 
 
-
 ################################################################################
 ######################################## CREATE REPO CONTAINER
 ################################################################################
 
 
 
-
 host_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | grep "inet " | awk '{print $2}' | awk -F / '{print $1}')
-
-
-
 
 
 # Start repo container
@@ -109,15 +111,14 @@ cat ${image_commit_name}-container.tar | podman load  > .tmp
 container_image_id=$(cat .tmp | grep "Loaded image" | awk -F 'sha256:' '{print $2}')
 
 
-podman tag $container_image_id localhost/${blueprint_name}-install-repo-$image_commit_name
+podman tag $container_image_id localhost/${blueprint_name}-simp-install-repo-$image_commit_name
 
-podman run --name=${blueprint_name}-install-repo-$image_commit_name -d  -p 8081:8080 localhost/${blueprint_name}-install-repo-$image_commit_name
+podman run --name=${blueprint_name}-simp-install-repo-$image_commit_name -d  -p 8082:8080 localhost/${blueprint_name}-simp-install-repo-$image_commit_name
 
 # Wait for container to be running
-until [ "$(sudo podman inspect -f '{{.State.Running}}' ${blueprint_name}-install-repo-${image_commit_name})" == "true" ]; do
+until [ "$(sudo podman inspect -f '{{.State.Running}}' ${blueprint_name}-simp-install-repo-${image_commit_name})" == "true" ]; do
     sleep 1;
 done;
-
 
 ## kickstart could be added with a command like this:
 # podman run --rm -p 8000:80 -v ./edge.ks:/var/www/html/edge.ks:z edge-server
@@ -130,10 +131,10 @@ done;
 ################################################################################
 
 
-
 #composer-cli compose start-ostree ${blueprint_name}-iso edge-simplified-installer --ref rhel/8/x86_64/edge --url http://$host_ip:8081/repo/
-composer-cli compose start-ostree ${blueprint_name}-iso edge-installer --ref rhel/8/x86_64/edge --url http://$host_ip:8081/repo/ > .tmp
+composer-cli compose start-ostree ${blueprint_name}-iso edge-simplified-installer --ref rhel/8/x86_64/edge --url http://$host_ip:8082/repo/ > .tmp
 image_commit_name=$(cat .tmp | awk '{print $2}')
+
 
 echo ""
 echo "Creating ISO..."
@@ -158,4 +159,5 @@ echo "**************************************************************************
 echo "Install using this ISO with UEFI boot loader!!! (otherwise you will get error code 0009)"
 echo "****************************************************************************************"
 echo ""
+echo "NOTE: IF you use a VM be sure that you create disks as SATA, not VirtIO, since the installer will look for /dev/sda by default... "
 echo ""
