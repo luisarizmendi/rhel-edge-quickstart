@@ -6,7 +6,7 @@ blueprint_name="factory-edge"
 
 ## PRE-REQUISITES
 
-yum instal -y podman osbuild-composer composer-cli cockpit-composer bash-completion httpd
+dnf install -y podman osbuild-composer composer-cli cockpit-composer bash-completion httpd
 
 systemctl enable osbuild-composer.socket --now
 systemctl enable cockpit.socket --now
@@ -43,8 +43,8 @@ hostname = "edge-node"
 [[customizations.user]]
 name = "core"
 description = "Core user"
-password = "<your password hash>"
-key = "<your key>"
+password = '<your password hash>'
+key = '<your ssh pub key>'
 home = "/home/core/"
 shell = "/usr/bin/bash"
 groups = ["users", "wheel"]

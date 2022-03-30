@@ -25,7 +25,9 @@ systemctl restart osbuild-composer
 ################################################################################
 
 
-# password hash:   python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'
+# password hast:   python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'
+
+### NOTE!!!!:  remember to include a \ before any $ sign in the password hash so the cat does not think is a variable
 
 
 cat <<EOF > blueprint.toml
@@ -39,18 +41,22 @@ groups = [ ]
 name = "tmux"
 version = "*"
 
+[[packages]]
+name = "tree"
+version = "*"
+
+[[packages]]
+name = "zsh"
+version = "*"
+
 [customizations]
 hostname = "edge-node"
-
-[[customizations.sshkey]]
-user = "root"
-key = "<key>"
 
 [[customizations.user]]
 name = "core"
 description = "Core user"
-password = "<your password hash>"
-key = "<your key>"
+password = '<your password hash>'
+key = '<your ssh pub key>'
 home = "/home/core/"
 shell = "/usr/bin/bash"
 groups = ["users", "wheel"]

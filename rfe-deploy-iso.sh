@@ -6,7 +6,7 @@ blueprint_name="factory-edge"
 
 ## PRE-REQUISITES
 
-yum install -y podman osbuild-composer composer-cli cockpit-composer bash-completion
+dnf install -y podman osbuild-composer composer-cli cockpit-composer bash-completion
 
 systemctl enable osbuild-composer.socket --now
 systemctl enable cockpit.socket --now
@@ -26,6 +26,7 @@ systemctl restart osbuild-composer
 
  ## passwords:   python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'
 
+### NOTE!!!!:  remember to include a \ before any $ sign in the password hash so the cat does not think is a variable
 
 cat <<EOF > blueprint.toml
 name = "$blueprint_name"
@@ -44,8 +45,8 @@ hostname = "edge-node"
 [[customizations.user]]
 name = "core"
 description = "Core user"
-password = "<your password hash>"
-key = "<your key>"
+password = '<your password hash>'
+key = '<your key>'
 home = "/home/core/"
 shell = "/usr/bin/bash"
 groups = ["users", "wheel"]
