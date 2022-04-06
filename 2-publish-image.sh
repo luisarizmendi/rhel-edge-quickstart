@@ -8,7 +8,7 @@ Help()
    # Display Help
    echo "This Script creates a container with the ostree repo from an edge-commit image"
    echo
-   echo "Syntax: $0 [-c|-h|-p|-k|-u]]"
+   echo "Syntax: $0 [-c <image ID>|-h <IP>|-p <port>|-k <KS file>|-u]]"
    echo ""
    echo "options:"
    echo "c     Image ID to be published (required)."

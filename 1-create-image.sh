@@ -8,13 +8,15 @@ Help()
    # Display Help
    echo "This Script creates a Blueprint and edge-commit image"
    echo
-   echo "Syntax: $0 [-b|-u]"
+   echo "Syntax: $0 [-b <TOML file>|-h <IP>|-p <port>|-u]"
    echo ""
    echo "options:"
    echo "b     Blueprint file (required)."
-   echo "u     Update from this OSTree commit id. If selected it will use the last commit id on the existing repo as parent for the new ostree commit."
+   echo "h     Repo server IP (default=localhost ip)."
+   echo "p     Repo server port (default=8080)."
+   echo "u     Update. If selected it will use the last commit id on the existing repo as parent for the new ostree commit."
    echo
-   echo "Example: $0 -b blueprint-demo.toml -u 65a4da4295a2936820cf2eb82ac687989bb9d332d947cb8bdfa39d15d745001f"
+   echo "Example: $0 -b blueprint-demo.toml -h 192.168.122.129 -p 8081 -u"
    echo ""
 }
 
@@ -27,8 +29,9 @@ Help()
 ############################################################
 blueprint_file=""
 blueprint_name=""
+repo_server_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | grep "inet " | awk '{print $2}' | awk -F / '{print $1}')
+repo_server_port="8080"
 update=false
-parent_id=""
 
 
 
@@ -36,13 +39,16 @@ parent_id=""
 # Process the input options. Add options as needed.        #
 ############################################################
 # Get the options
-while getopts ":b:u:" option; do
+while getopts ":b:h:p:u" option; do
    case $option in
       b)
          blueprint_file=$OPTARG;;
+      h)
+         repo_server_ip=$OPTARG;;
+      p)
+         repo_server_port=$OPTARG;;
       u)
-         update=true
-         parent_id=$OPTARG;;
+         update=true;;
      \?) # Invalid option
          echo "Error: Invalid option"
          echo ""
@@ -87,7 +93,7 @@ echo "Creating image..."
 
 if [ $update = true ]
 then
-    composer-cli compose start-ostree --parent $parent_id $blueprint_name edge-commit  > .tmp
+    composer-cli compose start-ostree --ref rhel/8/x86_64/edge --url http://${repo_server_ip}:${repo_server_port}/repo $blueprint_name edge-commit  > .tmp
 
 else
     composer-cli compose start-ostree ${blueprint_name} edge-commit > .tmp
