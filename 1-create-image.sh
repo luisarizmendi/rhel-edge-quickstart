@@ -1,5 +1,11 @@
 #!/bin/bash
 
+blueprint_file=""
+blueprint_name=""
+repo_server_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | grep "inet " | awk '{print $2}' | awk -F / '{print $1}')
+repo_server_port="8080"
+update=false
+
 ############################################################
 # Help                                                     #
 ############################################################
@@ -12,8 +18,8 @@ Help()
    echo ""
    echo "options:"
    echo "b     Blueprint file (required)."
-   echo "h     Repo server IP (default=localhost ip)."
-   echo "p     Repo server port (default=8080)."
+   echo "h     Repo server IP (default=$repo_server_ip)."
+   echo "p     Repo server port (default=$repo_server_port)."
    echo "u     Update. If selected it will use the last commit id on the existing repo as parent for the new ostree commit."
    echo
    echo "Example: $0 -b blueprint-demo.toml -h 192.168.122.129 -p 8081 -u"
@@ -27,11 +33,7 @@ Help()
 # Main program                                             #
 ############################################################
 ############################################################
-blueprint_file=""
-blueprint_name=""
-repo_server_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | grep "inet " | awk '{print $2}' | awk -F / '{print $1}')
-repo_server_port="8080"
-update=false
+
 
 
 

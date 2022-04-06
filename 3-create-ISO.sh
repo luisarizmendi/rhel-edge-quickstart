@@ -1,10 +1,14 @@
 #!/bin/bash
 
+repo_server_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | grep "inet " | awk '{print $2}' | awk -F / '{print $1}')
+repo_server_port="8080"
 
 
 ############################################################
 # Help                                                     #
 ############################################################
+
+
 Help()
 {
    # Display Help
@@ -13,8 +17,8 @@ Help()
    echo "Syntax: $0 [-h <IP>|-p <port>]]"
    echo ""
    echo "options:"
-   echo "h     Repo server IP (default=localhost ip)."
-   echo "p     Repo server port (default=8080)."
+   echo "h     Repo server IP (default=$repo_server_ip)."
+   echo "p     Repo server port (default=$repo_server_port)."
    echo
    echo "Example: $0 -h 192.168.122.129 -p 8081"
    echo ""
@@ -27,8 +31,6 @@ Help()
 # Main program                                             #
 ############################################################
 ############################################################
-repo_server_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | grep "inet " | awk '{print $2}' | awk -F / '{print $1}')
-repo_server_port="8080"
 
 
 
