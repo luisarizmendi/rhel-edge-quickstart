@@ -1,2 +1,6 @@
 blueprint.toml
+blueprintv1.toml
+blueprintv2.toml
 kickstart.ks
+nginx.conf
+Dockerfile
