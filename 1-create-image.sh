@@ -12,8 +12,8 @@ Help()
    echo ""
    echo "options:"
    echo "b     Blueprint file (required)."
-   echo "h     Repo server IP (required if image is an update. default=localhost ip)."
-   echo "p     Repo server port (required if image is an update. default=8080)."
+   echo "h     Repo server IP (default=localhost ip)."
+   echo "p     Repo server port (default=8080)."
    echo "u     Update. If selected it will use the last commit id on the existing repo as parent for the new ostree commit."
    echo
    echo "Example: $0 -b blueprint-demo.toml -h 192.168.122.129 -p 8081 -u"
