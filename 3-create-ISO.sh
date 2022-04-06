@@ -10,13 +10,14 @@ Help()
    # Display Help
    echo "This Script creates an ISO with the OSTree commit embedded"
    echo
-   echo "Syntax: $0 [-c|-h|-p|-k|-u]]"
+   echo "Syntax: $0 [-h|-p]]"
    echo ""
    echo "options:"
    echo "h     Repo server IP (default=localhost ip)."
    echo "p     Repo server port (default=8080)."
    echo
    echo "Example: $0 -h 192.168.122.129 -p 8081"
+   echo ""
 }
 
 

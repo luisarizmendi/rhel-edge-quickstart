@@ -8,13 +8,14 @@ Help()
    # Display Help
    echo "This Script creates a Blueprint and edge-commit image"
    echo
-   echo "Syntax: $0 [-b]"
+   echo "Syntax: $0 [-b|-u]"
    echo ""
    echo "options:"
    echo "b     Blueprint file (required)."
    echo "u     Update from this OSTree commit id. If selected it will use the last commit id on the existing repo as parent for the new ostree commit."
    echo
    echo "Example: $0 -b blueprint-demo.toml -u 65a4da4295a2936820cf2eb82ac687989bb9d332d947cb8bdfa39d15d745001f"
+   echo ""
 }
 
 
