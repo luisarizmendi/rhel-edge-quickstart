@@ -241,7 +241,7 @@ podman run --name ${blueprint_name}-repo-$image_commit -d -p  $repo_server_port:
 
 
 
-# Create VM:   virt-install   --name=edge-node-uefi-boot   --ram=2048   --vcpus=1   --os-type=linux   --os-variant=rhel8.5   --graphics=vnc   --pxe   --disk size=20  --check path_in_use=off   --network=network=default,model=virtio   --boot=uefi
+# Create VM->     sudo virt-install   --name=edge-node-uefi-boot   --ram=2048   --vcpus=1   --os-type=linux   --os-variant=rhel8.5   --graphics=vnc   --pxe   --disk size=20  --check path_in_use=off   --network=network=default,model=virtio   --boot=uefi
 
 
 
@@ -267,7 +267,7 @@ mount -o loop,ro -t iso9660 images/$iso_file mnt/rhel8-install/
 mkdir -p tmp/boot-server/var/www/html/
 
 cp -R mnt/rhel8-install/* tmp/boot-server/var/www/html/
-#chmod -R +r /tmp/boot-server/var/www/html/httpboot/*
+chmod -R +r tmp/boot-server/var/www/html/*
 
 sed -i 's/linux \/images\/pxeboot\/vmlinuz/linuxefi \/images\/pxeboot\/vmlinuz/g' tmp/boot-server/var/www/html/EFI/BOOT/grub.cfg
 sed -i 's/initrd \/images\/pxeboot\/initrd.img/vmlinuz\/initrdefi \/images\/pxeboot\/initrd.img/g' tmp/boot-server/var/www/html/EFI/BOOT/grub.cfg
@@ -288,8 +288,19 @@ EOF
 
 
 
+
+echo ""
+echo "Stopping previous .."
+echo ""
+
+
+podman stop $(podman ps | grep 0.0.0.0:$http_boot_port | awk '{print $1}') 2>/dev/null
+
+
+
+
 podman build -f Dockerfile-http-boot -t http-boot:latest --build-arg content="tmp/boot-server/var/www/html" .
-podman run --name http-boot -d -p  $http_boot_port:8080 http-boot:latest
+podman run --name http-boot-$iso_file -d -p  $http_boot_port:8080 http-boot:latest
 
 umount mnt/rhel8-install/
 rm -rf mnt
