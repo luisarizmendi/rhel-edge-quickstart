@@ -148,7 +148,7 @@ ADD \$kickstart /usr/share/nginx/html/
 ADD \$commit /usr/share/nginx/html/
 ADD nginx.conf /etc/
 EXPOSE 8080
-CMD ["/usr/sbin/nginx", "-c", "/etc/nginx.conf"][root@image-builder tests]
+CMD ["/usr/sbin/nginx", "-c", "/etc/nginx.conf"]
 EOF
 
 ############################################################
@@ -209,6 +209,46 @@ podman run --name ${blueprint_name}-repo-$image_commit -d -p  $repo_server_port:
 
 # info about the setup on libvirt:  https://www.redhat.com/sysadmin/uefi-http-boot-libvirt
 
+
+
+
+# libvirt network example:
+
+# <network xmlns:dnsmasq="http://libvirt.org/schemas/network/dnsmasq/1.0">
+#   <name>default</name>
+#   <uuid>3328ebe7-2202-4e3b-9ca3-9ddf357db576</uuid>
+#   <forward mode="nat">
+#     <nat>
+#       <port start="1024" end="65535"/>
+#     </nat>
+#   </forward>
+#   <bridge name="virbr0" stp="on" delay="0"/>
+#   <mac address="52:54:00:16:0e:63"/>
+#   <ip address="192.168.122.1" netmask="255.255.255.0">
+#     <tftp root="/var/lib/tftpboot"/>
+#     <dhcp>
+#       <range start="192.168.122.2" end="192.168.122.254"/>
+#       <bootp file="pxelinux.0"/>
+#     </dhcp>
+#   </ip>
+#   <dnsmasq:options>
+#     <dnsmasq:option value="dhcp-vendorclass=set:efi-http,HTTPClient:Arch:00016"/>
+#     <dnsmasq:option value="dhcp-option-force=tag:efi-http,60,HTTPClient"/>
+#     <dnsmasq:option value="dhcp-boot=tag:efi-http,&quot;http://192.168.122.128:8081/BOOT/BOOTX64.EFI&quot;"/>
+#   </dnsmasq:options>
+# </network>
+
+
+
+
+# Create VM:   virt-install   --name=edge-node-uefi-boot   --ram=2048   --vcpus=1   --os-type=linux   --os-variant=rhel8.5   --graphics=vnc   --pxe   --disk size=20  --check path_in_use=off   --network=network=default,model=virtio   --boot=uefi
+
+
+
+
+
+
+
 if [ $http_boot_mode = true ]
 then
 echo ""
@@ -243,7 +283,7 @@ ARG content
 COPY \$content/* /usr/share/nginx/html/
 ADD nginx.conf /etc/
 EXPOSE 8080
-CMD ["/usr/sbin/nginx", "-c", "/etc/nginx.conf"][root@image-builder tests]
+CMD ["/usr/sbin/nginx", "-c", "/etc/nginx.conf"]
 EOF
 
 
