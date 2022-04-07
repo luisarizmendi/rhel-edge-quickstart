@@ -284,6 +284,12 @@ echo ""
 if [ $http_boot_mode = true ]
 then
 echo "...or use the UEFI HTTP Boot server that you are running on port $http_boot_port"
+echo ""
+echo "************************************************************************"
+echo "If you are deploying on VMs with EUFI HTTP boot be sure that the disk is" 
+echo "using SATA drivers instead of VirtIO (grub.cfg was configured for sda)"
+echo "************************************************************************"
+echo ""
 fi
 echo ""
 
