@@ -2,7 +2,7 @@
 
 repo_server_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | grep "inet " | awk '{print $2}' | awk -F / '{print $1}')
 repo_server_port="8080"
-
+simplified_installer=true
 
 ############################################################
 # Help                                                     #
@@ -12,15 +12,16 @@ repo_server_port="8080"
 Help()
 {
    # Display Help
-   echo "This Script creates an ISO with the OSTree commit embedded"
+   echo "This Script creates an ISO (by default for unattended installation) with the OSTree commit embedded to install a system without the need of external network resources (HTTP or PXE server)."
    echo
-   echo "Syntax: $0 [-h <IP>|-p <port>]]"
+   echo "Syntax: $0 [-h <IP>|-p <port>]|-a]"
    echo ""
    echo "options:"
    echo "h     Repo server IP (default=$repo_server_ip)."
    echo "p     Repo server port (default=$repo_server_port)."
+   echo "a     Anaconda. If enabled (default=disabled), it creates an ISO that will jump into Anaconda instaler, where you will be able to select, among others, the disk where RHEL for edge will be installed"
    echo
-   echo "Example: $0 -h 192.168.122.129 -p 8081"
+   echo "Example: $0 -h 192.168.122.129 -p 8081 -a"
    echo ""
 }
 
@@ -38,12 +39,14 @@ Help()
 # Process the input options. Add options as needed.        #
 ############################################################
 # Get the options
-while getopts ":h:p:" option; do
+while getopts ":h:p:a" option; do
    case $option in
       h)
          repo_server_ip=$OPTARG;;
       p)
          repo_server_port=$OPTARG;;
+      a)
+         simplified_installer=false;;
      \?) # Invalid option
          echo "Error: Invalid option"
          echo ""
@@ -82,7 +85,17 @@ echo ""
 echo "Creating ISO..."
 
 
-composer-cli compose start-ostree blueprint-iso edge-installer --ref rhel/8/x86_64/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
+if [ $simplified_installer = true ]
+then
+   composer-cli compose start-ostree blueprint-iso edge-simplified-installer --ref rhel/8/x86_64/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
+else
+   composer-cli compose start-ostree blueprint-iso edge-installer --ref rhel/8/x86_64/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
+fi
+
+
+
+
+
 image_commit=$(cat .tmp | awk '{print $2}')
 
 # Wait until image is created
@@ -122,8 +135,21 @@ cd ..
 
 
 echo ""
-echo "******************************************************************************************"
-echo "Install using this ISO with UEFI boot loader!!! (otherwise you will get error code 0009)"
-echo "******************************************************************************************"
+echo "************************************************"
+echo "Install using this ISO with UEFI boot loader!!! "
+echo "(otherwise you will get error code 0009)"
+echo "************************************************"
 echo ""
+
+if [ $simplified_installer = true ]
+then
+echo ""
+echo "************************************************************************"
+echo "If you are deploying on VMs be sure that the disk is using SATA drivers " 
+echo "instead of VirtIO, in order to get a fully unattendant installation"
+echo "************************************************************************"
+echo ""
+fi
+
+
 echo ""

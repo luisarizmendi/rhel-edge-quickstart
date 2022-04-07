@@ -14,7 +14,7 @@ Help()
    # Display Help
    echo "This Script creates a container with the ostree repo from an edge-commit image"
    echo
-   echo "Syntax: $0 [-i <image ID>|-h <IP>|-p <port>|-k <KS file>|-u]]"
+   echo "Syntax: $0 [-i <image ID>|-h <IP>|-p <port>|-k <KS file>]]"
    echo ""
    echo "options:"
    echo "i     Image ID to be published (required)."
@@ -203,7 +203,7 @@ echo ""
 echo "************************************************************************"
 echo ""
 echo ""
-echo "...or create a bootable auto-install ISO with 3-create-ISO.sh"
+echo "...or create a bootable auto-install ISO with 3-create-offline-ISO.sh"
 echo ""
 echo ""
 
