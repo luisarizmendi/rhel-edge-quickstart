@@ -4,3 +4,6 @@ blueprintv2.toml
 kickstart.ks
 nginx.conf
 Dockerfile
+Dockerfile-http-boot
+/images
+.lastimagecommit

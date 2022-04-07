@@ -131,7 +131,7 @@ cd images
 composer-cli compose image $image_commit
 cd ..
 
-
+echo $image_commit > .lastcommit
 
 
 echo ""
