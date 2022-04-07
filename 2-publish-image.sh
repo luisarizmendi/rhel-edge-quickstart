@@ -241,7 +241,7 @@ podman run --name ${blueprint_name}-repo-$image_commit -d -p  $repo_server_port:
 
 
 
-# Create VM->     sudo virt-install   --name=edge-node-uefi-boot   --ram=2048   --vcpus=1   --os-type=linux   --os-variant=rhel8.5   --graphics=vnc   --pxe   --disk size=20  --check path_in_use=off   --network=network=default,model=virtio   --boot=uefi
+# Create VM->     sudo virt-install   --name=edge-node-uefi-boot   --ram=2048   --vcpus=1   --os-type=linux   --os-variant=rhel8.5   --graphics=vnc   --pxe   --disk size=20,bus=sata  --check path_in_use=off   --network=network=default,model=virtio   --boot=uefi
 
 
 
@@ -267,10 +267,13 @@ mount -o loop,ro -t iso9660 images/$iso_file mnt/rhel8-install/
 mkdir -p tmp/boot-server/var/www/html/
 
 cp -R mnt/rhel8-install/* tmp/boot-server/var/www/html/
+
+
 chmod -R +r tmp/boot-server/var/www/html/*
 
-sed -i 's/linux \/images\/pxeboot\/vmlinuz/linuxefi \/images\/pxeboot\/vmlinuz/g' tmp/boot-server/var/www/html/EFI/BOOT/grub.cfg
-sed -i 's/initrd \/images\/pxeboot\/initrd.img/vmlinuz\/initrdefi \/images\/pxeboot\/initrd.img/g' tmp/boot-server/var/www/html/EFI/BOOT/grub.cfg
+
+sed -i 's/linux \/images\/pxeboot\/vmlinuz/linuxefi \/pxeboot\/vmlinuz/g' tmp/boot-server/var/www/html/EFI/BOOT/grub.cfg
+sed -i 's/initrd \/images\/pxeboot\/initrd.img/initrdefi \/pxeboot\/initrd.img/g' tmp/boot-server/var/www/html/EFI/BOOT/grub.cfg
 sed -i "s/coreos.inst.image_file=\/run\/media\/iso\/disk.img.xz/coreos.inst.image_url=http:\/\/${repo_server_ip}:$http_boot_port\/disk.img.xz/g" tmp/boot-server/var/www/html/EFI/BOOT/grub.cfg
 
 
@@ -334,9 +337,12 @@ echo "...or create a bootable auto-install ISO with 3-create-offline-ISO.sh"
 echo ""
 if [ $http_boot_mode = true ]
 then
-echo "...or use the UEFI HTTP Boot server that you are running on port $http_boot_port"
+echo ""
 echo ""
 echo "************************************************************************"
+echo "You have activated UEFI HTTP boot!"
+echo "DHCP-boot:  http://$repo_server_ip:$http_boot_port/BOOT/BOOTX64.EFI"
+echo ""
 echo "If you are deploying on VMs with EUFI HTTP boot be sure that the disk is" 
 echo "using SATA drivers instead of VirtIO (grub.cfg was configured for sda)"
 echo "************************************************************************"
