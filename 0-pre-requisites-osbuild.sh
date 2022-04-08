@@ -3,7 +3,7 @@
 
 ## PRE-REQUISITES
 
-dnf install -y podman osbuild-composer composer-cli cockpit-composer bash-completion isomd5sum genisoimage jq
+dnf install -y podman osbuild-composer composer-cli cockpit-composer bash-completion isomd5sum genisoimage jq syslinux
 
 systemctl enable osbuild-composer.socket --now
 systemctl enable cockpit.socket --now
@@ -15,6 +15,21 @@ source  /etc/bash_completion.d/composer-cli
 systemctl restart osbuild-composer
 
 
+
+
+
+
+
+cat <<EOF > .gpgdata
+Key-Type: 1
+Name-Real: Root Superuser
+Name-Email: fake@fake.com
+Passphrase: redhat
+EOF
+
+gpg --batch --gen-key .gpgdata
+
+rm -f .gpgdata
 
 ## Add extended repos
 # mkdir -p /etc/osbuild-composer/repositories
