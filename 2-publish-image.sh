@@ -47,7 +47,7 @@ Help()
 # Process the input options. Add options as needed.        #
 ############################################################
 # Get the options
-while getopts ":i:h:p:k:x:e" option; do
+while getopts ":i:h:p:k:x:e:" option; do
    case $option in
       i)
          image_commit=$OPTARG;;
@@ -338,6 +338,12 @@ then
 
 # steps from ->  https://access.redhat.com/solutions/60959
 
+
+echo ""
+echo ""
+echo "Creating ISO image with kickstart embedded..."
+echo ""
+
 mkdir -p mnt/rhel-iso/
 mount -o loop $iso_standard mnt/rhel-iso/
 
@@ -346,7 +352,9 @@ shopt -s dotglob
 mkdir -p tmp/rhel-iso
 cp -avRf mnt/rhel-iso/* tmp/rhel-iso
 
-cp ${kickstart_file} tmp/rhel-iso/ks.cfg
+
+# Kickstart could be imported into the image and be used instead downloading from the HTTP server... but modifiying the kickstart in the HTTP server is easier...
+#cp ${kickstart_file} tmp/rhel-iso/ks.cfg
 
 
 
@@ -357,13 +365,13 @@ iso_label=$(blkid $iso_standard | awk -F 'LABEL="' '{print $2}' | cut -d '"' -f 
 cd tmp/rhel-iso
 
 
-sed -i "s/quiet/inst.ks=hd:LABEL=${iso_label}:\/ks.cfg/g" isolinux/isolinux.cfg
-#sed -i "s/quiet/inst.ks=http:\/\/${repo_server_ip}:${repo_server_port}\/${kickstart_file}/g" isolinux/isolinux.cfg
+#sed -i "s/quiet/inst.ks=hd:LABEL=${iso_label}:\/ks.cfg/g" isolinux/isolinux.cfg
+sed -i "s/quiet/inst.ks=http:\/\/${repo_server_ip}:${repo_server_port}\/${kickstart_file}/g" isolinux/isolinux.cfg
 sed -i 's/timeout 600/timeout 1/g' isolinux/isolinux.cfg
 sed -i "s/RHEL-.-.-0-BaseOS-x86_64/${iso_label}/g" isolinux/isolinux.cfg
 
-sed -i "s/quiet/inst.ks=hd:LABEL=${iso_label}:\/ks.cfg/g" EFI/BOOT/grub.cfg
-#sed -i "s/quiet/inst.ks=http:\/\/${repo_server_ip}:${repo_server_port}\/${kickstart_file}/g" EFI/BOOT/grub.cfg
+#sed -i "s/quiet/inst.ks=hd:LABEL=${iso_label}:\/ks.cfg/g" EFI/BOOT/grub.cfg
+sed -i "s/quiet/inst.ks=http:\/\/${repo_server_ip}:${repo_server_port}\/${kickstart_file}/g" EFI/BOOT/grub.cfg
 sed -i "s/RHEL-.-.-0-BaseOS-x86_64/${iso_label}/g" EFI/BOOT/grub.cfg
 
 rm -rf ../../images/${iso_label}-custom.iso
