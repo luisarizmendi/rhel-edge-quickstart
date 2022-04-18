@@ -28,7 +28,7 @@ Help()
    echo "x     Create UEFI HTTP Boot server on this port. If enabled (default=disabled) it creates an ISO and publish it on this server."
    echo "e     Path to RHEL boot ISO. It will Embedd the kickstart in a new ISO so you don't need to modify kernel args during boot(default=disabled)"
    echo ""
-   echo "Example: $0 -i 125c1433-2371-4ae9-bda3-91efdbb35b92 -h 192.168.122.129 -p 8081 -k kickstart.v1.ks -x 8081 -e images/rhel-8.5-x86_64-boot.iso"
+   echo "Example: $0 -i 125c1433-2371-4ae9-bda3-91efdbb35b92 -h 192.168.122.129 -p 8080 -k kickstart.v1.ks -x 8081 -e images/rhel-8.5-x86_64-boot.iso"
    echo ""
 }
 

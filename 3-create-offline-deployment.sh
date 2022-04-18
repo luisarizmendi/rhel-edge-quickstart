@@ -23,7 +23,7 @@ Help()
    echo "a     Anaconda. If enabled (default=disabled), it creates an ISO that will jump into Anaconda instaler, where you will be able to select, among others, the disk where RHEL for edge will be installed"
    echo "r     Create RAW/QCOW2 images instead of an ISO (default=disabled)."
    echo
-   echo "Example: $0 -h 192.168.122.129 -p 8081 -a -r"
+   echo "Example: $0 -h 192.168.122.129 -p 8080 -a -r"
    echo ""
 }
 
