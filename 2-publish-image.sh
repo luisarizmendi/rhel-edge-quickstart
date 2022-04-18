@@ -219,7 +219,7 @@ echo "Building and running the container serving the image..."
 
 podman build -t ${blueprint_name}-repo:latest --build-arg kickstart=${kickstart_file} --build-arg commit=images/${image_commit}-commit.tar .
 podman tag ${blueprint_name}-repo:latest ${blueprint_name}-repo:$image_commit
-podman run --name ${blueprint_name}-repo-$image_commit -d -p  $repo_server_port:8080 ${blueprint_name}-repo:latest
+podman run --name ${blueprint_name}-repo-$image_commit -d -p  $repo_server_port:8080 ${blueprint_name}-repo:$image_commit
 
 
 # Wait for container to be running

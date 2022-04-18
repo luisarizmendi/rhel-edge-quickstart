@@ -64,7 +64,7 @@ If you want to use this approach you need to:
 ./2-publish-image.sh -i <image-id>
 ``` 
 
-3) In order to deploy the image you just need to use the defalt RHEL boot ISO on the edge server/VM and introduce (pressing `TAB` during the GRUB meny) the required kernel arg (`inst.ks`) pointing to the kickstart file published in the server, something like this: 
+3) In order to deploy the image you just need to use the default RHEL boot ISO on the edge server/VM and introduce (pressing `TAB` during the GRUB menu) the required kernel arg (`inst.ks`) pointing to the kickstart file published in the server, something like this: 
 
 ```
 <other kernel args> inst.ks=http://192.168.122.129:8080/kickstart.ks
@@ -203,7 +203,7 @@ If you want to use this approach you need to:
 
 ### Option 2) Offline partially automated ISO
 
-This option is similar to the previous one, but instead of a fully automated install, you will get the Anaconda installer screen where you can for example select the drive where to install the system
+This option is similar to the previous one, but instead of a fully automated install, you will get the Anaconda installer screen where you can for example select the drive where to install the system and configure the network.
 
 
 If you want to use this approach you need to:
@@ -225,7 +225,7 @@ If you want to use this approach you need to:
  ./3-create-offline-deployment.sh -a
 ```
 
-4) Install the Edge server by booting from the created ISO that you will find in `images` directory (the file name will be something like `<image-id>-installer.iso`). You will need to complete all the information (mainly root disk) once Anaconda screen is presented in order to proceed with the install
+4) Install the Edge server by booting from the created ISO that you will find in `images` directory (the file name will be something like `<image-id>-installer.iso`). You will need to complete all the information (mainly root disk and network info) once Anaconda screen is presented in order to proceed with the install
 
 
 > NOTE: Install using this ISO with UEFI boot loader otherwise you will get `error code 0009`
@@ -255,13 +255,38 @@ If you want to use this approach you need to:
  ./3-create-offline-deployment.sh -r
 ```
 
-4) You can use it to directly `dd` to a hard drive or to create a VM using it as main disk.
+4) You can use the files (`<image-id>-image.raw` and `<image-id>-image.qcow2` in `images` directory) to directly `dd` to a hard drive or to create a VM using it as main disk.
 
 
 # RHEL for Edge image update
 
-TBD
+The `1-create-image.sh` can create a new version of an OSTree repository to update running systems.
 
+
+## Creating an update
+
+You just need to follow two steps:
+
+1) Make changes or create a new blueprint file and then use the `-u` argument to create an update to the last image commit (remember to copy the image ID):
+
+```
+./1-create-image.sh -b <updated-blueprint> -u
+```
+
+2) Publish the updated OSTree repo
+
+```
+./2-publish-image.sh -i <image-id>
+```
+
+## Updating a system
+
+Updating a system that is using an "online" OSTree repository is different that one that only points to the system-local repository.
+
+
+### Updating a system using a network repository
+
+This method is valid for the "Network based deployments" explained in the previous section. You can check how those systems have a remote OSTree repository configured:
 
 ```
 # cat /etc/ostree/remotes.d/edge.conf 
@@ -270,3 +295,69 @@ TBD
 url=http://192.168.122.128:8080/repo/
 gpg-verify=false
 ```
+
+Or you can use this command:
+
+```
+ostree remote list
+```
+
+You can check that there is a new update for the image with `rpm-ostree update --check` or `rpm-ostree update --preview` and apply the update with the following command as a privileged user on the edge system:
+
+```
+# rpm-ostree update -r
+```
+
+> NOTE: The `-r` makes the system reboot after downloading the update (not the default), since the new image is only used after the next reboot
+
+
+### Updating a system using a local repository
+
+In the "Non-network based deployments" you won't find any "OSTree" remote, so you will be using the system-local repository that was deployed using either the ISO or the RAW/QCOW2 image.
+
+If you want to update these systems, you will need to either create a new build on the system or by using a new build comming from an external resource such as an USB or SD card.
+
+
+The steps to complete an offline upload are:
+
+1) Copy the commit file from the image-builder which contains the new build with the OSTree update (it should be in the images directory with a name similar to `<image-id>-commit.tar`) to edge system (with an USB, SD card, DVD, ...)
+
+
+2) Untar the `<image-id>-commit.tar` into a local directory on the edge server
+
+```
+# mkdir new-build
+# tar xvf <image-id>-commit.tar -C new-build/
+```
+
+3) Pull from the local repository
+
+```
+# ostree pull-local new-build/repo
+```
+
+> NOTE: You need to reference to the `repo` directory that you will find in the directory where you untar the TAR file
+
+
+4) Update using rpm-ostree update as we shown in the previous section
+
+```
+# rpm-ostree update -r
+```
+
+> NOTE: It's a good practice to take a look to the changes before with this command
+
+```
+# rpm-ostree update --preview
+
+AvailableUpdate:
+        Version: 8.5 (2022-04-18T17:26:14Z)
+         Commit: 045c135c710585ab095a5bf2fd4d4c3553d3bccd6d759805eb24829519228a07
+        Removed: zsh-5.5.1-6.el8_1.2.x86_64
+```
+
+
+
+
+
+
