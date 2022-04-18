@@ -3,7 +3,7 @@
 repo_server_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | grep "inet " | awk '{print $2}' | awk -F / '{print $1}')
 repo_server_port="8080"
 simplified_installer=true
-raw_image=false;;
+raw_image=false
 
 ############################################################
 # Help                                                     #
