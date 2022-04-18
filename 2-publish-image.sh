@@ -4,7 +4,7 @@ image_commit=""
 blueprint_name=""
 repo_server_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | grep "inet " | awk '{print $2}' | awk -F / '{print $1}')
 repo_server_port="8080"
-kickstart_file="kickstart.ks"
+kickstart_file=""
 http_boot_mode=false
 http_boot_port=""
 iso_kickstart_mode=false
@@ -120,6 +120,7 @@ EOF
 
 EOFIN
 
+kickstart_file="kickstart.ks"
 
 fi
 
