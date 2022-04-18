@@ -295,10 +295,6 @@ mkdir -p tmp/boot-server/var/www/html/
 
 cp -R mnt/rhel-install/* tmp/boot-server/var/www/html/
 
-export GPG_TTY=$(tty)
-echo "redhat" | gpg -b --batch  --passphrase-fd 0 tmp/boot-server/var/www/html/disk.img.xz
-
-
 chmod -R +r tmp/boot-server/var/www/html/*
 
 
