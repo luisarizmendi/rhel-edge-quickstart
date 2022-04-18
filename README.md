@@ -22,3 +22,32 @@ NOTE: You can get help and examples by typing  `<script> --help`
 
 # RHEL for Edge deployment types
 
+There are two main groups of RHEL for Edge deployment types:
+* Deploying using directly a repository published on the network (network based deployment)
+
+* Creating an ISO/image with the repository embedd to deploy without the need of accessing to the repository using the network (non-network based deployment)
+
+
+## Network based deployment
+
+
+### Option 1) Online repo using standard RHEL ISO 
+
+### Option 2) Online repo using custom RHEL ISO
+
+### Option 3) UEFI HTTP Boot
+
+
+
+
+
+
+
+## Non-network based deployment
+
+
+### Option 1) Offline ISO fully automated
+
+### Option 2) Offline ISO partially automated
+
+### Option 3) RAW/QCOW2 image

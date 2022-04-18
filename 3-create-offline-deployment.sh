@@ -23,7 +23,8 @@ Help()
    echo "a     Anaconda. If enabled (default=disabled), it creates an ISO that will jump into Anaconda instaler, where you will be able to select, among others, the disk where RHEL for edge will be installed"
    echo "r     Create RAW/QCOW2 images instead of an ISO (default=disabled)."
    echo
-   echo "Example: $0 -h 192.168.122.129 -p 8080 -a -r"
+   echo "Example 1: $0 -h 192.168.122.129 -p 8080 -a"
+   echo "Example 2: $0 -h 192.168.122.129 -p 8080 -r"
    echo ""
 }
 
@@ -174,7 +175,7 @@ else
    # RAW image      
    ############################################################
 
-      composer-cli compose start-ostree ${blueprint_name} edge-raw-image --ref rhel/8/x86_64/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
+      composer-cli compose start-ostree blueprint-iso edge-raw-image --ref rhel/8/x86_64/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
 
       image_commit=$(cat .tmp | awk '{print $2}')
 
