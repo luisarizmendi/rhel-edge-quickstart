@@ -10,7 +10,6 @@ http_boot_port=""
 iso_kickstart_mode=false
 iso_standard=""
 
-
 ############################################################
 # Help                                                     #
 ############################################################
@@ -19,7 +18,7 @@ Help()
    # Display Help
    echo "This Script creates a container with the ostree repo from an edge-commit image"
    echo ""
-   echo "Syntax: $0 [-i <image ID>|-h <IP>|-p <port>|-k <KS file>]|-x <port>|-e <standard ISO file>]"
+   echo "Syntax: $0 [-i <image ID>|-h <IP>|-p <port>|-k <KS file>]|-x <port>|-e <standard ISO file>]]"
    echo ""
    echo "options:"
    echo "i     Image ID to be published (required)."
@@ -283,7 +282,7 @@ echo ""
 echo "Creating ISO image to be published in PXE (it could take time)..."
 echo ""
 
-./3-create-offline-ISO.sh -h $repo_server_ip -p $repo_server_port > /dev/null
+./3-create-offline-deployment.sh -h $repo_server_ip -p $repo_server_port > /dev/null
 
 iso_file="$(cat .lastimagecommit)-simplified-installer.iso"
 
@@ -420,6 +419,11 @@ fi
 
 
 
+
+
+
+
+
 echo ""
 echo ""
 echo ""
@@ -433,10 +437,9 @@ echo ""
 echo "************************************************************************"
 echo ""
 echo ""
+
 if [ $http_boot_mode = true ]
 then
-echo ""
-echo ""
 echo "************************************************************************"
 echo "You have activated UEFI HTTP boot!"
 echo "DHCP-boot:  http://$repo_server_ip:$http_boot_port/BOOT/BOOTX64.EFI"
@@ -445,23 +448,20 @@ echo "If you are deploying on VMs with EUFI HTTP boot be sure that the disk is"
 echo "using SATA drivers instead of VirtIO (grub.cfg was configured for sda)"
 echo "************************************************************************"
 echo ""
+echo ""
 fi
-echo ""
-echo ""
-echo ""
+
 if [ $iso_kickstart_mode = true ]
 then
-echo ""
-echo ""
 echo "************************************************************************"
 echo "You created an iso with the kickstart embedded!"
 echo "You can boot with that ISO and you won't need to add the inst.ks arg"
 echo "************************************************************************"
 echo ""
-fi
 echo ""
+fi
 
-
+echo ""
 
 
 

@@ -5,7 +5,6 @@ blueprint_name=""
 repo_server_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | grep "inet " | awk '{print $2}' | awk -F / '{print $1}')
 repo_server_port="8080"
 update=false
-raw_image=false;;
 
 ############################################################
 # Help                                                     #
@@ -15,14 +14,13 @@ Help()
    # Display Help
    echo "This Script creates a Blueprint and edge-commit image"
    echo
-   echo "Syntax: $0 [-b <TOML file>|-h <IP>|-p <port>|-u|-r]"
+   echo "Syntax: $0 [-b <TOML file>|-h <IP>|-p <port>|-u"
    echo ""
    echo "options:"
    echo "b     Blueprint file (required)."
    echo "h     Repo server IP (default=$repo_server_ip)."
    echo "p     Repo server port (default=$repo_server_port)."
    echo "u     Update. If selected it will use the last commit id on the existing repo as parent for the new ostree commit."
-   echo "u     Create RAW image (default=disabled)."
    echo
    echo "Example: $0 -b blueprint-demo.toml -h 192.168.122.129 -p 8081 -u -r"
    echo ""
@@ -43,7 +41,7 @@ Help()
 # Process the input options. Add options as needed.        #
 ############################################################
 # Get the options
-while getopts ":b:h:p:ur" option; do
+while getopts ":b:h:p:u" option; do
    case $option in
       b)
          blueprint_file=$OPTARG;;
@@ -53,8 +51,6 @@ while getopts ":b:h:p:ur" option; do
          repo_server_port=$OPTARG;;
       u)
          update=true;;
-      u)
-         raw_image=true;;
      \?) # Invalid option
          echo "Error: Invalid option"
          echo ""
@@ -134,6 +130,11 @@ done
 
 
 
+
+
+
+
+
 echo ""
 echo ""
 echo "*********************************************************************************************"
@@ -141,10 +142,6 @@ echo "Blueprint ${blueprint_name} and edge-commit image created"
 echo "*********************************************************************************************"
 echo ""
 echo ""
-
-
-
-
 
 
 
