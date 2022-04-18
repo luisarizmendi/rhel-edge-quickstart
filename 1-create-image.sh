@@ -22,7 +22,7 @@ Help()
    echo "p     Repo server port (default=$repo_server_port)."
    echo "u     Update. If selected it will use the last commit id on the existing repo as parent for the new ostree commit."
    echo
-   echo "Example: $0 -b blueprint-demo.toml -h 192.168.122.129 -p 8081 -u -r"
+   echo "Example: $0 -b blueprint-demo.toml -h 192.168.122.129 -p 8081 -u"
    echo ""
 }
 
