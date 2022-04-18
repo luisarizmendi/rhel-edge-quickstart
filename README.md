@@ -119,6 +119,7 @@ If you want to use this approach you need to:
 
 > NOTE: Your Edge server must have at least 2GB of RAM in order to download the ISO to memory during the installation process
 
+
 > NOTE: In order to use UEFI HTTP boot you will need to include the UEFI HTTP boot server as a DHCP option.
 >
 > If you are using libvirt and VMs this is an example of the network setup:
@@ -166,13 +167,106 @@ If you want to use this approach you need to:
 
 ## Non-network based deployment
 
+For deploying RHEL for Edge in isolated environments where you cannot reach the OSTree repo server, you also have multiple options. In these scrips you have three:
 
 ### Option 1) Offline fully automated ISO
 
+With this option you create an ISO that installs the OSTree repo in unattended installation.
+
+
+If you want to use this approach you need to:
+
+1) Create the RHEL for Edge image with `1-create-image.sh` script and copy the image ID.
+```
+./1-create-image.sh -b <blueprint-filename>
+``` 
+
+2) Publish the image with this command:
+
+```
+./2-publish-image.sh -i <image-id> 
+```
+
+3) Create the automated ISO using the OSTree repository published in the previous step (in this case using the default IP and port):
+
+```
+ ./3-create-offline-deployment.sh
+```
+
+4) Install the Edge server by booting from the created ISO that you will find in `images` directory (the file name will be something like `<image-id>-simplified-installer.iso`) 
+
+> NOTE: Install using this ISO with UEFI boot loader otherwise you will get `error code 0009`
+
+> NOTE: If you are deploying on VMs be sure that the disk is using SATA drivers instead of VirtIO, in order to get a fully unattendant installation
+
+
+
 ### Option 2) Offline partially automated ISO
+
+This option is similar to the previous one, but instead of a fully automated install, you will get the Anaconda installer screen where you can for example select the drive where to install the system
+
+
+If you want to use this approach you need to:
+
+1) Create the RHEL for Edge image with `1-create-image.sh` script and copy the image ID.
+```
+./1-create-image.sh -b <blueprint-filename>
+``` 
+
+2) Publish the image with this command:
+
+```
+./2-publish-image.sh -i <image-id> 
+```
+
+3) Create the semi-automated ISO using the OSTree repository published in the previous step (in this case using the default IP and port):
+
+```
+ ./3-create-offline-deployment.sh -a
+```
+
+4) Install the Edge server by booting from the created ISO that you will find in `images` directory (the file name will be something like `<image-id>-installer.iso`). You will need to complete all the information (mainly root disk) once Anaconda screen is presented in order to proceed with the install
+
+
+> NOTE: Install using this ISO with UEFI boot loader otherwise you will get `error code 0009`
+
 
 ### Option 3) RAW/QCOW2 image
 
+With this option you will create a RAW and a QCOW2 image file instead of an ISO. 
+
+
+If you want to use this approach you need to:
+
+1) Create the RHEL for Edge image with `1-create-image.sh` script and copy the image ID.
+```
+./1-create-image.sh -b <blueprint-filename>
+``` 
+
+2) Publish the image with this command:
+
+```
+./2-publish-image.sh -i <image-id> 
+```
+
+3) Create the RAW and QCOW2 files using the OSTree repository published in the previous step (in this case using the default IP and port):
+
+```
+ ./3-create-offline-deployment.sh -r
+```
+
+4) You can use it to directly `dd` to a hard drive or to create a VM using it as main disk.
 
 
 # RHEL for Edge image update
+
+TBD
+
+
+```
+# cat /etc/ostree/remotes.d/edge.conf 
+
+[remote "edge"]
+url=http://192.168.122.128:8080/repo/
+gpg-verify=false
+```
