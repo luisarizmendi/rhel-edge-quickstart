@@ -138,7 +138,7 @@ done
 echo ""
 echo ""
 echo "*********************************************************************************************"
-echo "Blueprint ${blueprint_name} and edge-commit image created"
+echo "Blueprint ${blueprint_name} and edge-commit image $image_commit created"
 echo "*********************************************************************************************"
 echo ""
 echo ""
