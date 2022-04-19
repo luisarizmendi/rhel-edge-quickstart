@@ -37,8 +37,8 @@ In these scripts we find several options per type:
     * UEFI HTTP Boot using the custom RHEL ISO
 
 2) Non-network based deployment
-    * Offline fully automated ISO 
-    * Offline partially automated ISO
+    * Offline unattended ISO 
+    * Offline attended ISO
     * RAW/QCOW2 image
 
 Let's review each of them in the following section.
@@ -48,6 +48,8 @@ Let's review each of them in the following section.
 There are three options while deploying RHEL for Edge following the network based approach:
 
 ### Option 1) Online repo using standard RHEL ISO 
+<p align="center">  <img src="images/network-standardiso.png" alt="Network based with standard ISO"/></p>
+<p align="center"> Network based deployement with standard RHEL ISO  <br></br>  </p>
 
 With this option you will run a container with nginx serving the OSTree depository along with a kickstart.ks file. The edge node will be deployed with the standard RHEL ISO but using the kickstart published in the server by configuring manually a kernel argument before proceding with the install.
 
@@ -72,6 +74,8 @@ If you want to use this approach you need to:
 
 
 ### Option 2) Online repo using custom RHEL ISO
+<p align="center">  <img src="images/network-customiso.png" alt="Network based with custom ISO"/></p>
+<p align="center"> Network based deployement with customized (kickstart) RHEL ISO <br></br> </p>
 
 This is similar to the previous option but instead of interupting the default RHEL installation to include the `inst.ks` kernel argument manually, you create a custom ISO based on the default boot ISO.
 
@@ -95,6 +99,8 @@ If you want to use this approach you need to:
 
 
 ### Option 3) UEFI HTTP Boot using the custom RHEL ISO
+<p align="center">  <img src="images/network-netboot.png" alt="Network based with custom ISO and netboot"/></p>
+<p align="center"> Network based deployement with custom (kickstart) RHEL ISO using network boot  <br></br> </p>
 
 In this deployment type the script will get the contents from the OSTree repo published in the NGINX and create an additional HTTP server where this ISO image will be published to be used as UEFI HTTP boot source. It could be done with traditional PXE Boot but since UEFI HTTP boot supports IPv6 and seems to be the future I included this option.
 
@@ -169,7 +175,9 @@ If you want to use this approach you need to:
 
 For deploying RHEL for Edge in isolated environments where you cannot reach the OSTree repo server, you also have multiple options. In these scrips you have three:
 
-### Option 1) Offline fully automated ISO
+### Option 1) Offline unattended deployment ISO
+<p align="center">  <img src="images/nonnetwork-iso.png" alt="Non-network based with fully automated ISO"/></p>
+<p align="center"> Non-network based unattended deployement with custom (OSTree repo) RHEL ISO <br></br>  </p>
 
 With this option you create an ISO that installs the OSTree repo in unattended installation.
 
@@ -201,7 +209,9 @@ If you want to use this approach you need to:
 
 
 
-### Option 2) Offline partially automated ISO
+### Option 2) Offline attended deployment ISO
+<p align="center">  <img src="images/nonnetwork-iso.png" alt="Non-network based with partially automated ISO"/></p>
+<p align="center"> Non-network based attended deployement with custom (OSTree repo) RHEL ISO  <br></br>  </p>
 
 This option is similar to the previous one, but instead of a fully automated install, you will get the Anaconda installer screen where you can for example select the drive where to install the system and configure the network.
 
@@ -231,7 +241,9 @@ If you want to use this approach you need to:
 > NOTE: Install using this ISO with UEFI boot loader otherwise you will get `error code 0009`
 
 
-### Option 3) RAW/QCOW2 image
+### Option 3) RAW/QCOW2 unattended image
+<p align="center">  <img src="images/nonnetwork-image.png" alt="Network based with RAW/QCOW2 image"/></p>
+<p align="center"> Non-network based deployement with RAW/QCOW2 image <br></br>  </p>
 
 With this option you will create a RAW and a QCOW2 image file instead of an ISO. 
 
