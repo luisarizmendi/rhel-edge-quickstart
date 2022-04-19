@@ -29,6 +29,9 @@ There are two main groups of RHEL for Edge deployment types:
 * Creating an ISO/image with the OSTree repository embed to deploy without the need of accessing to the repository using the network (non-network based deployment)
 
 
+<p align="center">  <img src="doc/netvsnonnet.png" alt="Network VS non-network"/></p>
+<p align="center"> Network VS Non-network based deployments  <br></br> </p>
+
 In these scripts we find several options per type:
 
 1) Network based deployment
