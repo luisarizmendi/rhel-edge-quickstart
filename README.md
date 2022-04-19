@@ -6,7 +6,7 @@ These scripts help to quickly create and publish RHEL for Edge images
 
 # Usage
 
-You just need t:
+You just need to:
 
 0) Run the `0-pre-requisites-osbuild.sh` script to deploy image-builder
 
