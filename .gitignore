@@ -1,9 +1,12 @@
 blueprint.toml
 blueprintv1.toml
 blueprintv2.toml
+blueprint-microshift.toml
 kickstart.ks
 nginx.conf
 Dockerfile
 Dockerfile-http-boot
 /images
+/microshift/microshift.toml
+/microshift/additional-repos.json
 .lastimagecommit

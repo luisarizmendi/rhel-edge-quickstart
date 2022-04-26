@@ -1,0 +1,53 @@
+name = "r4e-microshift"
+description = "Sample microshift blueprint"
+
+version = "0.0.1"
+modules = [ ]
+groups = [ ]
+
+
+# Force correct redhat-release
+
+[[packages]]
+name = "redhat-release"
+version = "*"
+
+# MicroShift dependencies
+
+[[packages]]
+name = "podman"
+version = "*"
+
+[[packages]]
+name = "firewalld"
+version = "*"
+
+[[packages]]
+name = "conntrack-tools"
+version = "*"
+
+
+# Microshift
+
+[[packages]]
+name = "microshift"
+version = "*"
+
+[customizations]
+[customizations.services]
+enabled = ["crio", "microshift"]
+hostname = "microshift-node"
+
+[[customizations.sshkey]]
+user = "root"
+key = "<ssh public key>"
+
+
+[[customizations.user]]
+name = "admin"
+description = "Admin user"
+password = '<password hash obatained with:        python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'       >'
+key = "<ssh public key>"
+home = "/home/admin/"
+shell = "/usr/bin/bash"
+groups = ["users", "wheel"]
