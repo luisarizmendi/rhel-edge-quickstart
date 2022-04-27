@@ -34,6 +34,8 @@ name = "microshift"
 version = "*"
 
 [customizations]
+hostname = "microshift-node"
+
 [customizations.services]
 enabled = ["crio", "microshift"]
 hostname = "microshift-node"
