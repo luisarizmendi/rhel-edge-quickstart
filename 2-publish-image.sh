@@ -9,6 +9,7 @@ http_boot_mode=false
 http_boot_port=""
 iso_kickstart_mode=false
 iso_standard=""
+basearch=$(arch)
 
 ############################################################
 # Help                                                     #
@@ -28,7 +29,8 @@ Help()
    echo "x     Create UEFI HTTP Boot server on this port. If enabled (default=disabled) it creates an ISO and publish it on this server. You need to include option -e "
    echo "e     Path to RHEL boot ISO. It will Embedd the kickstart in a new ISO so you don't need to modify kernel args during boot(default=disabled)"
    echo ""
-   echo "Example: $0 -i 125c1433-2371-4ae9-bda3-91efdbb35b92 -h 192.168.122.129 -p 8080 -k kickstart.v1.ks -x 8081 -e images/rhel-8.5-x86_64-boot.iso"
+   echo "Example: $0 -i 125c1433-2371-4ae9-bda3-91efdbb35b92"
+   echo "Example: $0 -i 125c1433-2371-4ae9-bda3-91efdbb35b92 -h 192.168.122.129 -p 8080 -k kickstart.v1.ks -x 8081 -e images/rhel-8.5-${basearch}-boot.iso"
    echo ""
 }
 
@@ -116,7 +118,7 @@ reboot
 user --name=core --group=wheel
 network --bootproto=dhcp --device=link --activate --onboot=on
 
-ostreesetup --nogpg --osname=rhel --remote=edge --url=http://${repo_server_ip}:${repo_server_port}/repo/ --ref=rhel/8/x86_64/edge
+ostreesetup --nogpg --osname=rhel --remote=edge --url=http://${repo_server_ip}:${repo_server_port}/repo/ --ref=rhel/8/${basearch}/edge
 
 %post
 cat << EOF > /etc/greenboot/check/required.d/check-dns.sh
@@ -275,7 +277,7 @@ cd tmp/rhel-iso
 #sed -i "s/quiet/inst.ks=hd:LABEL=${iso_label}:\/ks.cfg/g" isolinux/isolinux.cfg
 sed -i "s/quiet/inst.ks=http:\/\/${repo_server_ip}:${repo_server_port}\/${kickstart_file}/g" isolinux/isolinux.cfg
 sed -i 's/timeout 600/timeout 1/g' isolinux/isolinux.cfg
-sed -i "s/RHEL-.-.-0-BaseOS-x86_64/${iso_label}/g" isolinux/isolinux.cfg
+sed -i "s/RHEL-.-.-0-BaseOS-${basearch}/${iso_label}/g" isolinux/isolinux.cfg
 
 
 sed -i 's/timeout 60/timeout 1/g' isolinux/grub.conf
@@ -284,7 +286,7 @@ sed -i 's/timeout=60/timeout=1/g' EFI/BOOT/grub.cfg
 
 #sed -i "s/quiet/inst.ks=hd:LABEL=${iso_label}:\/ks.cfg/g" EFI/BOOT/grub.cfg
 sed -i "s/quiet/inst.ks=http:\/\/${repo_server_ip}:${repo_server_port}\/${kickstart_file}/g" EFI/BOOT/grub.cfg
-sed -i "s/RHEL-.-.-0-BaseOS-x86_64/${iso_label}/g" EFI/BOOT/grub.cfg
+sed -i "s/RHEL-.-.-0-BaseOS-${basearch}/${iso_label}/g" EFI/BOOT/grub.cfg
 
 
 
