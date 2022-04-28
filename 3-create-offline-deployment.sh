@@ -175,6 +175,12 @@ else
    # RAW image      
    ############################################################
 
+      echo ""
+      echo "Pushing ISO Blueprint..."
+
+      composer-cli blueprints push blueprint-iso.toml
+
+
       composer-cli compose start-ostree blueprint-iso edge-raw-image --ref rhel/8/x86_64/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
 
       image_commit=$(cat .tmp | awk '{print $2}')
