@@ -24,7 +24,7 @@ fi
 
 cat <<EOF > additional-repos.json
 {
-    "x86_64": [
+    "${basearch}": [
         {
             "name": "rhocp",
             "baseurl": "https://cdn.redhat.com/content/dist/layered/rhel${baserelease}/${basearch}/rhocp/4.7/os",
