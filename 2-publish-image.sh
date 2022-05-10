@@ -208,7 +208,7 @@ echo ""
 echo "Stopping previous .."
 echo ""
 
-runing_container=$($(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $1}'))
+runing_container=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $1}')
 podman stop $runing_container 2>/dev/null
 podman rm $runing_container 2>/dev/null
 
