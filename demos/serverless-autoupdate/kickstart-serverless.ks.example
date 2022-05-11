@@ -135,9 +135,11 @@ mkdir -p /var/home/core/.config/systemd/user/multi-user.target.wants
 
 
 # define listener for socket activation
+node_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | grep "inet " | awk '{print $2}' | awk -F / '{print $1}')
+
 cat << EOF > /var/home/core/.config/systemd/user/container-httpd-proxy.socket
 [Socket]
-ListenStream=8080
+ListenStream=${node_ip}:8080
 FreeBind=true
 
 [Install]
@@ -177,6 +179,7 @@ Documentation=man:podman-generate-systemd(1)
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
 Restart=on-failure
+RestartSec=3
 TimeoutStopSec=70
 ExecStartPre=/bin/rm -f %t/container-httpd.pid %t/container-httpd.ctr-id
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/container-httpd.pid --cidfile %t/container-httpd.ctr-id --cgroups=no-conmon --replace -d --label io.containers.autoupdate=image --name httpd -p 127.0.0.1:8080:80 quay.io/luisarizmendi/simple-http
