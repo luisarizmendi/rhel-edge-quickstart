@@ -398,6 +398,7 @@ The steps to run this demo are:
 If you want to create an image with a simple HTTP server (you could potentially use another image that you already have) you can use the `Dockerfile` in the `service` directory to create a new image and then push that image to a registry:
 
 ```
+cd demos/serverless-autoupdate
 cd service
 buildah build .
 podman tag <image id> <registry/user/image:tag>
@@ -405,32 +406,20 @@ podman push <registry/user/image:tag>
 cd ..
 ```
 
-> NOTE: Use the image id that buildah build will output to add a tag to it (ie. in my case `quay.io/luisarizmendi/simple-http:latest`)
-
+> NOTE: Use the image id that buildah build will output to add a tag to it (ie. in my case `podman tag d5a11c5eb67 quay.io/luisarizmendi/simple-http:latest`)
 
 
 2) Prepare the kickstart.ks for the automated configuration using `kickstart-serverless.toml.example` as reference
 
-You will need to point to the right repository IP in the kickstart and also to the service image (on the registry) that you will use, you can easily change the values in the kickstart example file following these steps:
+You will need to point to the right repository IP in the kickstart and also to the service image (on the registry) that you will use, so make a copy of the kickstart example file (ie, `cp kickstart-serverless.ks.example ../../kickstart.ks`) and change the required values.
 
+You should look for the string `192.168.122.157:8080` (1 occurrence) and substitute it by your repo server and `quay.io/luisarizmendi/simple-http` (2 occurrences) by the URL that points to your image in the registry. 
 
-```
-copy kickstart-serverless.ks.example  kickstart.ks
-
-REPOSERVER="<repo-ip:port>"
-sed -i "s/192.168.122.157:8080/$REPOSERVER/g" kickstart.ks
-
-REGISTRY="<registry>"
-sed -i "s/quay.io\/luisarizmendi\/simple-http/$REGISTRY/g" kickstart.ks
-
-```
-
-> NOTE: The `REGISTRY` variable is used with `sed` command, so you will need to include `\` before any `/` and be sure include `'` at the beggining and at the end, something like this: `REGISTRY='myregistry.io\/myuser\/myimage:mytag'`
 
 
 3) Prepare the blueprint using the `blueprint-serverless.toml.example` as reference
 
-Just include the SSH key and the password hash.
+Make a copy of the blueprint example file (ie, `cp blueprint-serverless.toml.example ../../blueprint.toml`) and include the SSH key and the password hash.
 
 
 4) Run any of the [Network based deployment methods](https://github.com/luisarizmendi/rhel-edge-quickstart#network-based-deployment) to create the Rhel for Edge repository

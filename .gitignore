@@ -1,7 +1,7 @@
 *.toml
 *.ks
 nginx.conf
-Dockerfile
+/Dockerfile
 Dockerfile-http-boot
 /images
 /microshift/additional-repos.json
