@@ -412,7 +412,7 @@ Once the edge device is deployed, you can use Microshift by doing this:
 2) Modify the local `kubeconfig` file with the edge device "public" IP 
 
 ```
-sudo sed 's/server:*.*/server: http:\/\/<SERVER IP>:6443/' /var/lib/microshift/resources/kubeadmin/kubeconfig > kubeconfig-microshift
+sudo sed 's/server:*.*/server: https:\/\/<SERVER IP>:6443/' /var/lib/microshift/resources/kubeadmin/kubeconfig > kubeconfig-microshift
 ```
 
 > Example: `sudo sed 's/server:*.*/server: https:\/\/192.168.122.117:6443/' /var/lib/microshift/resources/kubeadmin/kubeconfig > kubeconfig-microshift`
