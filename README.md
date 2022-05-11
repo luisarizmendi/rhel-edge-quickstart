@@ -1,12 +1,12 @@
 # Description
 
 
-These scripts help to quickly create and publish RHEL for Edge images
+These scripts help to quickly create and publish RHEL for Edge images. You should execute them in a RHEL 8 or RHEL 9 server (which will become the image-builder and repo server for RHEL for Edge images).
 
 
 # Usage
 
-You just need to:
+If you already have your RHEL system installed and subscribed, you just need to:
 
 0) Run the `0-pre-requisites-osbuild.sh` script to deploy image-builder
 
