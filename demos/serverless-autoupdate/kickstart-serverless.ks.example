@@ -243,7 +243,7 @@ EOF
 cat > /var/home/core/.config/systemd/user/pre-pull-container-image.service <<EOF
 [Service]
 Type=oneshot
-ExecStart=bash -c "exitcode=1; while [ $exitcode -ne 0 ]; do podman pull quay.io/luisarizmendi/simple-http / ; exitcode=$(echo $?); echo $exitcode;done"
+ExecStart=bash -c "export exitcode=1; while [ $exitcode -ne 0 ]; do podman pull quay.io/luisarizmendi/simple-http ; exitcode=$(echo $?); echo Podman pull exit code: $exitcode;done"
 
 [Install]
 WantedBy=multi-user.target default.target
