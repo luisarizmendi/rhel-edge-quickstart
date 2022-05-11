@@ -26,6 +26,9 @@ version = "*"
 name = "conntrack-tools"
 version = "*"
 
+[[packages]]
+name = "net-tools"
+version = "*"
 
 # Microshift
 
@@ -39,6 +42,11 @@ hostname = "microshift-node"
 [customizations.services]
 enabled = ["crio", "microshift"]
 hostname = "microshift-node"
+
+
+[customizations.firewall]
+ports = ["22:tcp", "80:tcp", "443:tcp", "6443:tcp"]
+
 
 [[customizations.sshkey]]
 user = "root"
