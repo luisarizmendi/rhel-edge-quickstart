@@ -373,13 +373,66 @@ AvailableUpdate:
 
 
 
+# Demos
 
-# Microshift
+Here you can find some demos using RHEL for Edge.
 
-If you want to include [Microshift](https://github.com/redhat-et/microshift) in the deployment you will need to add some additional repositories in the image-builder, so I created the script `add-microshift-repos.sh` under `microshift` directory that you will need to execute right **before** creating the image with script `1-create-image.sh`.
+## Microshift
+
+If you want to include [Microshift](https://github.com/redhat-et/microshift) in the deployment you will need to add some additional repositories in the image-builder, so I created the script `add-microshift-repos.sh` under `demos/microshift` directory that you will need to execute right **before** creating the image with script `1-create-image.sh`.
 
 > NOTE: As result of runnning this script you will include files under `/etc/osbuild-composer/repositories/` which it's a good idea to remove right after you created the microshift image in order to not impacting other image builds. 
 
 
 If you want to take a look at a blueprint example including the microshift packages you can also find it in `blueprint-microshift.toml.example`
+
+
+## Serverless service with podman image auto-update
+
+This demo.based on a [Red Hat Summit 2021 demo](https://github.com/RedHatGov/RFESummit2021), shows how you can create a Serverless service using just [Podman](https://podman.io/). You will be also able to play with the [Podman auto-update feature](https://docs.podman.io/en/latest/markdown/podman-auto-update.1.html).
+
+The steps to run this demo are:
+
+1) Create the container image for the Serverless service
+
+If you want to create an image with a simple HTTP server (you could potentially use another image that you already have) you can use the `Dockerfile` in the `service` directory to create a new image and then push that image to a registry:
+
+```
+cd service
+buildah build .
+podman tag <image id> <registry/user/image:tag>
+podman push <registry/user/image:tag>
+cd ..
+```
+
+> NOTE: Use the image id that buildah build will output to add a tag to it (ie. in my case `quay.io/luisarizmendi/simple-http:latest`)
+
+
+
+2) Prepare the kickstart.ks for the automated configuration using `kickstart-serverless.toml.example` as reference
+
+You will need to point to the right repository IP in the kickstart and also to the service image (on the registry) that you will use, you can easily change the values in the kickstart example file following these steps:
+
+
+```
+copy kickstart-serverless.ks.example  kickstart.ks
+
+REPOSERVER="<repo-ip:port>"
+sed -i "s/192.168.122.157:8080/$REPOSERVER/g" kickstart.ks
+
+REGISTRY="<registry>"
+sed -i "s/quay.io\/luisarizmendi\/simple-http/$REGISTRY/g" kickstart.ks
+
+```
+
+> NOTE: The `REGISTRY` variable is used with `sed` command, so you will need to include `\` before any `/` and be sure include `'` at the beggining and at the end, something like this: `REGISTRY='myregistry.io\/myuser\/myimage:mytag'`
+
+
+3) Prepare the blueprint using the `blueprint-serverless.toml.example` as reference
+
+Just include the SSH key and the password hash.
+
+
+4) Run any of the [Network based deployment methods](https://github.com/luisarizmendi/rhel-edge-quickstart#network-based-deployment) to create the Rhel for Edge repository
+
 
