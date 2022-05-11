@@ -409,14 +409,14 @@ podman push <registry/user/image:tag>
 cd ..
 ```
 
-> NOTE: Use the image id that buildah build will output to add a tag to it (ie. in my case `podman tag d5a11c5eb67 quay.io/luisarizmendi/simple-http:latest`)
+> NOTE: Use the image id that buildah build will output to add a tag to it (ie. in my case `podman tag d5a11c5eb67 quay.io/luisarizmendi/simple-http:prod`)
 
 
 2) Prepare the kickstart.ks for the automated configuration using `kickstart-serverless.toml.example` as reference
 
 You will need to point to the right repository IP in the kickstart and also to the service image (on the registry) that you will use, so make a copy of the kickstart example file (ie, `cp kickstart-serverless.ks.example ../../kickstart.ks`) and change the required values.
 
-You should look for the string `192.168.122.157:8080` (1 occurrence) and substitute it by your repo server and `quay.io/luisarizmendi/simple-http` (2 occurrences) by the URL that points to your image in the registry. 
+You should look for the string `192.168.122.157:8080` (1 occurrence) and substitute it by your repo server and `quay.io/luisarizmendi/simple-http:prod` (2 occurrences) by the URL that points to your image in the registry. 
 
 
 
@@ -442,7 +442,7 @@ Once the edge device is deployed, you can check your **Serverless** service by d
 [sudo] password for admin: 
 
 REPOSITORY                         TAG         IMAGE ID      CREATED      SIZE
-quay.io/luisarizmendi/simple-http  latest      d5a11c5eb672  3 hours ago  435 MB
+quay.io/luisarizmendi/simple-http  prod      d5a11c5eb672  3 hours ago  435 MB
 
 ```
 

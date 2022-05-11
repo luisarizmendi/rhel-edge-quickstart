@@ -182,7 +182,7 @@ Restart=on-failure
 RestartSec=3
 TimeoutStopSec=70
 ExecStartPre=/bin/rm -f %t/container-httpd.pid %t/container-httpd.ctr-id
-ExecStart=/usr/bin/podman run --conmon-pidfile %t/container-httpd.pid --cidfile %t/container-httpd.ctr-id --cgroups=no-conmon --replace -d --label io.containers.autoupdate=image --name httpd -p 127.0.0.1:8080:80 quay.io/luisarizmendi/simple-http
+ExecStart=/usr/bin/podman run --conmon-pidfile %t/container-httpd.pid --cidfile %t/container-httpd.ctr-id --cgroups=no-conmon --replace -d --label io.containers.autoupdate=image --name httpd -p 127.0.0.1:8080:80 quay.io/luisarizmendi/simple-http:prod
 ExecStartPost=/bin/sleep 1
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/container-httpd.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/container-httpd.ctr-id
@@ -246,7 +246,7 @@ EOF
 cat > /var/home/core/.config/systemd/user/pre-pull-container-image.service <<EOF
 [Service]
 Type=oneshot
-ExecStart=bash -c "export exitcode=1; while [ \$exitcode -ne 0 ]; do podman pull quay.io/luisarizmendi/simple-http ; exitcode=\$(echo \$?); echo Podman pull exit code: $exitcode;done"
+ExecStart=bash -c "export exitcode=1; while [ \$exitcode -ne 0 ]; do podman pull quay.io/luisarizmendi/simple-http:prod ; exitcode=\$(echo \$?); echo Podman pull exit code: $exitcode;done"
 
 [Install]
 WantedBy=multi-user.target default.target
