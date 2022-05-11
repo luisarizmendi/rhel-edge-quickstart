@@ -389,7 +389,9 @@ If you want to take a look at a blueprint example including the microshift packa
 
 ## Serverless service with podman image auto-update
 
-This demo.based on a [Red Hat Summit 2021 demo](https://github.com/RedHatGov/RFESummit2021), shows how you can create a Serverless service using just [Podman](https://podman.io/). You will be also able to play with the [Podman auto-update feature](https://docs.podman.io/en/latest/markdown/podman-auto-update.1.html).
+This demo.based on a [Red Hat Summit 2021 demo](https://github.com/RedHatGov/RFESummit2021), shows how you can create a Serverless service using  [Podman](https://podman.io/) automating the installation using the `kickstart.ks` file. You will be also able to play with the [Podman auto-update feature](https://docs.podman.io/en/latest/markdown/podman-auto-update.1.html).
+
+### Preparing the demo
 
 The steps to run this demo are:
 
@@ -422,6 +424,21 @@ You should look for the string `192.168.122.157:8080` (1 occurrence) and substit
 Make a copy of the blueprint example file (ie, `cp blueprint-serverless.toml.example ../../blueprint.toml`) and include the SSH key and the password hash.
 
 
-4) Run any of the [Network based deployment methods](https://github.com/luisarizmendi/rhel-edge-quickstart#network-based-deployment) to create the Rhel for Edge repository
+4) Run any of the [Network based deployment methods](https://github.com/luisarizmendi/rhel-edge-quickstart#network-based-deployment) to create the Rhel for Edge repository (you don't have a kickstart file when using the off-line approaches)
 
+
+### Running the demo
+
+Once the edge device is deployed, you can check your **Serverless** service by doing this:
+
+1) Look for the edge device IP address and ssh to it
+
+2) Continuously check that the containers running on the system (at this point you should find an empty list)
+
+3) Access the service on the edge device (`http://<edge-device-ip>:8080`)
+
+At this point you will see how a new container will start as soon as the request is made (Serverless)
+
+
+If you want to check the podman **image auto-update** feature you can:
 
