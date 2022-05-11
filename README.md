@@ -468,4 +468,5 @@ podman tag <image id> <registry/user/image:tag>
 podman push <registry/user/image:tag>
 cd ..
 ```
+
 3) Wait some seconds and try to access again the service on the edge device (the new message should appear)
