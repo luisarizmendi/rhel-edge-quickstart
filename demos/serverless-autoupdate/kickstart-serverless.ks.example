@@ -24,7 +24,7 @@ text
 network --bootproto=dhcp --device=link --activate --onboot=on
 
 
-# Kickstart requires that we create a default user
+# Kickstart requires that we create a default user (which will run the contenerized services)
 user --name=core --groups=wheel --homedir=/var/home/core
 
 # set up the OSTree-based install with disabled GPG key verification, the base
@@ -179,7 +179,7 @@ Environment=PODMAN_SYSTEMD_UNIT=%n
 Restart=on-failure
 TimeoutStopSec=70
 ExecStartPre=/bin/rm -f %t/container-httpd.pid %t/container-httpd.ctr-id
-ExecStart=/usr/bin/podman run --conmon-pidfile %t/container-httpd.pid --cidfile %t/container-httpd.ctr-id --cgroups=no-conmon --replace -d --label io.containers.autoupdate=image --name httpd -p 127.0.0.1:8080:8080 quay.io/luisarizmendi/simple-http
+ExecStart=/usr/bin/podman run --conmon-pidfile %t/container-httpd.pid --cidfile %t/container-httpd.ctr-id --cgroups=no-conmon --replace -d --label io.containers.autoupdate=image --name httpd -p 127.0.0.1:8080:80 quay.io/luisarizmendi/simple-http
 ExecStartPost=/bin/sleep 1
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/container-httpd.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/container-httpd.ctr-id
@@ -243,7 +243,7 @@ EOF
 cat > /var/home/core/.config/systemd/user/pre-pull-container-image.service <<EOF
 [Service]
 Type=oneshot
-ExecStart=podman pull quay.io/luisarizmendi/simple-http
+ExecStart=bash -c "exitcode=1; while [ $exitcode -ne 0 ]; do podman pull quay.io/luisarizmendi/simple-http / ; exitcode=$(echo $?); echo $exitcode;done"
 
 [Install]
 WantedBy=multi-user.target default.target
@@ -258,6 +258,14 @@ ln -s /var/home/core/.config/systemd/user/podman-auto-update.timer /var/home/cor
 # enable pre-pull container image
 ln -s /var/home/core/.config/systemd/user/pre-pull-container-image.service /var/home/core/.config/systemd/user/default.target.wants/pre-pull-container-image.service
 ln -s /var/home/core/.config/systemd/user/pre-pull-container-image.service /var/home/core/.config/systemd/user/multi-user.target.wants/pre-pull-container-image.service
+
+
+
+# Include XDG_RUNTIME_DIR variable
+
+XDG_RUNTIME_DIR=/run/user/$(grep core /etc/passwd | awk -F : '{print $3}')
+echo "export XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR" >> /var/home/core/.bashrc
+
 
 # fix ownership of user local files and SELinux contexts
 chown -R core: /var/home/core

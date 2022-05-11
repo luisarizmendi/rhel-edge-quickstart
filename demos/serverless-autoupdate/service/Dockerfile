@@ -8,10 +8,7 @@ RUN dnf -y install httpd
 COPY index.html /var/www/html/index.html
 
 # Expose the default port
-EXPOSE 8080
+EXPOSE 80
 
-# Default args
-CMD ["-D FOREGROUND"]
 
-# Set default container command
-ENTRYPOINT /usr/sbin/httpd
+CMD ["/usr/sbin/httpd","-D", "FOREGROUND"]
