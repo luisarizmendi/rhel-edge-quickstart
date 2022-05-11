@@ -455,3 +455,17 @@ At this point you will see how a new container will start as soon as the request
 
 If you want to check the podman **image auto-update** feature you can:
 
+1) Access the service published on port 8080 on the edge device (`http://<edge-device-ip>:8080`) and check the message
+
+2) Change the message in the `index.html` file, create a new container image and push it to the registry using the same tag that you used
+
+```
+cd demos/serverless-autoupdate
+cd service
+echo "NEW MESSAGE IN v2" > index.html
+buildah build .
+podman tag <image id> <registry/user/image:tag>
+podman push <registry/user/image:tag>
+cd ..
+```
+3) Wait some seconds and try to access again the service on the edge device (the new message should appear)
