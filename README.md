@@ -423,6 +423,7 @@ sudo sed 's/server:*.*/server: https:\/\/<SERVER IP>:6443/' /var/lib/microshift/
 oc --kubeconfig kubeconfig-microshift get namespace
 ```
 
+> NOTE: It could take some time to Microshift to start, if you get a "connection refused" error message wait a little bit longer and try again
 
 ## Serverless service with podman image auto-update
 
