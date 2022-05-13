@@ -1,9 +1,9 @@
 # Description
 
 
-These scripts help to quickly create and publish RHEL for Edge images. You should execute them in a RHEL 8 or RHEL 9 server (which will become the image-builder and repo server for RHEL for Edge images).
+These scripts help to quickly create and publish RHEL for Edge images. You should execute them in a RHEL 8 server (which will become the image-builder and repo server for RHEL for Edge images).
 
-> NOTE: Remember that if you want to install RHEL for Edge on ARM systems, the image will need to be created in an image-builder RHEL deployed also in an ARM server. 
+> NOTE: Remember that if you want to install RHEL for Edge on ARM systems, the image will need to be created in an image-builder RHEL deployed also in an ARM server.
 
 # Usage
 
@@ -13,7 +13,7 @@ If you already have your RHEL system installed and subscribed, you just need to:
 
 1) Create your RHEL for edge image based on a blueprint with `1-create-image.sh`. You can find a blueprint example in `blueprint.toml.example`
 
-2) Publish the image with `2-publish-image.sh` 
+2) Publish the image with `2-publish-image.sh`
 
 3) (optional) Create an ISO or RAW image for offline deployments with `3-create-offline-deployment.sh`
 
@@ -36,12 +36,12 @@ There are two main groups of RHEL for Edge deployment types:
 In these scripts we find several options per type:
 
 1) Network based deployment
-    * Online repo using standard RHEL ISO 
+    * Online repo using standard RHEL ISO
     * Online repo using custom RHEL ISO
     * UEFI HTTP Boot using the custom RHEL ISO
 
 2) Non-network based deployment
-    * Offline unattended ISO 
+    * Offline unattended ISO
     * Offline attended ISO
     * RAW/QCOW2 image
 
@@ -51,7 +51,7 @@ Let's review each of them in the following section.
 
 There are three options while deploying RHEL for Edge following the network based approach:
 
-### Option 1) Online repo using standard RHEL ISO 
+### Option 1) Online repo using standard RHEL ISO
 <p align="center">  <img src="doc/network-standardiso.png" alt="Network based with standard ISO"/></p>
 <p align="center"> Network based deployement with standard RHEL ISO  <br></br>  </p>
 
@@ -62,15 +62,15 @@ If you want to use this approach you need to:
 1) Create the RHEL for Edge image with `1-create-image.sh` script and copy the image ID.
 ```
 ./1-create-image.sh -b <blueprint-filename>
-``` 
+```
 
 2) Publish the image with this command (here using IP and port defaults):
 
 ```
 ./2-publish-image.sh -i <image-id>
-``` 
+```
 
-3) In order to deploy the image you just need to use the default RHEL boot ISO on the edge server/VM and introduce (pressing `TAB` during the GRUB menu) the required kernel arg (`inst.ks`) pointing to the kickstart file published in the server, something like this: 
+3) In order to deploy the image you just need to use the default RHEL boot ISO on the edge server/VM and introduce (pressing `TAB` during the GRUB menu) the required kernel arg (`inst.ks`) pointing to the kickstart file published in the server, something like this:
 
 ```
 <other kernel args> inst.ks=http://192.168.122.129:8080/kickstart.ks
@@ -91,7 +91,7 @@ If you want to use this approach you need to:
 1) Create the RHEL for Edge image with `1-create-image.sh` script and copy the image ID.
 ```
 ./1-create-image.sh -b <blueprint-filename>
-``` 
+```
 
 2) Publish the image with this command (here using IP and port defaults) and pointing to the previously downloaded default RHEL boot ISO:
 
@@ -117,7 +117,7 @@ If you want to use this approach you need to:
 1) Create the RHEL for Edge image with `1-create-image.sh` script and copy the image ID.
 ```
 ./1-create-image.sh -b <blueprint-filename>
-``` 
+```
 
 2) Publish the image with this command (here using IP and port defaults) and pointing to the previously downloaded default RHEL boot ISO:
 
@@ -191,12 +191,12 @@ If you want to use this approach you need to:
 1) Create the RHEL for Edge image with `1-create-image.sh` script and copy the image ID.
 ```
 ./1-create-image.sh -b <blueprint-filename>
-``` 
+```
 
 2) Publish the image with this command:
 
 ```
-./2-publish-image.sh -i <image-id> 
+./2-publish-image.sh -i <image-id>
 ```
 
 3) Create the automated ISO using the OSTree repository published in the previous step (in this case using the default IP and port):
@@ -205,7 +205,7 @@ If you want to use this approach you need to:
  ./3-create-offline-deployment.sh
 ```
 
-4) Install the Edge server by booting from the created ISO that you will find in `images` directory (the file name will be something like `<image-id>-simplified-installer.iso`) 
+4) Install the Edge server by booting from the created ISO that you will find in `images` directory (the file name will be something like `<image-id>-simplified-installer.iso`)
 
 > NOTE: Install using this ISO with UEFI boot loader otherwise you will get `error code 0009`
 
@@ -225,12 +225,12 @@ If you want to use this approach you need to:
 1) Create the RHEL for Edge image with `1-create-image.sh` script and copy the image ID.
 ```
 ./1-create-image.sh -b <blueprint-filename>
-``` 
+```
 
 2) Publish the image with this command:
 
 ```
-./2-publish-image.sh -i <image-id> 
+./2-publish-image.sh -i <image-id>
 ```
 
 3) Create the semi-automated ISO using the OSTree repository published in the previous step (in this case using the default IP and port):
@@ -249,7 +249,7 @@ If you want to use this approach you need to:
 <p align="center">  <img src="doc/nonnetwork-image.png" alt="Network based with RAW/QCOW2 image"/></p>
 <p align="center"> Non-network based deployement with RAW/QCOW2 image <br></br>  </p>
 
-With this option you will create a RAW and a QCOW2 image file instead of an ISO. 
+With this option you will create a RAW and a QCOW2 image file instead of an ISO.
 
 
 If you want to use this approach you need to:
@@ -257,12 +257,12 @@ If you want to use this approach you need to:
 1) Create the RHEL for Edge image with `1-create-image.sh` script and copy the image ID.
 ```
 ./1-create-image.sh -b <blueprint-filename>
-``` 
+```
 
 2) Publish the image with this command:
 
 ```
-./2-publish-image.sh -i <image-id> 
+./2-publish-image.sh -i <image-id>
 ```
 
 3) Create the RAW and QCOW2 files using the OSTree repository published in the previous step (in this case using the default IP and port):
@@ -305,7 +305,7 @@ Updating a system that is using an "online" OSTree repository is different that 
 This method is valid for the "Network based deployments" explained in the previous section. You can check how those systems have a remote OSTree repository configured:
 
 ```
-# cat /etc/ostree/remotes.d/edge.conf 
+# cat /etc/ostree/remotes.d/edge.conf
 
 [remote "edge"]
 url=http://192.168.122.128:8080/repo/
@@ -388,7 +388,7 @@ The steps to prepare this demo are:
 
 1) If you want to include [Microshift](https://github.com/redhat-et/microshift) in the deployment you will need to add some additional repositories in the image-builder, so I created the script `add-microshift-repos.sh` under `demos/microshift` directory that you will need to execute right **before** creating the image with script `1-create-image.sh`.
 
-> NOTE: As result of runnning this script you will include files under `/etc/osbuild-composer/repositories/` which it's a good idea to remove right after you created the microshift image in order to not impacting other image builds. 
+> NOTE: As result of runnning this script you will include files under `/etc/osbuild-composer/repositories/` which it's a good idea to remove right after you created the microshift image in order to not impacting other image builds.
 
 ```
 cd demos/microshift
@@ -409,7 +409,7 @@ Once the edge device is deployed, you can use Microshift by doing this:
 
 1) Find the edge device IP address and ssh to it (using the `admin` user if you used the blueprint example)
 
-2) Modify the local `kubeconfig` file with the edge device "public" IP 
+2) Modify the local `kubeconfig` file with the edge device "public" IP
 
 ```
 sudo sed 's/server:*.*/server: https:\/\/<SERVER IP>:6443/' /var/lib/microshift/resources/kubeadmin/kubeconfig > kubeconfig-microshift
@@ -453,7 +453,7 @@ cd ..
 
 You will need to point to the right repository IP in the kickstart and also to the service image (on the registry) that you will use, so make a copy of the kickstart example file (ie, `cp kickstart-serverless.ks.example ../../kickstart.ks`) and change the required values.
 
-You should look for the string `192.168.122.157:8080` (1 occurrence) and substitute it by your repo server and `quay.io/luisarizmendi/simple-http:prod` (2 occurrences) by the URL that points to your image in the registry. 
+You should look for the string `192.168.122.157:8080` (1 occurrence) and substitute it by your repo server and `quay.io/luisarizmendi/simple-http:prod` (2 occurrences) by the URL that points to your image in the registry.
 
 
 
@@ -476,7 +476,7 @@ Once the edge device is deployed, you can check your **Serverless** service by d
 ```
 [admin@edge-node ~]$ sudo runuser -l core -c "podman image list"
 
-[sudo] password for admin: 
+[sudo] password for admin:
 
 REPOSITORY                         TAG         IMAGE ID      CREATED      SIZE
 quay.io/luisarizmendi/simple-http  prod      d5a11c5eb672  3 hours ago  435 MB
