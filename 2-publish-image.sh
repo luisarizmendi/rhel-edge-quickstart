@@ -250,71 +250,84 @@ then
 # steps from ->  https://access.redhat.com/solutions/60959
 
 
-echo ""
-echo ""
-echo "Creating ISO image with kickstart embedded..."
-echo ""
-
-mkdir -p mnt/rhel-iso/
-mount -o loop $iso_standard mnt/rhel-iso/
 
 
-shopt -s dotglob
-mkdir -p tmp/rhel-iso
-cp -avRf mnt/rhel-iso/* tmp/rhel-iso
+   if [ $(arch) = aarch64 ]
+   then
+      echo "************************************************************************"
+      echo "Creating ISO image with kickstart embedded not implemeted for AARCH64"
+      echo "************************************************************************"
+      echo ""
+   else
+      
+      echo ""
+      echo ""
+      echo "Creating ISO image with kickstart embedded..."
+      echo ""
+
+      mkdir -p mnt/rhel-iso/
+      mount -o loop $iso_standard mnt/rhel-iso/
 
 
-# Kickstart could be imported into the image and be used instead downloading from the HTTP server... but modifiying the kickstart in the HTTP server is easier...
-#cp ${kickstart_file} tmp/rhel-iso/ks.cfg
+      shopt -s dotglob
+      mkdir -p tmp/rhel-iso
+      cp -avRf mnt/rhel-iso/* tmp/rhel-iso
 
 
-
-
-iso_label=$(blkid $iso_standard | awk -F 'LABEL="' '{print $2}' | cut -d '"' -f 1)
-#iso_label=$(grep RHEL isolinux/isolinux.cfg | head -n 1 | awk '{print $3}' | cut -d "=" -f 3)
-
-cd tmp/rhel-iso
-
-
-#sed -i "s/quiet/inst.ks=hd:LABEL=${iso_label}:\/ks.cfg/g" isolinux/isolinux.cfg
-sed -i "s/quiet/inst.ks=http:\/\/${repo_server_ip}:${repo_server_port}\/${kickstart_file}/g" isolinux/isolinux.cfg
-sed -i 's/timeout 600/timeout 1/g' isolinux/isolinux.cfg
-sed -i "s/RHEL-.-.-0-BaseOS-${basearch}/${iso_label}/g" isolinux/isolinux.cfg
-
-
-sed -i 's/timeout 60/timeout 1/g' isolinux/grub.conf
-sed -i 's/timeout=60/timeout=1/g' EFI/BOOT/BOOT.conf
-sed -i 's/timeout=60/timeout=1/g' EFI/BOOT/grub.cfg
-
-#sed -i "s/quiet/inst.ks=hd:LABEL=${iso_label}:\/ks.cfg/g" EFI/BOOT/grub.cfg
-sed -i "s/quiet/inst.ks=http:\/\/${repo_server_ip}:${repo_server_port}\/${kickstart_file}/g" EFI/BOOT/grub.cfg
-sed -i "s/RHEL-.-.-0-BaseOS-${basearch}/${iso_label}/g" EFI/BOOT/grub.cfg
-
-
-
-rm -rf ../../images/${image_commit}-custom-kernelarg.iso
+      # Kickstart could be imported into the image and be used instead downloading from the HTTP server... but modifiying the kickstart in the HTTP server is easier...
+      #cp ${kickstart_file} tmp/rhel-iso/ks.cfg
 
 
 
 
-## LEGACY boot
-#mkisofs -o ../../images/${image_commit}-custom-kernelarg.iso -b isolinux/isolinux.bin -c isolinux/boot.cat --joliet-long --no-emul-boot --boot-load-size 4 --boot-info-table -J -R -V  "${iso_label}" .
-#isohybrid ../../images/${image_commit}-custom-kernelarg.iso
+      iso_label=$(blkid $iso_standard | awk -F 'LABEL="' '{print $2}' | cut -d '"' -f 1)
+      #iso_label=$(grep RHEL isolinux/isolinux.cfg | head -n 1 | awk '{print $3}' | cut -d "=" -f 3)
+
+      cd tmp/rhel-iso
 
 
-# UEFI boot
-mkisofs -o ../../images/${image_commit}-custom-kernelarg.iso -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e images/efiboot.img -no-emul-boot -graft-points -J -R -l  -V "${iso_label}" .
-isohybrid --uefi  ../../images/${image_commit}-custom-kernelarg.iso
+      #sed -i "s/quiet/inst.ks=hd:LABEL=${iso_label}:\/ks.cfg/g" isolinux/isolinux.cfg
+      sed -i "s/quiet/inst.ks=http:\/\/${repo_server_ip}:${repo_server_port}\/${kickstart_file}/g" isolinux/isolinux.cfg
+      sed -i 's/timeout 600/timeout 1/g' isolinux/isolinux.cfg
+      sed -i "s/RHEL-.-.-0-BaseOS-${basearch}/${iso_label}/g" isolinux/isolinux.cfg
 
 
-implantisomd5 ../../images/${image_commit}-custom-kernelarg.iso
+      sed -i 's/timeout 60/timeout 1/g' isolinux/grub.conf
+      sed -i 's/timeout=60/timeout=1/g' EFI/BOOT/BOOT.conf
+      sed -i 's/timeout=60/timeout=1/g' EFI/BOOT/grub.cfg
 
-cd ../../
+      #sed -i "s/quiet/inst.ks=hd:LABEL=${iso_label}:\/ks.cfg/g" EFI/BOOT/grub.cfg
+      sed -i "s/quiet/inst.ks=http:\/\/${repo_server_ip}:${repo_server_port}\/${kickstart_file}/g" EFI/BOOT/grub.cfg
+      sed -i "s/RHEL-.-.-0-BaseOS-${basearch}/${iso_label}/g" EFI/BOOT/grub.cfg
 
 
-umount mnt/rhel-iso
-rm -rf mnt
-rm -rf tmp
+
+      rm -rf ../../images/${image_commit}-custom-kernelarg.iso
+
+
+
+
+      ## LEGACY boot
+      #mkisofs -o ../../images/${image_commit}-custom-kernelarg.iso -b isolinux/isolinux.bin -c isolinux/boot.cat --joliet-long --no-emul-boot --boot-load-size 4 --boot-info-table -J -R -V  "${iso_label}" .
+      #isohybrid ../../images/${image_commit}-custom-kernelarg.iso
+
+
+      # UEFI boot
+      mkisofs -o ../../images/${image_commit}-custom-kernelarg.iso -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e images/efiboot.img -no-emul-boot -graft-points -J -R -l  -V "${iso_label}" .
+      isohybrid --uefi  ../../images/${image_commit}-custom-kernelarg.iso
+
+
+      implantisomd5 ../../images/${image_commit}-custom-kernelarg.iso
+
+      cd ../../
+
+
+      umount mnt/rhel-iso
+      rm -rf mnt
+      rm -rf tmp
+   fi
+
+
 
 
 fi
@@ -328,6 +341,15 @@ fi
 
 if [ $http_boot_mode = true ]
 then
+
+   if [ $(arch) = aarch64 ]
+   then
+      echo "************************************************************************"
+      echo "UEFI HTTP Boot server not implemeted for AARCH64"
+      echo "************************************************************************"
+      echo ""
+   else
+
 ############################################################
 # UEFI HTTP Boot server
 ############################################################
@@ -455,6 +477,9 @@ podman run --name http-boot-$iso_file -d -p  $http_boot_port:8080 http-boot:late
 umount mnt/rhel-install/
 rm -rf mnt
 rm -rf tmp
+
+   fi
+
 
 
 
