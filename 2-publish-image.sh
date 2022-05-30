@@ -115,6 +115,7 @@ zerombr
 clearpart --all --initlabel
 autopart
 reboot
+rootpw --iscrypted !\$6\$0XQkWnCyj3XZqA6F\$MOHw/Sn3hec23mKjtxqGa.qnflkLb6FNR8s72yCsk.xVDoI35EOpgetjII/DkJVYrHVwF.ET3TLvVl7WYbMef0
 user --name=core --group=wheel
 network --bootproto=dhcp --device=link --activate --onboot=on
 
