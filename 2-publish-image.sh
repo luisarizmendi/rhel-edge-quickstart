@@ -367,13 +367,6 @@ fi
 if [ $http_boot_mode = true ]
 then
 
-   if [ $(arch) = aarch64 ]
-   then
-      echo "************************************************************************"
-      echo "UEFI HTTP Boot server not implemeted for AARCH64"
-      echo "************************************************************************"
-      echo ""
-   else
 
 ############################################################
 # UEFI HTTP Boot server
@@ -502,8 +495,6 @@ podman run --name http-boot-$iso_file -d -p  $http_boot_port:8080 http-boot:late
 umount mnt/rhel-install/
 rm -rf mnt
 rm -rf tmp
-
-   fi
 
 
 
