@@ -98,8 +98,8 @@ echo "Creating image..."
 if [ $update = true ]
 then
    parent_id=$(curl http://${repo_server_ip}:${repo_server_port}/repo/refs/heads/rhel/${baserelease}/${basearch}/edge)
-   composer-cli compose start-ostree --parent $parent_id $blueprint_name edge-commit  > .tmp
-   #composer-cli compose start-ostree --ref rhel/8/x86_64/edge --url http://${repo_server_ip}:${repo_server_port}/repo $blueprint_name edge-commit  > .tmp
+   #composer-cli compose start-ostree  --parent $parent_id $blueprint_name edge-commit  > .tmp
+   composer-cli compose start-ostree --url=http://${repo_server_ip}:${repo_server_port}/repo/ --ref=rhel/${baserelease}/${basearch}/edge $blueprint_name edge-commit  > .tmp
 
 else
     composer-cli compose start-ostree ${blueprint_name} edge-commit > .tmp
