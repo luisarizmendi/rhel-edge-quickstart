@@ -24,6 +24,7 @@ text
 network --bootproto=dhcp --device=link --activate --onboot=on
 
 
+rootpw --iscrypted !$6$0XQkWnCyj3XZqA6F$MOHw/Sn3hec23mKjtxqGa.qnflkLb6FNR8s72yCsk.xVDoI35EOpgetjII/DkJVYrHVwF.ET3TLvVl7WYbMef0
 # Kickstart requires that we create a default user (which will run the contenerized services)
 user --name=core --groups=wheel --homedir=/var/home/core
 
