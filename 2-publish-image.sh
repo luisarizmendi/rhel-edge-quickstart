@@ -297,6 +297,9 @@ then
 
 
 
+         implantisomd5 ../../images/${image_commit}-custom-kernelarg.iso
+
+
 
       else
          #sed -i "s/quiet/inst.ks=hd:LABEL=${iso_label}:\/ks.cfg/g" isolinux/isolinux.cfg
