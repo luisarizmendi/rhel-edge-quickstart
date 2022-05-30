@@ -5,6 +5,8 @@ blueprint_name=""
 repo_server_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | grep "inet " | awk '{print $2}' | awk -F / '{print $1}')
 repo_server_port="8080"
 update=false
+baserelease=$(cat /etc/redhat-release | awk '{print $6}' | awk -F . '{print $1}')
+basearch=$(arch)
 
 ############################################################
 # Help                                                     #
@@ -95,7 +97,7 @@ echo "Creating image..."
 
 if [ $update = true ]
 then
-   parent_id=$(curl http://${repo_server_ip}:${repo_server_port}/repo/refs/heads/rhel/8/x86_64/edge)
+   parent_id=$(curl http://${repo_server_ip}:${repo_server_port}/repo/refs/heads/rhel/${baserelease}/${basearch}/edge)
    composer-cli compose start-ostree --parent $parent_id $blueprint_name edge-commit  > .tmp
    #composer-cli compose start-ostree --ref rhel/8/x86_64/edge --url http://${repo_server_ip}:${repo_server_port}/repo $blueprint_name edge-commit  > .tmp
 

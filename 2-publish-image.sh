@@ -9,6 +9,7 @@ http_boot_mode=false
 http_boot_port=""
 iso_kickstart_mode=false
 iso_standard=""
+baserelease=$(cat /etc/redhat-release | awk '{print $6}' | awk -F . '{print $1}')
 basearch=$(arch)
 
 ############################################################
@@ -119,7 +120,7 @@ rootpw --iscrypted !\$6\$0XQkWnCyj3XZqA6F\$MOHw/Sn3hec23mKjtxqGa.qnflkLb6FNR8s72
 user --name=core --group=wheel
 network --bootproto=dhcp --device=link --activate --onboot=on
 
-ostreesetup --nogpg --osname=rhel --remote=edge --url=http://${repo_server_ip}:${repo_server_port}/repo/ --ref=rhel/8/${basearch}/edge
+ostreesetup --nogpg --osname=rhel --remote=edge --url=http://${repo_server_ip}:${repo_server_port}/repo/ --ref=rhel/${baserelease}/${basearch}/edge
 
 %post
 cat << EOF > /etc/greenboot/check/required.d/check-dns.sh

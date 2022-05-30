@@ -4,6 +4,7 @@ repo_server_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | g
 repo_server_port="8080"
 simplified_installer=true
 raw_image=false
+baserelease=$(cat /etc/redhat-release | awk '{print $6}' | awk -F . '{print $1}')
 basearch=$(arch)
 
 ############################################################
@@ -101,9 +102,9 @@ then
 
    if [ $simplified_installer = true ]
    then
-      composer-cli compose start-ostree blueprint-iso edge-simplified-installer --ref rhel/8/${basearch}/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
+      composer-cli compose start-ostree blueprint-iso edge-simplified-installer --ref rhel/${baserelease}/${basearch}/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
    else
-      composer-cli compose start-ostree blueprint-iso edge-installer --ref rhel/8/${basearch}/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
+      composer-cli compose start-ostree blueprint-iso edge-installer --ref rhel/${baserelease}/${basearch}/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
    fi
 
 
@@ -182,7 +183,7 @@ else
       composer-cli blueprints push blueprint-iso.toml
 
 
-      composer-cli compose start-ostree blueprint-iso edge-raw-image --ref rhel/8/${basearch}/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
+      composer-cli compose start-ostree blueprint-iso edge-raw-image --ref rhel/${baserelease}/${basearch}/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
 
       image_commit=$(cat .tmp | awk '{print $2}')
 
