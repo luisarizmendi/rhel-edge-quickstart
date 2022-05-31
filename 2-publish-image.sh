@@ -207,13 +207,13 @@ echo $image_commit > .lastimagecommit
 # Stop previous container
 
 echo ""
-echo "Stopping previous  container image..."
+echo "Stopping previous container image..."
 echo ""
 
 running_container=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $2}')
 podman stop $running_container 2>/dev/null
 
-if [ $running_container == "localhost/${blueprint_name}-repo:$image_commit" ]
+if [ "$running_container" == "localhost/${blueprint_name}-repo:$image_commit" ]
 then
    podman rm $running_container 2>/dev/null
 fi
@@ -490,7 +490,7 @@ echo ""
 running_container=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $2}')
 podman stop $running_container 2>/dev/null
 
-if [ $running_container == "localhost/${blueprint_name}-repo:$image_commit" ]
+if [ "$running_container" == "localhost/${blueprint_name}-repo:$image_commit" ]
 then
    podman rm $running_container 2>/dev/null
 fi
