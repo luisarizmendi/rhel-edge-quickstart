@@ -207,7 +207,7 @@ echo $image_commit > .lastimagecommit
 # Stop previous container
 
 echo ""
-echo "Stopping previous .."
+echo "Stopping previous  container image..."
 echo ""
 
 running_container=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $2}')
@@ -484,7 +484,7 @@ EOF
 
 
 echo ""
-echo "Stopping previous .."
+echo "Stopping previous container image.."
 echo ""
 
 running_container=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $2}')
