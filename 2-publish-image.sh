@@ -211,6 +211,10 @@ running_container_id=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print 
 if [ -z "$running_container_id" ]
 then
    echo ""
+   echo "No running container"
+   echo ""
+else
+   echo ""
    echo "Stopping previous container... ($running_container_id)"
    echo ""
    podman stop $running_container_id 2>/dev/null
@@ -497,6 +501,10 @@ EOF
 running_container_id=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $1}')
 if [ -z "$running_container_id" ]
 then
+   echo ""
+   echo "No running container"
+   echo ""
+else
    echo ""
    echo "Stopping previous container... ($running_container_id)"
    echo ""
