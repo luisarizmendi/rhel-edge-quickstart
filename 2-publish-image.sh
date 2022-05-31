@@ -206,16 +206,20 @@ echo $image_commit > .lastimagecommit
 
 # Stop previous container
 
-echo ""
-echo "Stopping previous container image..."
-echo ""
 
-running_container=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $2}')
-podman stop $running_container 2>/dev/null
+running_container_name=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $2}')
+running_container_id=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $1}')
+echo ""
+echo "Stopping previous container... ($running_container_name)"
+echo ""
+podman stop $running_container_id 2>/dev/null
 
-if [ "$running_container" == "localhost/${blueprint_name}-repo:$image_commit" ]
+if [ "$running_container_name" == "localhost/${blueprint_name}-repo:$image_commit" ]
 then
-   podman rm $running_container 2>/dev/null
+echo ""
+echo "Deleting previous container... (localhost/${blueprint_name}-repo:$image_commit) "
+echo ""
+   podman rm $running_container_id 2>/dev/null
 fi
 
 
@@ -483,16 +487,21 @@ EOF
 
 
 
-echo ""
-echo "Stopping previous container image.."
-echo ""
 
-running_container=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $2}')
-podman stop $running_container 2>/dev/null
 
-if [ "$running_container" == "localhost/${blueprint_name}-repo:$image_commit" ]
+running_container_name=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $2}')
+running_container_id=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $1}')
+echo ""
+echo "Stopping previous container... ($running_container_name)"
+echo ""
+podman stop $running_container_id 2>/dev/null
+
+if [ "$running_container_name" == "localhost/${blueprint_name}-repo:$image_commit" ]
 then
-   podman rm $running_container 2>/dev/null
+echo ""
+echo "Deleting previous container... (localhost/${blueprint_name}-repo:$image_commit) "
+echo ""
+   podman rm $running_container_id 2>/dev/null
 fi
 
 
