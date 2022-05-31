@@ -210,9 +210,13 @@ echo ""
 echo "Stopping previous .."
 echo ""
 
-running_container=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $1}')
+running_container=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $2}')
 podman stop $running_container 2>/dev/null
-podman rm $running_container 2>/dev/null
+
+if [ $running_container == "localhost/${blueprint_name}-repo:$image_commit" ]
+then
+   podman rm $running_container 2>/dev/null
+fi
 
 
 # Start repo container
@@ -483,10 +487,14 @@ echo ""
 echo "Stopping previous .."
 echo ""
 
-
-running_container=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $1}')
+running_container=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $2}')
 podman stop $running_container 2>/dev/null
-podman rm $running_container 2>/dev/null
+
+if [ $running_container == "localhost/${blueprint_name}-repo:$image_commit" ]
+then
+   podman rm $running_container 2>/dev/null
+fi
+
 
 
 podman build -f Dockerfile-http-boot -t http-boot:latest --build-arg content="tmp/boot-server/var/www/html" .
