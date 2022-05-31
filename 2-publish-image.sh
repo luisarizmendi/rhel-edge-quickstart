@@ -207,19 +207,24 @@ echo $image_commit > .lastimagecommit
 # Stop previous container
 
 
-running_container_name=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $2}')
 running_container_id=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $1}')
-echo ""
-echo "Stopping previous container... ($running_container_name)"
-echo ""
-podman stop $running_container_id 2>/dev/null
-
-if [ "$running_container_name" == "localhost/${blueprint_name}-repo:$image_commit" ]
+if [ -z "$running_container_id" ]
 then
-echo ""
-echo "Deleting previous container... (localhost/${blueprint_name}-repo:$image_commit) "
-echo ""
-   podman rm $running_container_id 2>/dev/null
+   echo ""
+   echo "Stopping previous container... ($running_container_id)"
+   echo ""
+   podman stop $running_container_id 2>/dev/null
+fi
+
+previous_container_name=$(podman ps -a | grep $image_commit | awk '{print $2}')
+previous_container_id=$(podman ps -a | grep $image_commit | awk '{print $1}')
+
+if [ "$previous_container_name" == "localhost/${blueprint_name}-repo:$image_commit" ]
+then
+   echo ""
+   echo "Deleting previous container... ($previous_container_name) "
+   echo ""
+   podman rm $previous_container_id 2>/dev/null
 fi
 
 
@@ -489,19 +494,24 @@ EOF
 
 
 
-running_container_name=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $2}')
 running_container_id=$(podman ps | grep 0.0.0.0:$repo_server_port | awk '{print $1}')
-echo ""
-echo "Stopping previous container... ($running_container_name)"
-echo ""
-podman stop $running_container_id 2>/dev/null
-
-if [ "$running_container_name" == "localhost/${blueprint_name}-repo:$image_commit" ]
+if [ -z "$running_container_id" ]
 then
-echo ""
-echo "Deleting previous container... (localhost/${blueprint_name}-repo:$image_commit) "
-echo ""
-   podman rm $running_container_id 2>/dev/null
+   echo ""
+   echo "Stopping previous container... ($running_container_id)"
+   echo ""
+   podman stop $running_container_id 2>/dev/null
+fi
+
+previous_container_name=$(podman ps -a | grep $image_commit | awk '{print $2}')
+previous_container_id=$(podman ps -a | grep $image_commit | awk '{print $1}')
+
+if [ "$previous_container_name" == "localhost/${blueprint_name}-repo:$image_commit" ]
+then
+   echo ""
+   echo "Deleting previous container... ($previous_container_name) "
+   echo ""
+   podman rm $previous_container_id 2>/dev/null
 fi
 
 
