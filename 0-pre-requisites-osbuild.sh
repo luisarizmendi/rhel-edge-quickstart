@@ -6,12 +6,12 @@
 
 if [ $(arch) = aarch64 ]
 then
-    dnf install -y podman osbuild-composer composer-cli cockpit-composer bash-completion isomd5sum genisoimage jq buildah
+    dnf install -y podman osbuild-composer composer-cli cockpit-composer bash-completion isomd5sum genisoimage jq buildah fdo-admin-cli
 else
-    dnf install -y podman osbuild-composer composer-cli cockpit-composer bash-completion isomd5sum genisoimage jq buildah syslinux
+    dnf install -y podman osbuild-composer composer-cli cockpit-composer bash-completion isomd5sum genisoimage jq buildah syslinux fdo-admin-cli
 fi
 
-
+systemctl enable --now fdo-aio
 
 
 systemctl enable osbuild-composer.socket --now
