@@ -1,10 +1,11 @@
 #!/bin/bash
 
-
+rm -rf /etc/fdo/aio/*
+sleep 1
 dnf install -y fdo-admin-cli fdo-manufacturing-server
 
 systemctl enable --now fdo-aio
-rm -rf /etc/fdo/aio/*
+sleep 1
 systemctl restart fdo-aio
 
 sleep 1
@@ -25,6 +26,6 @@ sed -i "s/admin_auth_token:*.*/admin_auth_token: $admin_auth_token/g" serviceinf
 cp -f serviceinfo_api_server.yml.example  /etc/fdo/aio/configs/serviceinfo_api_server.yml
 
 
-cp -r fdo /etc/
+cp -r fdo-configs /etc/
 
 systemctl restart fdo-aio
