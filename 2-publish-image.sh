@@ -553,7 +553,8 @@ if [ $iso_kickstart_mode = false ]
 then
 
 echo "************************************************************************"
-echo "Install using standard RHEL ISO including this kernel argument:"
+echo "Now you can create an offline installation media or install using the   "
+echo "standard RHEL ISO including this kernel argument:"
 echo ""
 echo "<kernel args> inst.ks=http://$repo_server_ip:$repo_server_port/${kickstart_file}"
 echo "************************************************************************"
