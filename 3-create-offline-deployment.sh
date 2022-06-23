@@ -6,7 +6,7 @@ simplified_installer=true
 raw_image=false
 baserelease=$(cat /etc/redhat-release | awk '{print $6}' | awk -F . '{print $1}')
 basearch=$(arch)
-fdo_server="none"
+fdo_server=""
 
 ############################################################
 # Help                                                     #
@@ -18,16 +18,18 @@ Help()
    # Display Help
    echo "This Script creates an ISO (by default for unattended installation) with the OSTree commit embedded to install a system without the need of external network resources (HTTP or PXE server)."
    echo
-   echo "Syntax: $0 [-h <IP>|-p <port>]|-a|-r|-f <server>]]"
+   echo "Syntax: $0 [-h <IP>|-p <port>]|-a|-r|-f|-F <server>]]"
    echo ""
    echo "options:"
    echo "h     Repo server IP (default=$repo_server_ip)."
    echo "p     Repo server port (default=$repo_server_port)."
    echo "a     Anaconda. If enabled (default=disabled), it creates an ISO that will jump into Anaconda instaler, where you will be able to select, among others, the disk where RHEL for edge will be installed"
    echo "r     Create RAW/QCOW2 images instead of an ISO (default=disabled)."
-   echo "f     Use FDO (default=disabled). Include the REL of the FDO server in case that you don't want to use the default (http://$repo_server_ip:8090)"
+   echo "f     Use FDO (default=disabled , server=http://$repo_server_ip:8090)."
+   echo "F     Use FDO and include a different FDO server URL"
    echo
-   echo "Example 1: $0 -h 192.168.122.129 -p 8080 -a -f http://10.0.0.2:8080"
+   echo "Example 1: $0 -h 192.168.122.129 -p 8080 -a -f"
+   echo "Example 1: $0 -h 192.168.122.129 -p 8080 -a -F http://10.0.0.2:8080"
    echo "Example 2: $0 -h 192.168.122.129 -p 8080 -r"
    echo ""
 }
@@ -46,18 +48,20 @@ Help()
 # Process the input options. Add options as needed.        #
 ############################################################
 # Get the options
-while getopts ":h:f:p:ar" option; do
+while getopts ":h:F:p:arf" option; do
    case $option in
       h)
          repo_server_ip=$OPTARG;;
       p)
          repo_server_port=$OPTARG;;
-      f)
+      F)
          fdo_server=$OPTARG;;
       a)
          simplified_installer=false;;
       r)
          raw_image=true;;
+      f)
+         fdo_server="http://$repo_server_ip:8090";;
      \?) # Invalid option
          echo "Error: Invalid option"
          echo ""
@@ -67,13 +71,10 @@ while getopts ":h:f:p:ar" option; do
 done
 
 
+
+
+
 if [ $fdo_server = "" ]
-then
-fdo_server="http://$repo_server_ip:8090"
-fi
-
-
-if [ $fdo_server = "none" ]
 then
 
 cat <<EOF > blueprint-iso.toml
