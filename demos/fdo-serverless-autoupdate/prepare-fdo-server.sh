@@ -17,6 +17,6 @@ sed "s/admin_auth_token:*.*/admin_auth_token: $admin_auth_token/g" serviceinfo_a
 cp -f serviceinfo_api_server.yml /etc/fdo/aio/configs/
 
 
-cp -r fdo-configs /etc/
+cp -r fdo /etc/
 
 systemctl restart fdo-aio

@@ -28,14 +28,12 @@ cd ..
 Make a copy of the blueprint example file (ie, `cp blueprint-serverless.toml.example ../../blueprint.toml`) and include the SSH key and the password hash.
 
 
-3) Prepare the serviceinfo_api_server.yml for the automated configuration using `serviceinfo_api_server.yml.example` as reference. You will need to point to include your public SSH key.
+3) Include your public SSH key in the `serviceinfo_api_server.yml.example` file.
 
 > NOTE: There are other parameters such as `service_info_auth_token` and `admin_auth_token` that will be completed by the `prepare-fdo-server.sh` during next step.
 
 
-
 4) Run the `prepare-fdo-server.sh` script to prepare the required files on the fdo server.
-
 
 
 5) Use the [Non-Network based deployment methods](https://github.com/luisarizmendi/rhel-edge-quickstart#non-network-based-deployment) but including the FDO serve (`-f`) during the last step.
