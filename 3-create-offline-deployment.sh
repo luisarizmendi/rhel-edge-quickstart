@@ -7,6 +7,8 @@ raw_image=false
 baserelease=$(cat /etc/redhat-release | awk '{print $6}' | awk -F . '{print $1}')
 basearch=$(arch)
 fdo_server=""
+disk_device="vda"
+
 
 ############################################################
 # Help                                                     #
@@ -18,12 +20,13 @@ Help()
    # Display Help
    echo "This Script creates an ISO (by default for unattended installation) with the OSTree commit embedded to install a system without the need of external network resources (HTTP or PXE server)."
    echo
-   echo "Syntax: $0 [-h <IP>|-p <port>]|-a|-r|-f|-F <server>]]"
+   echo "Syntax: $0 [-h <IP>|-p <port>]|-d|-a|-r|-f|-F <server>]]"
    echo ""
    echo "options:"
    echo "h     Repo server IP (default=$repo_server_ip)."
    echo "p     Repo server port (default=$repo_server_port)."
    echo "a     Anaconda. If enabled (default=disabled), it creates an ISO that will jump into Anaconda instaler, where you will be able to select, among others, the disk where RHEL for edge will be installed"
+   echo "d     Disk drive where to install the OS (default=vda). Required if not using completed automated install."
    echo "r     Create RAW/QCOW2 images instead of an ISO (default=disabled)."
    echo "f     Use FDO (default=disabled , server=http://$repo_server_ip:8090)."
    echo "F     Use FDO and include a different FDO server URL"
@@ -83,6 +86,9 @@ description = "Blueprint for ISOs"
 version = "0.0.1"
 modules = [ ]
 groups = [ ]
+
+[customizations]
+installation_device = "/dev/${disk_device}"
 EOF
 
 iso_blueprint="blueprint-iso"
@@ -97,6 +103,9 @@ packages = []
 modules = []
 groups = []
 distro = ""
+
+[customizations]
+installation_device = "/dev/${disk_device}"
 
 [customizations.fdo]
 manufacturing_server_url = "${fdo_server}"
