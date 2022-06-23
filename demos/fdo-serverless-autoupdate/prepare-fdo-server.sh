@@ -20,12 +20,20 @@ sleep 1
 service_info_auth_token=$(grep service_info_auth_token /etc/fdo/aio/configs/serviceinfo_api_server.yml | awk '{print $2}')
 admin_auth_token=$(grep admin_auth_token /etc/fdo/aio/configs/serviceinfo_api_server.yml | awk '{print $2}')
 
-sed -i "s/service_info_auth_token:*.*/service_info_auth_token: $service_info_auth_token/g" serviceinfo_api_server.yml.example 
-sed -i "s/admin_auth_token:*.*/admin_auth_token: $admin_auth_token/g" serviceinfo_api_server.yml.example 
+sed -i "/service_info_auth_token:*.*/d" serviceinfo_api_server.yml.example 
+sed -i "/admin_auth_token:*.*/d" serviceinfo_api_server.yml.example 
+
+echo "service_info_auth_token: $service_info_auth_token" >> serviceinfo_api_server.yml.example
+echo "admin_auth_token: $admin_auth_token" >> serviceinfo_api_server.yml.example
+
+
+
+
+
 
 cp -f serviceinfo_api_server.yml.example  /etc/fdo/aio/configs/serviceinfo_api_server.yml
 
-
+rm -rf /etc/fdo-configs
 cp -r fdo-configs /etc/
 
 systemctl restart fdo-aio
