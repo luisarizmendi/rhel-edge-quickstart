@@ -1,12 +1,9 @@
 #!/bin/bash
 
 
-firewall-cmd --add-port=8090/tcp --permanent
-firewall-cmd --add-port=8091/tcp --permanent
-firewall-cmd --add-port=8092/tcp --permanent
-firewall-cmd --add-port=8093/tcp --permanent
+firewall-cmd --add-port=8090-8093/tcp --permanent
+firewall-cmd --reload
 
-systemctl restart firewalld
 
 
 rm -rf /etc/fdo/aio/*
