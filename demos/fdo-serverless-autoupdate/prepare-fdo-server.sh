@@ -5,8 +5,7 @@ rm -rf /etc/fdo/aio/*
 dnf install -y fdo-admin-cli fdo-manufacturing-server --refresh
 
 systemctl enable --now fdo-aio
-#sed -i "s/8080/8090/g" /etc/fdo/aio/configs/manufacturing_server.yml
-#systemctl restart fdo-aio
+systemctl restart fdo-aio
 
 
 
