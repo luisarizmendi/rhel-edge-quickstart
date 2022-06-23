@@ -7,7 +7,7 @@ dnf install -y fdo-admin-cli fdo-manufacturing-server --refresh
 systemctl enable --now fdo-aio
 systemctl restart fdo-aio
 
-
+sleep 5
 
 
 #mkdir /root/fdo-keys
