@@ -1,5 +1,14 @@
 #!/bin/bash
 
+
+firewall-cmd --add-port=8090/tcp --permanent
+firewall-cmd --add-port=8091/tcp --permanent
+firewall-cmd --add-port=8092/tcp --permanent
+firewall-cmd --add-port=8093/tcp --permanent
+
+systemctl restart firewalld
+
+
 rm -rf /etc/fdo/aio/*
 sleep 1
 dnf install -y fdo-admin-cli fdo-manufacturing-server

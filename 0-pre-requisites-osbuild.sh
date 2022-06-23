@@ -20,10 +20,6 @@ firewall-cmd --add-service=cockpit && firewall-cmd --add-service=cockpit --perma
 
 firewall-cmd --add-port=8080/tcp --permanent
 firewall-cmd --add-port=8081/tcp --permanent
-firewall-cmd --add-port=8090/tcp --permanent
-firewall-cmd --add-port=8091/tcp --permanent
-firewall-cmd --add-port=8092/tcp --permanent
-firewall-cmd --add-port=8093/tcp --permanent
 
 systemctl restart firewalld
 
