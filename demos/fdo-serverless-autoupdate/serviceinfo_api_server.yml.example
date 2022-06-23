@@ -63,7 +63,12 @@ service_info:
     - kargs
     - --append=console=tty0
     - --append=console=ttyS0,115200
-  diskencryption_clevis: ~
+  diskencryption_clevis: 
+  - disk_label: /dev/vda4
+    binding:
+      pin: tpm2
+      config: "{}"
+    reencrypt: true
   additional_serviceinfo: ~
 bind: "0.0.0.0:8083"
 service_info_auth_token: [REPLACE_WITH_TOKEN]
