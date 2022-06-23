@@ -38,10 +38,12 @@ Make a copy of the blueprint example file (ie, `cp blueprint-serverless.toml.exa
 
 
 
-5) Use the [Non-Network based deployment methods](https://github.com/luisarizmendi/rhel-edge-quickstart#non-network-based-deployment) but including the FDO serve (`-f <server>`) during the last step:
+5) Use the [Non-Network based deployment methods](https://github.com/luisarizmendi/rhel-edge-quickstart#non-network-based-deployment) but including the FDO serve (`-f`) during the last step.
+
+Example using default values:
 
 ```
-./3-create-offline-deployment.sh -h 192.168.122.129 -p 8080 -a -f http://10.0.0.2:8080
+./3-create-offline-deployment.sh -f
 ```
 
 
