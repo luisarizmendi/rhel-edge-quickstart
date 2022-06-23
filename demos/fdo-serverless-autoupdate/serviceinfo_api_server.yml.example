@@ -70,7 +70,7 @@ service_info:
       config: "{}"
     reencrypt: true
   additional_serviceinfo: ~
-bind: "0.0.0.0:8083"
+bind: "0.0.0.0:8093"
 service_info_auth_token: [REPLACE_WITH_TOKEN]
 admin_auth_token: [REPLACE_WITH_TOKEN]
 device_specific_store_driver:
