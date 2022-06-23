@@ -69,7 +69,7 @@ service_info:
       pin: tpm2
       config: "{}"
     reencrypt: true
-  additional_serviceinfo: ~
+  additional_serviceinfo: 
 bind: "0.0.0.0:8093"
 service_info_auth_token: [REPLACE_WITH_TOKEN]
 admin_auth_token: [REPLACE_WITH_TOKEN]
