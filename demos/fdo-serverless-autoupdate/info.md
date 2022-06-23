@@ -41,7 +41,7 @@ Make a copy of the blueprint example file (ie, `cp blueprint-serverless.toml.exa
 Example using default values:
 
 ```
-./3-create-offline-deployment.sh -f
+./3-create-offline-deployment.sh -f -d vda
 ```
 
 
