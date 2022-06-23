@@ -31,9 +31,9 @@ Help()
    echo "f     Use FDO (default=disabled , server=http://$repo_server_ip:8093)."
    echo "F     Use FDO and include a different FDO server URL"
    echo
-   echo "Example 1: $0 -f -d vda"
-   echo "Example 1: $0 -h 192.168.122.129 -p 8080 -F http://10.0.0.2:8093"
-   echo "Example 2: $0 -r"
+   echo "Example: $0 -f -d vda"
+   echo "Example: $0 -h 192.168.122.129 -p 8080 -F http://10.0.0.2:8093"
+   echo "Example: $0 -r"
    echo ""
 }
 

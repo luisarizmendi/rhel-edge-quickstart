@@ -31,6 +31,7 @@ Help()
    echo "e     Path to RHEL boot ISO. It will Embedd the kickstart in a new ISO so you don't need to modify kernel args during boot(default=disabled)"
    echo ""
    echo "Example: $0 -i 125c1433-2371-4ae9-bda3-91efdbb35b92"
+   echo "Example: $0 -i 125c1433-2371-4ae9-bda3-91efdbb35b92 -h 192.168.122.129 -p 8080 -k kickstart.v1.ks"
    echo "Example: $0 -i 125c1433-2371-4ae9-bda3-91efdbb35b92 -h 192.168.122.129 -p 8080 -k kickstart.v1.ks -x 8081 -e images/rhel-8.5-${basearch}-boot.iso"
    echo ""
 }
