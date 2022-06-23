@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#dnf install -y fdo-admin-cli fdo-manufacturing-server –refresh
+#dnf install -y fdo-admin-cli fdo-manufacturing-server --refresh
 
 #mkdir /root/fdo-keys
 #fdo-admin-tool generate-key-and-cert diun --destination-dir fdo-keys
