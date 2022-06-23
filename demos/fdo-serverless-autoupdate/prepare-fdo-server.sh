@@ -11,8 +11,8 @@
 service_info_auth_token=$(grep service_info_auth_token /etc/fdo/aio/configs/serviceinfo_api_server.yml | awk '{print $2}')
 admin_auth_token=$(grep admin_auth_token /etc/fdo/aio/configs/serviceinfo_api_server.yml | awk '{print $2}')
 
-sed -i "s/service_info_auth_token:*.*/service_info_auth_token: $service_info_auth_token/g" serviceinfo_api_server.yml 
-sed -i "s/admin_auth_token:*.*/admin_auth_token: $admin_auth_token/g" serviceinfo_api_server.yml 
+sed "s/service_info_auth_token:*.*/service_info_auth_token: $service_info_auth_token/g" serviceinfo_api_server.yml.example > serviceinfo_api_server.yml
+sed "s/admin_auth_token:*.*/admin_auth_token: $admin_auth_token/g" serviceinfo_api_server.yml > serviceinfo_api_server.yml
 
 cp -f serviceinfo_api_server.yml /etc/fdo/aio/configs/
 

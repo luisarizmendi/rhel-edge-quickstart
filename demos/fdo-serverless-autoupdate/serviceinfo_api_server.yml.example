@@ -1,0 +1,73 @@
+---
+service_info:
+  initial_user: 
+    username: core
+    sshkeys:
+    - "ssh-rsa AAAA...."
+  files:
+  - path: /etc/rpm-ostreed.conf
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/cfg/etc/rpm-ostreed.conf 
+  - path: /etc/systemd/system/applyupdate.service
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/cfg/etc/systemd/system/applyupdate.service
+  - path: /etc/systemd/system/applyupdate.timer
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/cfg/etc/systemd/system/applyupdate.timer
+  - path: /var/home/core/.config/systemd/user/container-httpd-proxy.socket
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/cfg/etc/systemd/system/container-httpd-proxy.socket
+  - path: /var/home/core/.config/systemd/user/container-httpd-proxy.service
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/cfg/etc/systemd/system/container-httpd-proxy.service
+  - path: /var/home/core/.config/systemd/user/container-httpd.service
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/cfg/etc/systemd/system/container-httpd.service
+  - path: /var/home/core/.config/systemd/user/podman-auto-update.service
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/cfg/etc/systemd/system/podman-auto-update.service
+  - path: /var/home/core/.config/systemd/user/podman-auto-update.timer
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/cfg/etc/systemd/system/podman-auto-update.timer
+  - path: /var/home/core/.config/systemd/user/pre-pull-container-image.service
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/cfg/etc/systemd/system/pre-pull-container-image.service
+  - path: /etc/systemd/system/enable-linger.service
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/cfg/etc/systemd/system/enable-linger.service
+  - path: /etc/systemd/system/expose-application.service
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/cfg/etc/systemd/system//expose-application.service
+  - path: /etc/sudoers.d/core
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/cfg/etc/sudoers.d/core
+  - path: /etc/greenboot/check/required.d/01_check_upgrade.sh
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/cfg/etc/greenboot/check/required.d/01_check_upgrade.sh
+  commands: 
+  - command: systemctl
+    args:
+    - daemon-reload
+  - command: systemctl
+    args:
+    - enable 
+    - --now
+    - rpm-ostreed-automatic.timer 
+    - applyupdate.timer 
+    - podman-auto-update.timer 
+    - container-httpd-proxy.socket
+    - pre-pull-container-image.service 
+    - expose-application.service
+  - command: rpm-ostree
+    args:
+    - kargs
+    - --append=console=tty0
+    - --append=console=ttyS0,115200
+  diskencryption_clevis: ~
+  additional_serviceinfo: ~
+bind: "0.0.0.0:8083"
+service_info_auth_token: [REPLACE_WITH_TOKEN]
+admin_auth_token: [REPLACE_WITH_TOKEN]
+device_specific_store_driver:
+  Directory:
+    path: /etc/fdo/aio/stores/serviceinfo_api_devices
