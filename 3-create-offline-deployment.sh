@@ -7,7 +7,7 @@ raw_image=false
 baserelease=$(cat /etc/redhat-release | awk '{print $6}' | awk -F . '{print $1}')
 basearch=$(arch)
 fdo_server=""
-disk_device="vda"
+disk_device="sda"
 
 
 ############################################################
@@ -26,12 +26,12 @@ Help()
    echo "h     Repo server IP (default=$repo_server_ip)."
    echo "p     Repo server port (default=$repo_server_port)."
    echo "a     Anaconda. If enabled (default=disabled), it creates an ISO that will jump into Anaconda instaler, where you will be able to select, among others, the disk where RHEL for edge will be installed"
-   echo "d     Disk drive where to install the OS (default=vda). Required if not using completed automated install."
+   echo "d     Disk drive where to install the OS (default=sda). Required if not using complete automated install (not using -a)."
    echo "r     Create RAW/QCOW2 images instead of an ISO (default=disabled)."
    echo "f     Use FDO (default=disabled , server=http://$repo_server_ip:8090)."
    echo "F     Use FDO and include a different FDO server URL"
    echo
-   echo "Example 1: $0 -h 192.168.122.129 -p 8080 -a -f"
+   echo "Example 1: $0 -h 192.168.122.129 -p 8080 -a -f -d vda"
    echo "Example 1: $0 -h 192.168.122.129 -p 8080 -a -F http://10.0.0.2:8080"
    echo "Example 2: $0 -h 192.168.122.129 -p 8080 -r"
    echo ""
@@ -51,7 +51,7 @@ Help()
 # Process the input options. Add options as needed.        #
 ############################################################
 # Get the options
-while getopts ":h:F:p:arf" option; do
+while getopts ":h:d:F:p:arf" option; do
    case $option in
       h)
          repo_server_ip=$OPTARG;;
@@ -59,6 +59,8 @@ while getopts ":h:F:p:arf" option; do
          repo_server_port=$OPTARG;;
       F)
          fdo_server=$OPTARG;;
+      d)
+         disk_device=$OPTARG;;
       a)
          simplified_installer=false;;
       r)
@@ -199,17 +201,6 @@ then
    echo "************************************************"
    echo ""
    echo ""
-
-   if [ $simplified_installer = true ]
-   then
-   echo "************************************************************************"
-   echo "If you are deploying on VMs be sure that the disk is using SATA drivers " 
-   echo "instead of VirtIO, in order to get a fully unattendant installation"
-   echo "************************************************************************"
-   echo ""
-   echo ""
-   fi
-
 
 
 else
