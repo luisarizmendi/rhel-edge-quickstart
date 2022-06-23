@@ -8,6 +8,11 @@ systemctl enable --now fdo-aio
 sleep 1
 
 
+sed -i 's/8080/8090/g' /etc/fdo/aio/aio_configuration
+sed -i 's/8081/8091/g' /etc/fdo/aio/aio_configuration
+sed -i 's/8082/8092/g' /etc/fdo/aio/aio_configuration
+sed -i 's/8083/8093/g' /etc/fdo/aio/aio_configuration
+
 sed -i 's/8080/8090/g' /etc/fdo/aio/configs/manufacturing_server.yml
 sed -i 's/8082/8092/g' /etc/fdo/aio/configs/manufacturing_server.yml
 
