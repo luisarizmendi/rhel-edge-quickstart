@@ -28,11 +28,11 @@ Help()
    echo "a     Anaconda. If enabled (default=disabled), it creates an ISO that will jump into Anaconda instaler, where you will be able to select, among others, the disk where RHEL for edge will be installed"
    echo "d     Disk drive where to install the OS (default=sda). Required if not using complete automated install (not using -a)."
    echo "r     Create RAW/QCOW2 images instead of an ISO (default=disabled)."
-   echo "f     Use FDO (default=disabled , server=http://$repo_server_ip:8090)."
+   echo "f     Use FDO (default=disabled , server=http://$repo_server_ip:8083)."
    echo "F     Use FDO and include a different FDO server URL"
    echo
    echo "Example 1: $0 -h 192.168.122.129 -p 8080 -f -d vda"
-   echo "Example 1: $0 -h 192.168.122.129 -p 8080 -F http://10.0.0.2:8080"
+   echo "Example 1: $0 -h 192.168.122.129 -p 8080 -F http://10.0.0.2:8083"
    echo "Example 2: $0 -h 192.168.122.129 -p 8080 -r"
    echo ""
 }
@@ -66,7 +66,7 @@ while getopts ":h:d:F:p:arf" option; do
       r)
          raw_image=true;;
       f)
-         fdo_server="http://$repo_server_ip:8090";;
+         fdo_server="http://$repo_server_ip:8083";;
      \?) # Invalid option
          echo "Error: Invalid option"
          echo ""
