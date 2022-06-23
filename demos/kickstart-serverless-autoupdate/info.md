@@ -11,7 +11,7 @@ The steps to prepare this demo are:
 If you want to create an image with a simple HTTP server (you could potentially use another image that you already have) you can use the `Dockerfile` in the `service` directory to create a new image and then push that image to a registry:
 
 ```
-cd demos/serverless-autoupdate
+cd demos/kickstart-serverless-autoupdate
 cd service
 buildah build .
 podman tag <image id> <registry/user/image:tag>
@@ -70,7 +70,7 @@ If you want to check the podman **image auto-update** feature you can:
 2) Change the message in the `index.html` file, create a new container image and push it to the registry using the same tag that you used
 
 ```
-cd demos/serverless-autoupdate
+cd demos/kickstart-serverless-autoupdate
 cd service
 echo "NEW MESSAGE IN v2" > index.html
 buildah build .
