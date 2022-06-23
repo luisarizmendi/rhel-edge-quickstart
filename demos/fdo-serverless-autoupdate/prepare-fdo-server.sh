@@ -1,13 +1,13 @@
 #!/bin/bash
 
-rm -rf /etc/fdo/aio/*
 
-dnf install -y fdo-admin-cli fdo-manufacturing-server --refresh
+dnf install -y fdo-admin-cli fdo-manufacturing-server
 
 systemctl enable --now fdo-aio
+rm -rf /etc/fdo/aio/*
 systemctl restart fdo-aio
 
-sleep 5
+sleep 1
 
 
 #mkdir /root/fdo-keys
