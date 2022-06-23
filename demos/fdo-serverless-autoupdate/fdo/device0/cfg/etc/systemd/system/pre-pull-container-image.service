@@ -1,0 +1,6 @@
+[Service]
+Type=oneshot
+ExecStart=bash -c "export exitcode=1; while [ \$exitcode -ne 0 ]; do podman pull quay.io/luisarizmendi/simple-http:prod ; exitcode=\$(echo \$?); echo Podman pull exit code: $exitcode;done"
+
+[Install]
+WantedBy=multi-user.target default.target

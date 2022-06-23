@@ -1,0 +1,6 @@
+[Service]
+Type=oneshot
+ExecStart=loginctl enable-linger core
+
+[Install]
+WantedBy=multi-user.target default.target

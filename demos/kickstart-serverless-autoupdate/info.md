@@ -81,5 +81,4 @@ cd ..
 
 3) Wait some seconds and try to access again the service on the edge device (the new message should appear)
 
-
-> NOTE: Scale down of the service when there are no more request is a feature that will bring RHEL 9
+4) Stop requests to the servics and wait 30 seconds, the container should be stopped (stop time will depend on the service)

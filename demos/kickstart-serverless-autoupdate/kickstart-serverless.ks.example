@@ -159,7 +159,7 @@ Requires=container-httpd-proxy.socket
 After=container-httpd-proxy.socket
 
 [Service]
-ExecStart=/usr/lib/systemd/systemd-socket-proxyd 127.0.0.1:8080
+ExecStart=/usr/lib/systemd/systemd-socket-proxyd --exit-idle-time=30 127.0.0.1:8080
 EOF
 
 
@@ -176,19 +176,25 @@ cat > /var/home/core/.config/systemd/user/container-httpd.service <<EOF
 [Unit]
 Description=Podman container-httpd.service
 Documentation=man:podman-generate-systemd(1)
+Wants=network-online.target
+After=network-online.target
+RequiresMountsFor=%t/containers
+StopWhenUnneeded=true
+
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
 Restart=on-failure
-RestartSec=3
 TimeoutStopSec=70
-ExecStartPre=/bin/rm -f %t/container-httpd.pid %t/container-httpd.ctr-id
-ExecStart=/usr/bin/podman run --conmon-pidfile %t/container-httpd.pid --cidfile %t/container-httpd.ctr-id --cgroups=no-conmon --replace -d --label io.containers.autoupdate=image --name httpd -p 127.0.0.1:8080:80 quay.io/luisarizmendi/simple-http:prod
-ExecStartPost=/bin/sleep 1
-ExecStop=/usr/bin/podman stop --ignore --cidfile %t/container-httpd.ctr-id -t 10
-ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/container-httpd.ctr-id
-PIDFile=%t/container-httpd.pid
-Type=forking
+ExecStartPre=/bin/rm -f %t/%n.ctr-id
+ExecStart=/usr/bin/podman run --cidfile %t/%n.ctr-id --cgroups=no-conmon --sdnotify=conmon -d --replace --name demoday --label io.containers.autoupdate=registry -p 127.0.0.1:8080:8081 {{ container_app }}
+ExecStop=/usr/bin/podman stop --ignore --cidfile=%t/%n.ctr-id
+ExecStopPost=/usr/bin/podman rm -f --ignore --cidfile=%t/%n.ctr-id
+Type=notify
+NotifyAccess=all
+
+[Install]
+WantedBy=default.target
 EOF
 
 

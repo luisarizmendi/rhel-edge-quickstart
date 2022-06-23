@@ -6,6 +6,7 @@ simplified_installer=true
 raw_image=false
 baserelease=$(cat /etc/redhat-release | awk '{print $6}' | awk -F . '{print $1}')
 basearch=$(arch)
+fdo_server=""
 
 ############################################################
 # Help                                                     #
@@ -17,15 +18,16 @@ Help()
    # Display Help
    echo "This Script creates an ISO (by default for unattended installation) with the OSTree commit embedded to install a system without the need of external network resources (HTTP or PXE server)."
    echo
-   echo "Syntax: $0 [-h <IP>|-p <port>]|-a|-r]"
+   echo "Syntax: $0 [-h <IP>|-p <port>]|-a|-r|-f <server>]]"
    echo ""
    echo "options:"
    echo "h     Repo server IP (default=$repo_server_ip)."
    echo "p     Repo server port (default=$repo_server_port)."
    echo "a     Anaconda. If enabled (default=disabled), it creates an ISO that will jump into Anaconda instaler, where you will be able to select, among others, the disk where RHEL for edge will be installed"
    echo "r     Create RAW/QCOW2 images instead of an ISO (default=disabled)."
+   echo "f     Use FDO server (default=disabled)."
    echo
-   echo "Example 1: $0 -h 192.168.122.129 -p 8080 -a"
+   echo "Example 1: $0 -h 192.168.122.129 -p 8080 -a -f http://10.0.0.2:8080"
    echo "Example 2: $0 -h 192.168.122.129 -p 8080 -r"
    echo ""
 }
@@ -44,12 +46,14 @@ Help()
 # Process the input options. Add options as needed.        #
 ############################################################
 # Get the options
-while getopts ":h:p:ar" option; do
+while getopts ":h:f:p:ar" option; do
    case $option in
       h)
          repo_server_ip=$OPTARG;;
       p)
          repo_server_port=$OPTARG;;
+      f)
+         fdo_server=$OPTARG;;
       a)
          simplified_installer=false;;
       r)
@@ -65,6 +69,10 @@ done
 
 
 
+
+if [ $fdo_server = "" ]
+then
+
 cat <<EOF > blueprint-iso.toml
 name = "blueprint-iso"
 description = "Blueprint for ISOs"
@@ -73,7 +81,27 @@ modules = [ ]
 groups = [ ]
 EOF
 
+iso_blueprint="blueprint-iso"
 
+else
+
+cat <<EOF > blueprint-fdo.toml
+name = "blueprint-fdo"
+description = "Blueprint for FDO"
+version = "0.0.1"
+packages = []
+modules = []
+groups = []
+distro = ""
+
+[customizations.fdo]
+manufacturing_server_url = "${fdo_server}"
+diun_pub_key_insecure = "true"
+EOF
+
+iso_blueprint="blueprint-fdo"
+
+fi
 
 
 
@@ -91,7 +119,7 @@ then
    echo ""
    echo "Pushing ISO Blueprint..."
 
-   composer-cli blueprints push blueprint-iso.toml
+   composer-cli blueprints push ${iso_blueprint}.toml
 
 
 
@@ -102,9 +130,9 @@ then
 
    if [ $simplified_installer = true ]
    then
-      composer-cli compose start-ostree blueprint-iso edge-simplified-installer --ref rhel/${baserelease}/${basearch}/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
+      composer-cli compose start-ostree ${iso_blueprint} edge-simplified-installer --ref rhel/${baserelease}/${basearch}/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
    else
-      composer-cli compose start-ostree blueprint-iso edge-installer --ref rhel/${baserelease}/${basearch}/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
+      composer-cli compose start-ostree ${iso_blueprint} edge-installer --ref rhel/${baserelease}/${basearch}/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
    fi
 
 
@@ -180,10 +208,10 @@ else
       echo ""
       echo "Pushing ISO Blueprint..."
 
-      composer-cli blueprints push blueprint-iso.toml
+      composer-cli blueprints push ${iso_blueprint}.toml
 
 
-      composer-cli compose start-ostree blueprint-iso edge-raw-image --ref rhel/${baserelease}/${basearch}/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
+      composer-cli compose start-ostree ${iso_blueprint} edge-raw-image --ref rhel/${baserelease}/${basearch}/edge --url http://$repo_server_ip:$repo_server_port/repo/ > .tmp
 
       image_commit=$(cat .tmp | awk '{print $2}')
 

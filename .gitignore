@@ -1,5 +1,6 @@
 *.toml
 *.ks
+*serviceinfo_api_server.yml
 nginx.conf
 /Dockerfile
 Dockerfile-http-boot
