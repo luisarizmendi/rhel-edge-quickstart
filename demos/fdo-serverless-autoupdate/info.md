@@ -28,7 +28,7 @@ cd ..
 Make a copy of the blueprint example file (ie, `cp blueprint-serverless.toml.example ../../blueprint.toml`) and include the SSH key and the password hash.
 
 
-3) Include your public SSH key and the right disk drive (`disk_label` parameter) in the `serviceinfo_api_server.yml.example` file.
+3) Include your public SSH key and the right disk drive (`disk_label` parameter) in the `serviceinfo_api_server.yml.example` file. Also check the port for your fdo-serviceinfo (default with these scripts is 8093)
 
 > NOTE: There are other parameters such as `service_info_auth_token` and `admin_auth_token` that will be completed by the `prepare-fdo-server.sh` during next step.
 
