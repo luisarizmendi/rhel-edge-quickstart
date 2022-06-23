@@ -22,17 +22,23 @@ cd ..
 > NOTE: Use the image id that buildah build will output to add a tag to it (ie. in my case `podman tag d5a11c5eb67 quay.io/luisarizmendi/simple-http:prod`)
 
 
-2) Prepare the serviceinfo_api_server.yml for the automated configuration using `serviceinfo_api_server.yml.example` as reference. You will need to point to include your public SSH key.
+
+3) Prepare the blueprint using the `blueprint-serverless.toml.example` as reference
+
+Make a copy of the blueprint example file (ie, `cp blueprint-serverless.toml.example ../../blueprint.toml`) and include the SSH key and the password hash.
+
+
+3) Prepare the serviceinfo_api_server.yml for the automated configuration using `serviceinfo_api_server.yml.example` as reference. You will need to point to include your public SSH key.
 
 > NOTE: There are other parameters such as `service_info_auth_token` and `admin_auth_token` that will be completed by the `prepare-fdo-server.sh` during next step.
 
 
 
-3) Run the `prepare-fdo-server.sh` script to prepare the required files on the fdo server.
+4) Run the `prepare-fdo-server.sh` script to prepare the required files on the fdo server.
 
 
 
-4) Create any of the [Non-Network based deployment methods](https://github.com/luisarizmendi/rhel-edge-quickstart#non-network-based-deployment) but including the FDO serve (`-f <server>`) during the last step:
+5) Use the [Non-Network based deployment methods](https://github.com/luisarizmendi/rhel-edge-quickstart#non-network-based-deployment) but including the FDO serve (`-f <server>`) during the last step:
 
 ```
 ./3-create-offline-deployment.sh -h 192.168.122.129 -p 8080 -a -f http://10.0.0.2:8080
