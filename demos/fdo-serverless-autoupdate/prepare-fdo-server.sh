@@ -7,10 +7,11 @@ firewall-cmd --reload
 
 
 sleep 1
+rm -rf /etc/fdo/aio/*
 dnf install -y fdo-admin-cli fdo-manufacturing-server
 systemctl enable --now fdo-aio
 rm -rf /etc/fdo/aio/*
-sleep 3
+sleep 1
 systemctl restart fdo-aio
 
 
