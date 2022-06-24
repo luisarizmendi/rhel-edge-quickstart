@@ -5,7 +5,7 @@ firewall-cmd --add-port=8080-8083/tcp --permanent
 firewall-cmd --reload
 
 
-
+systemctl stop fdo-aio
 sleep 1
 rm -rf /etc/fdo/aio/*
 dnf install -y fdo-admin-cli fdo-manufacturing-server
@@ -40,7 +40,7 @@ echo "admin_auth_token: $admin_auth_token" >> serviceinfo_api_server.yml.example
 
 
 
-
+rm -rf  /etc/fdo/aio/configs/serviceinfo_api_server.yml
 cp -f serviceinfo_api_server.yml.example  /etc/fdo/aio/configs/serviceinfo_api_server.yml
 
 rm -rf /etc/fdo-configs
