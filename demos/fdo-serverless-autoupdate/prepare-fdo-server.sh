@@ -46,4 +46,6 @@ cp -f serviceinfo_api_server.yml.example  /etc/fdo/aio/configs/serviceinfo_api_s
 rm -rf /etc/fdo-configs
 cp -r fdo-configs /etc/
 
+sleep 1 
+
 systemctl restart fdo-aio
