@@ -18,7 +18,7 @@ systemctl enable cockpit.socket --now
 
 firewall-cmd --add-service=cockpit && firewall-cmd --add-service=cockpit --permanent
 
-firewall-cmd --add-port=8080-8081/tcp --permanent
+firewall-cmd --add-port=8090-8091/tcp --permanent
 firewall-cmd --reload
 
 systemctl restart firewalld

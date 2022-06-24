@@ -73,7 +73,7 @@ If you want to use this approach you need to:
 3) In order to deploy the image you just need to use the default RHEL boot ISO on the edge server/VM and introduce (pressing `TAB` during the GRUB menu) the required kernel arg (`inst.ks`) pointing to the kickstart file published in the server, something like this:
 
 ```
-<other kernel args> inst.ks=http://192.168.122.129:8080/kickstart.ks
+<other kernel args> inst.ks=http://192.168.122.129:8090/kickstart.ks
 ```
 
 
@@ -154,7 +154,7 @@ If you want to use this approach you need to:
    <dnsmasq:options>
      <dnsmasq:option value="dhcp-vendorclass=set:efi-http,HTTPClient:Arch:00016"/>
      <dnsmasq:option value="dhcp-option-force=tag:efi-http,60,HTTPClient"/>
-     <dnsmasq:option value="dhcp-boot=tag:efi-http,&quot;http://192.168.122.128:8081/EFI/BOOT/BOOTX64.EFI&quot;"/>
+     <dnsmasq:option value="dhcp-boot=tag:efi-http,&quot;http://192.168.122.128:8091/EFI/BOOT/BOOTX64.EFI&quot;"/>
    </dnsmasq:options>
  </network>
 ```
@@ -169,7 +169,7 @@ If you want to use this approach you need to:
     class "httpclients" {
       match if substring (option vendor-class-identifier, 0, 10) = "HTTPClient";
       option vendor-class-identifier "HTTPClient";
-      filename "http://192.168.122.128:8081/EFI/BOOT/BOOTX64.EFI";
+      filename "http://192.168.122.128:8091/EFI/BOOT/BOOTX64.EFI";
     }
 ```
 
@@ -308,7 +308,7 @@ This method is valid for the "Network based deployments" explained in the previo
 # cat /etc/ostree/remotes.d/edge.conf
 
 [remote "edge"]
-url=http://192.168.122.128:8080/repo/
+url=http://192.168.122.128:8090/repo/
 gpg-verify=false
 ```
 

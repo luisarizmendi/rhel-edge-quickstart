@@ -3,7 +3,7 @@
 image_commit=""
 blueprint_name=""
 repo_server_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | grep "inet " | awk '{print $2}' | awk -F / '{print $1}')
-repo_server_port="8080"
+repo_server_port="8090"
 kickstart_file=""
 http_boot_mode=false
 http_boot_port=""
@@ -31,8 +31,8 @@ Help()
    echo "e     Path to RHEL boot ISO. It will Embedd the kickstart in a new ISO so you don't need to modify kernel args during boot(default=disabled)"
    echo ""
    echo "Example: $0 -i 125c1433-2371-4ae9-bda3-91efdbb35b92"
-   echo "Example: $0 -i 125c1433-2371-4ae9-bda3-91efdbb35b92 -h 192.168.122.129 -p 8080 -k kickstart.v1.ks"
-   echo "Example: $0 -i 125c1433-2371-4ae9-bda3-91efdbb35b92 -h 192.168.122.129 -p 8080 -k kickstart.v1.ks -x 8081 -e images/rhel-8.5-${basearch}-boot.iso"
+   echo "Example: $0 -i 125c1433-2371-4ae9-bda3-91efdbb35b92 -h 192.168.122.129 -p 8090 -k kickstart.v1.ks"
+   echo "Example: $0 -i 125c1433-2371-4ae9-bda3-91efdbb35b92 -h 192.168.122.129 -p 8090 -k kickstart.v1.ks -x 8091 -e images/rhel-8.5-${basearch}-boot.iso"
    echo ""
 }
 
@@ -417,7 +417,7 @@ then
 #   <dnsmasq:options>
 #     <dnsmasq:option value="dhcp-vendorclass=set:efi-http,HTTPClient:Arch:00016"/>
 #     <dnsmasq:option value="dhcp-option-force=tag:efi-http,60,HTTPClient"/>
-#     <dnsmasq:option value="dhcp-boot=tag:efi-http,&quot;http://192.168.122.128:8081/EFI/BOOT/BOOTX64.EFI&quot;"/>
+#     <dnsmasq:option value="dhcp-boot=tag:efi-http,&quot;http://192.168.122.128:8091/EFI/BOOT/BOOTX64.EFI&quot;"/>
 #   </dnsmasq:options>
 # </network>
 
@@ -440,7 +440,7 @@ then
 #    class "httpclients" {
 #      match if substring (option vendor-class-identifier, 0, 10) = "HTTPClient";
 #      option vendor-class-identifier "HTTPClient";
-#      filename "http://192.168.122.128:8081/EFI/BOOT/BOOTX64.EFI";
+#      filename "http://192.168.122.128:8091/EFI/BOOT/BOOTX64.EFI";
 #    }
 
 

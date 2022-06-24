@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-firewall-cmd --add-port=8090-8093/tcp --permanent
+firewall-cmd --add-port=8080-8083/tcp --permanent
 firewall-cmd --reload
 
 
@@ -11,26 +11,7 @@ sleep 1
 dnf install -y fdo-admin-cli fdo-manufacturing-server
 
 systemctl enable --now fdo-aio
-sleep 1
-
-
-sed -i 's/8080/8090/g' /etc/fdo/aio/aio_configuration
-sed -i 's/8081/8091/g' /etc/fdo/aio/aio_configuration
-sed -i 's/8082/8092/g' /etc/fdo/aio/aio_configuration
-sed -i 's/8083/8093/g' /etc/fdo/aio/aio_configuration
-
-sed -i 's/8080/8090/g' /etc/fdo/aio/configs/manufacturing_server.yml
-sed -i 's/8082/8092/g' /etc/fdo/aio/configs/manufacturing_server.yml
-
-sed -i 's/8081/8091/g' /etc/fdo/aio/configs/owner_onboarding_server.yml
-sed -i 's/8083/8093/g' /etc/fdo/aio/configs/owner_onboarding_server.yml
-
-sed -i 's/8082/8092/g' /etc/fdo/aio/configs/rendezvous_server.yml 
-
-
 systemctl restart fdo-aio
-
-sleep 1
 
 
 #mkdir /root/fdo-keys

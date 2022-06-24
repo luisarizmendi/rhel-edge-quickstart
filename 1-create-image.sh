@@ -3,7 +3,7 @@
 blueprint_file=""
 blueprint_name=""
 repo_server_ip=$(ip a show dev $(ip route | grep default | awk '{print $5}') | grep "inet " | awk '{print $2}' | awk -F / '{print $1}')
-repo_server_port="8080"
+repo_server_port="8090"
 update=false
 baserelease=$(cat /etc/redhat-release | awk '{print $6}' | awk -F . '{print $1}')
 basearch=$(arch)
@@ -24,7 +24,7 @@ Help()
    echo "p     Repo server port (default=$repo_server_port)."
    echo "u     Update. If selected it will use the last commit id on the existing repo as parent for the new ostree commit."
    echo
-   echo "Example: $0 -b blueprint-demo.toml -h 192.168.122.129 -p 8081 -u"
+   echo "Example: $0 -b blueprint-demo.toml -h 192.168.122.129 -p 8090 -u"
    echo ""
 }
 

@@ -26,7 +26,7 @@ cd ..
 
 You will need to point to the right repository IP in the kickstart and also to the service image (on the registry) that you will use, so make a copy of the kickstart example file (ie, `cp kickstart-serverless.ks.example ../../kickstart.ks`) and change the required values.
 
-You should look for the string `192.168.122.157:8080` (1 occurrence) and substitute it by your repo server and `quay.io/luisarizmendi/simple-http:prod` (2 occurrences) by the URL that points to your image in the registry.
+You should look for the string `192.168.122.157:8090` (1 occurrence) and substitute it by your repo server and `quay.io/luisarizmendi/simple-http:prod` (2 occurrences) by the URL that points to your image in the registry.
 
 
 
@@ -58,14 +58,14 @@ quay.io/luisarizmendi/simple-http  prod      d5a11c5eb672  3 hours ago  435 MB
 
 3) Continuously check that the containers running on the system (at this point you should find an empty list): `sudo runuser -l core -c "watch podman ps"`
 
-4) Access the service published on port 8080 on the edge device (`http://<edge-device-ip>:8080`)
+4) Access the service published on port 8090 on the edge device (`http://<edge-device-ip>:8090`)
 
 At this point you will see how a new container will start as soon as the request is made (Serverless)
 
 
 If you want to check the podman **image auto-update** feature you can:
 
-1) Access the service published on port 8080 on the edge device (`http://<edge-device-ip>:8080`) and check the message
+1) Access the service published on port 8090 on the edge device (`http://<edge-device-ip>:8090`) and check the message
 
 2) Change the message in the `index.html` file, create a new container image and push it to the registry using the same tag that you used
 
