@@ -95,6 +95,9 @@ systemctl enable rpm-ostreed-automatic.timer applyupdate.timer
 
 %post --log=/var/log/anaconda/post-install.log 
 
+
+
+
 ##
 ## Additional configs
 ##
@@ -131,10 +134,17 @@ cat > /etc/greenboot/check/required.d/01_check_upgrade.sh <<EOF
 #!/bin/bash
 
 #
-# This test fails if XXXXXX
+# This test fails if /root/mustfail file exist
 #
 
-#
+FILE=/root/mustfail
+if [ -f "$FILE" ]; then
+    echo "$FILE exists."
+    exit -1
+else 
+    echo "$FILE does not exist."
+    exit 0
+fi
 
 
 
