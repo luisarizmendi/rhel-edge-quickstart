@@ -76,7 +76,9 @@ fi
 
 
 # I assume that the name is the first entry in the file
-blueprint_name=$(head -n1 ${blueprint_file} | awk -F '"' '{print $2}')
+blueprint_name=$(sed "/^$/d"  ${blueprint_file} | head -n1 | awk -F '"' '{print $2}')
+
+
 
 
 ############################################################
