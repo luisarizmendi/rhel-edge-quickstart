@@ -67,7 +67,7 @@ hostname = "virt-edge"
 
 
 [customizations.services]
-enabled = [" cockpit.socket"]
+enabled = ["cockpit"]
 
 
 
