@@ -8,6 +8,13 @@ groups = [ ]
 
 # Force correct redhat-release
 
+
+[[packages]]
+name = "insights-client"
+version = "*"
+
+
+
 [[packages]]
 name = "redhat-release"
 version = "*"
@@ -28,14 +35,6 @@ version = "*"
 
 [[packages]]
 name = "qemu-kvm"
-version = "*"
-
-[[packages]]
-name = "virt-manager"
-version = "*"
-
-[[packages]]
-name = "virt-viewer"
 version = "*"
 
 [[packages]]
@@ -67,20 +66,13 @@ hostname = "virt-edge"
 
 
 [customizations.services]
-enabled = ["cockpit"]
+enabled = ["cockpit","insights-client"]
 
 
 
 [customizations.firewall]
 ports = ["9090:tcp"]
 
-[customizations.timezone]
-timezone = "Europe/Madrid"
-ntpservers = ["pool.ntp.org"]
-
-[customizations.locale]
-languages = ["en_US.UTF-8"]
-keyboard = "es"
 
 
 [[customizations.sshkey]]

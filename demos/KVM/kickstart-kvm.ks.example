@@ -2,6 +2,11 @@
 ## Initial ostree install
 ##
 
+# set locale defaults for the Install
+lang en_US.UTF-8
+keyboard us
+timezone Etc/UTC --isUtc
+
 # initialize any invalid partition tables and destroy all of their contents
 zerombr
 
@@ -21,7 +26,7 @@ network --bootproto=dhcp --device=link --activate --onboot=on
 
 rootpw --iscrypted !$6$0XQkWnCyj3XZqA6F$MOHw/Sn3hec23mKjtxqGa.qnflkLb6FNR8s72yCsk.xVDoI35EOpgetjII/DkJVYrHVwF.ET3TLvVl7WYbMef0
 # Kickstart requires that we create a default user (which will run the contenerized services)
-user --name=core --groups=wheel --homedir=/var/home/core
+user --name=admin --groups=wheel --homedir=/var/home/admin
 
 # set up the OSTree-based install with disabled GPG key verification, the base
 # URL to pull the installation content, 'rhel' as the management root in the
@@ -88,12 +93,6 @@ systemctl enable rpm-ostreed-automatic.timer applyupdate.timer
 %end
 
 
-
-
-
-
-
-
 %post
 
 ##
@@ -102,9 +101,44 @@ systemctl enable rpm-ostreed-automatic.timer applyupdate.timer
 
 systemctl enable cockpit.socket --now
 
+hostnamectl set-hostname $(echo $(hostname)-$(echo $RANDOM | md5sum | head -c 8; echo;))
 
 %end
 
+
+
+
+
+
+
+
+
+
+
+
+#%post --log=/var/log/anaconda/post-autoregister.log
+#set -x
+#RHC_ORGID=xxxxxxx
+#RHC_ACTIVATION_KEY=xxxxxxx
+#
+#		# Register with RHSM
+#		[[ -v RHC_ORGID ]] \
+#			&& subscription-manager register --org $RHC_ORGID --activationkey $RHC_ACTIVATION_KEY --force 
+#
+#		# Register with Insights
+#		insights-client --register > /var/log/anaconda/post-insights-command.log 2>&1
+#
+#		# Enable and start RHCD service
+#		systemctl enable rhcd.service
+#		systemctl restart rhcd.service
+#
+#		# Register with RHC
+#		[[ -v RHC_ORGID ]] \
+#			&& rhc connect --organization $RHC_ORGID --activation-key $RHC_ACTIVATION_KEY 
+#
+#		systemctl status rhcd.service
+#
+#%end
 
 
 
@@ -132,31 +166,13 @@ cat > /etc/greenboot/check/required.d/01_check_upgrade.sh <<EOF
 #!/bin/bash
 
 #
-# This test fails if the current commit identifier is different
-# than the original commit
+# This test fails if XXXXXX
 #
 
-function get_commit () {
-  COMMITS=\$(rpm-ostree status | grep Commit | head -n1 | awk -F' ' '{ print \$2}')
-  if [ \$(echo \$COMMITS | wc -w) -eq 1 ]
-  then
-    COMMIT=\$COMMITS
-  else
-    COMMIT=\$(echo \$COMMITS | awk '{print \$(NF)}')
-  fi
-  echo \$COMMIT
-}
+#
 
-COMMIT=\$(get_commit)
 
-if [ ! -f /etc/greenboot/orig.txt ]
-then
-  echo \$COMMIT > /etc/greenboot/orig.txt
-fi
 
-echo \$COMMIT > /etc/greenboot/current.txt
-
-diff -s /etc/greenboot/orig.txt /etc/greenboot/current.txt
 EOF
 
 chmod +x /etc/greenboot/check/required.d/01_check_upgrade.sh
