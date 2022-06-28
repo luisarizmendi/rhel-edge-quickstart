@@ -93,7 +93,7 @@ systemctl enable rpm-ostreed-automatic.timer applyupdate.timer
 %end
 
 
-%post
+%post --log=/var/log/anaconda/post-install.log 
 
 ##
 ## Additional configs

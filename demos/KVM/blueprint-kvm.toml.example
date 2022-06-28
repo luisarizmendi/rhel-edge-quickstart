@@ -6,20 +6,27 @@ modules = [ ]
 groups = [ ]
 
 
-# Force correct redhat-release
-
+################## base packages
 
 [[packages]]
 name = "insights-client"
 version = "*"
 
+[[packages]]
+name = "rhc"
+version = "*"
 
+[[packages]]
+name = "subscription-manager"
+version = "*"
 
 [[packages]]
 name = "redhat-release"
 version = "*"
 
-# MicroShift dependencies
+
+
+################## KVM dependencies
 
 [[packages]]
 name = "virt-install"
@@ -49,6 +56,11 @@ version = "*"
 name = "virt-top"
 version = "*"
 
+
+
+
+################## cockpit
+
 [[packages]]
 name = "cockpit"
 version = "*"
@@ -56,6 +68,26 @@ version = "*"
 [[packages]]
 name = "cockpit-machines"
 version = "*"
+
+
+[[packages]]
+name = "cockpit-podman"
+version = "*"
+
+
+[[packages]]
+name = "cockpit-system"
+version = "*"
+
+
+[[packages]]
+name = "cockpit-bridge"
+version = "*"
+
+
+
+
+
 
 
 
