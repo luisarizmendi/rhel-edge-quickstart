@@ -26,7 +26,7 @@ user --name=core --groups=wheel --homedir=/var/home/core
 # set up the OSTree-based install with disabled GPG key verification, the base
 # URL to pull the installation content, 'rhel' as the management root in the
 # repo, and 'rhel/8/x86_64/edge' as the branch for the installation
-ostreesetup --nogpg  --osname=rhel --remote=edge --url=http://192.168.122.200:8090/repo/ --ref=rhel/8/x86_64/edge
+ostreesetup --nogpg  --osname=rhel --remote=edge --url=http://192.168.122.200:8090/repo/ --ref=rhel/9/x86_64/edge
 
 # reboot after installation is successfully completed
 reboot --eject
