@@ -76,7 +76,7 @@ ports = ["9090:tcp"]
 
 [customizations.timezone]
 timezone = "Europe/Madrid"
-ntpservers = "pool.ntp.org"
+ntpservers = ["pool.ntp.org"]
 
 [customizations.locale]
 languages = ["en_US.UTF-8"]
