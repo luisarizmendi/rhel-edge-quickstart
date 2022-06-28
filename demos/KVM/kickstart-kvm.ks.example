@@ -1,0 +1,163 @@
+##
+## Initial ostree install
+##
+
+# initialize any invalid partition tables and destroy all of their contents
+zerombr
+
+# erase all disk partitions and create a default label
+clearpart --all --initlabel
+
+# automatically create xfs partitions with no LVM and no /home partition
+autopart --type=plain --fstype=xfs --nohome
+
+# installation will run in text mode
+text
+
+# activate network devices and configure with static ip
+#network --bootproto=static --ip=192.168.122.134 --netmask=255.255.255.0 --gateway=192.168.122.1 --nameserver=8.8.8.8 --hostname=rheledge.acme.es --noipv6
+network --bootproto=dhcp --device=link --activate --onboot=on
+
+
+rootpw --iscrypted !$6$0XQkWnCyj3XZqA6F$MOHw/Sn3hec23mKjtxqGa.qnflkLb6FNR8s72yCsk.xVDoI35EOpgetjII/DkJVYrHVwF.ET3TLvVl7WYbMef0
+# Kickstart requires that we create a default user (which will run the contenerized services)
+user --name=core --groups=wheel --homedir=/var/home/core
+
+# set up the OSTree-based install with disabled GPG key verification, the base
+# URL to pull the installation content, 'rhel' as the management root in the
+# repo, and 'rhel/8/x86_64/edge' as the branch for the installation
+ostreesetup --nogpg  --osname=rhel --remote=edge --url=http://192.168.122.157:8090/repo/ --ref=rhel/8/x86_64/edge
+
+# reboot after installation is successfully completed
+reboot --eject
+
+
+
+
+
+
+%post
+
+##
+## Set the rpm-ostree update policy to automatically download and
+## stage updates to be applied at the next reboot
+##
+
+# stage updates as they become available. This is highly recommended
+echo AutomaticUpdatePolicy=stage >> /etc/rpm-ostreed.conf
+
+##
+## Create service and timer to periodically check if there's staged
+## updates and then reboot to apply them.
+##
+
+# This systemd service runs one time and exits after each timer
+# event. If there are staged updates to the operating system, the
+# system is rebooted to apply them.
+cat > /etc/systemd/system/applyupdate.service << 'EOF'
+[Unit]
+Description=Apply Update Check
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'if [[ $(rpm-ostree status -v | grep "Staged: yes") ]]; then systemctl --message="Applying OTA update" reboot; else logger "Running latest available update"; fi'
+EOF
+
+# This systemd timer activates every minute to check for staged
+# updates to the operating system
+cat > /etc/systemd/system/applyupdate.timer <<EOF
+[Unit]
+Description=Daily Update Reboot Check.
+
+[Timer]
+# activate every minute
+OnBootSec=30
+OnUnitActiveSec=30
+
+#weekly example for Sunday at midnight
+#OnCalendar=Sun *-*-* 00:00:00
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# The rpm-ostreed-automatic.timer and accompanying service will
+# check for operating system updates and stage them. The applyupdate.timer
+# will reboot the system to force an upgrade.
+systemctl enable rpm-ostreed-automatic.timer applyupdate.timer
+%end
+
+
+
+
+
+
+
+
+%post
+
+##
+## Enable X11Forwarding
+##
+
+sed -i "s/#X11Forwarding*.*/X11Forwarding yes/g" /etc/ssh/sshd_config
+
+
+%end
+
+
+
+
+
+
+
+
+
+
+%post
+
+##
+## Create a greenboot script to determine if an upgrade should
+## succeed or rollback. At startup, the script writes the ostree commit
+## hash to the files orig.txt, if it doesn't already exist, and
+## current.txt, whether it exists or not. The two files are then
+## compared. If those files are different, the upgrade fails after
+## three attempts and the ostree image is rolled back. A upgrade can
+## be allowed to succeed by deleting the orig.txt file prior to the
+## upgrade attempt.
+##
+
+mkdir -p /etc/greenboot/check/required.d
+cat > /etc/greenboot/check/required.d/01_check_upgrade.sh <<EOF
+#!/bin/bash
+
+#
+# This test fails if the current commit identifier is different
+# than the original commit
+#
+
+function get_commit () {
+  COMMITS=\$(rpm-ostree status | grep Commit | head -n1 | awk -F' ' '{ print \$2}')
+  if [ \$(echo \$COMMITS | wc -w) -eq 1 ]
+  then
+    COMMIT=\$COMMITS
+  else
+    COMMIT=\$(echo \$COMMITS | awk '{print \$(NF)}')
+  fi
+  echo \$COMMIT
+}
+
+COMMIT=\$(get_commit)
+
+if [ ! -f /etc/greenboot/orig.txt ]
+then
+  echo \$COMMIT > /etc/greenboot/orig.txt
+fi
+
+echo \$COMMIT > /etc/greenboot/current.txt
+
+diff -s /etc/greenboot/orig.txt /etc/greenboot/current.txt
+EOF
+
+chmod +x /etc/greenboot/check/required.d/01_check_upgrade.sh
+%end

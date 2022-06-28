@@ -1,0 +1,98 @@
+name = "r4e-kvm"
+description = "Sample KVM blueprint"
+
+version = "0.0.1"
+modules = [ ]
+groups = [ ]
+
+
+# Force correct redhat-release
+
+[[packages]]
+name = "redhat-release"
+version = "*"
+
+# MicroShift dependencies
+
+[[packages]]
+name = "virt-install"
+version = "*"
+
+[[packages]]
+name = "libvirt-daemon-config-network"
+version = "*"
+
+[[packages]]
+name = "libvirt-daemon-kvm"
+version = "*"
+
+[[packages]]
+name = "qemu-kvm"
+version = "*"
+
+[[packages]]
+name = "virt-manager"
+version = "*"
+
+[[packages]]
+name = "virt-viewer"
+version = "*"
+
+[[packages]]
+name = "libguestfs-tools"
+version = "*"
+
+[[packages]]
+name = "python3-libguestfs"
+version = "*"
+
+[[packages]]
+name = "virt-top"
+version = "*"
+
+[[packages]]
+name = "cockpit"
+version = "*"
+
+[[packages]]
+name = "cockpit-machines"
+version = "*"
+
+
+
+
+[customizations]
+hostname = "virt-edge"
+
+
+
+[customizations.services]
+enabled = [" cockpit.socket"]
+
+
+
+[customizations.firewall]
+ports = ["9090:tcp"]
+
+[customizations.timezone]
+timezone = "Europe/Madrid"
+ntpservers = "pool.ntp.org"
+
+[customizations.locale]
+languages = ["en_US.UTF-8"]
+keyboard = "es"
+
+
+[[customizations.sshkey]]
+user = "root"
+key = "<ssh public key>"
+
+
+[[customizations.user]]
+name = "admin"
+description = "Admin user"
+password = '<password hash obatained with:        python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'       >'
+key = "<ssh public key>"
+home = "/home/admin/"
+shell = "/usr/bin/bash"
+groups = ["users", "wheel"]
