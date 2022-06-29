@@ -140,6 +140,7 @@ echo POST-AUTOREGISTER
 			&& rhc connect --organization $RHC_ORGID --activation-key $RHC_ACTIVATION_KEY \
 			|| rhc connect --username $RHC_USER --password $RHC_PASS
 
+#		systemctl status rhcd
 %end
 
 
