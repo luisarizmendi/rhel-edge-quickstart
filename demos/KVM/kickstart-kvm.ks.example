@@ -46,8 +46,8 @@ reboot --eject
 
 %post --nochroot --log=/mnt/sysroot/var/log/anaconda/post-install-hostname.log
 set -x
-hostnamectl set-hostname edge-virt-$(echo $RANDOM | md5sum | head -c 8; echo;)).edgelocaldomain
-hostnamectl --pretty set-hostname edge-virt-$(echo $RANDOM | md5sum | head -c 8; echo;)).edgelocaldomain
+hostnamectl set-hostname edge-virt-$(echo $RANDOM | md5sum | head -c 8; echo;).edgelocaldomain
+hostnamectl --pretty set-hostname edge-virt-$(echo $RANDOM | md5sum | head -c 8; echo;).edgelocaldomain
 
 cp /etc/hostname /mnt/sysroot/etc/hostname
 cp /etc/machine-info /mnt/sysroot/etc/machine-info
