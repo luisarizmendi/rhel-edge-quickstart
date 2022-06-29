@@ -25,35 +25,25 @@ name = "redhat-release"
 version = "*"
 
 
+[[packages]]
+name = "PackageKit"
+version = "*"
 
-################## KVM dependencies
+
+
+################## openscap
 
 [[packages]]
-name = "virt-install"
+name = "openscap-scanner"
+version = "*"
+
+
+[[packages]]
+name = "scap-workbench"
 version = "*"
 
 [[packages]]
-name = "libvirt-daemon-config-network"
-version = "*"
-
-[[packages]]
-name = "libvirt-daemon-kvm"
-version = "*"
-
-[[packages]]
-name = "qemu-kvm"
-version = "*"
-
-[[packages]]
-name = "libguestfs-tools"
-version = "*"
-
-[[packages]]
-name = "python3-libguestfs"
-version = "*"
-
-[[packages]]
-name = "virt-top"
+name = "scap-security-guide"
 version = "*"
 
 
@@ -87,6 +77,35 @@ version = "*"
 
 
 
+################## KVM 
+
+[[packages]]
+name = "virt-install"
+version = "*"
+
+[[packages]]
+name = "libvirt-daemon-config-network"
+version = "*"
+
+[[packages]]
+name = "libvirt-daemon-kvm"
+version = "*"
+
+[[packages]]
+name = "qemu-kvm"
+version = "*"
+
+[[packages]]
+name = "libguestfs-tools"
+version = "*"
+
+[[packages]]
+name = "python3-libguestfs"
+version = "*"
+
+[[packages]]
+name = "virt-top"
+version = "*"
 
 
 

@@ -39,9 +39,20 @@ reboot --eject
 
 
 
+%pre --nochroot --log=/mnt/sysroot/var/log/anaconda/pre-install.log
+set -x
+hostnamectl set-hostname $(echo $(hostname)-$(echo $RANDOM | md5sum | head -c 8; echo;))
+hostnamectl --pretty set-hostname $(echo $(hostname)-$(echo $RANDOM | md5sum | head -c 8; echo;))
+cp /etc/hostname /mnt/sysroot/etc/hostname
+cp /etc/machine-info /mnt/sysroot/etc/machine-info
+
+%end
 
 
-%post
+
+
+
+%post --log=/var/log/anaconda/post-install.log 
 
 ##
 ## Set the rpm-ostree update policy to automatically download and
@@ -93,7 +104,37 @@ systemctl enable rpm-ostreed-automatic.timer applyupdate.timer
 %end
 
 
-%post --log=/var/log/anaconda/post-install.log 
+
+
+
+
+%post --log=/var/log/anaconda/post-autoregister.log
+RHC_ORGID=xxxxxxx
+RHC_ACTIVATION_KEY=xxxxxxxxxxxx
+
+
+echo POST-AUTOREGISTER
+
+		# Register with RHSM
+		[[ -v RHC_ORGID ]] \
+			&& subscription-manager register --org $RHC_ORGID --activationkey $RHC_ACTIVATION_KEY --force \
+			|| subscription-manager register --username $RHC_USER --password $RHC_PASS --auto-attach --force
+
+		# Register with Insights
+		insights-client --register > /var/log/anaconda/post-insights-command.log 2>&1
+
+		# Enable and start RHCD service
+		systemctl enable rhcd.service
+		systemctl restart rhcd.service
+
+		# Register with RHC
+		[[ -v RHC_ORGID ]] \
+			&& rhc connect --organization $RHC_ORGID --activation-key $RHC_ACTIVATION_KEY \
+			|| rhc connect --username $RHC_USER --password $RHC_PASS
+
+		systemctl status rhcd.service
+
+%end
 
 
 
@@ -104,11 +145,6 @@ systemctl enable rpm-ostreed-automatic.timer applyupdate.timer
 
 systemctl enable --now cockpit.socket
 
-hostnamectl set-hostname $(echo $(hostname)-$(echo $RANDOM | md5sum | head -c 8; echo;))
-hostnamectl --pretty set-hostname $(echo $(hostname)-$(echo $RANDOM | md5sum | head -c 8; echo;))
-cp /etc/hostname /mnt/sysroot/etc/hostname
-cp /etc/machine-info /mnt/sysroot/etc/machine-info
-
 %end
 
 
@@ -116,7 +152,8 @@ cp /etc/machine-info /mnt/sysroot/etc/machine-info
 
 
 
-%post
+
+%post  --log=/var/log/anaconda/greenboot.log
 
 ##
 ## Create a greenboot script to determine if an upgrade should
