@@ -21,7 +21,7 @@ text
 
 # activate network devices and configure with static ip
 #network --bootproto=static --ip=192.168.122.134 --netmask=255.255.255.0 --gateway=192.168.122.1 --nameserver=8.8.8.8 --hostname=rheledge.acme.es --noipv6
-network --bootproto=dhcp --device=link --activate --onboot=on
+network --bootproto=dhcp --device=link --activate --onboot=on 
 
 
 rootpw --iscrypted !$6$0XQkWnCyj3XZqA6F$MOHw/Sn3hec23mKjtxqGa.qnflkLb6FNR8s72yCsk.xVDoI35EOpgetjII/DkJVYrHVwF.ET3TLvVl7WYbMef0
@@ -39,12 +39,19 @@ reboot --eject
 
 
 
+
+
+
+
+
 %post --nochroot --log=/mnt/sysroot/var/log/anaconda/post-install-hostname.log
 set -x
-hostnamectl set-hostname $(echo $(hostname)-$(echo $RANDOM | md5sum | head -c 8; echo;))
-hostnamectl --pretty set-hostname $(echo $(hostname)-$(echo $RANDOM | md5sum | head -c 8; echo;))
+hostnamectl set-hostname $(echo $(hostname -s)-$(echo $RANDOM | md5sum | head -c 8; echo;)).$(hostname | sed "s/^.*\.//g")
+hostnamectl --pretty set-hostname $(echo $(hostname -s)-$(echo $RANDOM | md5sum | head -c 8; echo;)).$(hostname | sed "s/^.*\.//g")
+
 cp /etc/hostname /mnt/sysroot/etc/hostname
 cp /etc/machine-info /mnt/sysroot/etc/machine-info
+
 
 %end
 
