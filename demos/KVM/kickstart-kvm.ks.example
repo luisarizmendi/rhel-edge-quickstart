@@ -122,11 +122,10 @@ RHC_ACTIVATION_KEY=xxxxxxxxxxxx
 
 echo POST-AUTOREGISTER
 
-# There is no need of running these commands to register the system
-#		# Register with RHSM
-#		[[ -v RHC_ORGID ]] \
-#			&& subscription-manager register --org $RHC_ORGID --activationkey $RHC_ACTIVATION_KEY --force \
-#			|| subscription-manager register --username $RHC_USER --password $RHC_PASS --auto-attach --force
+		# Register with RHSM
+		[[ -v RHC_ORGID ]] \
+			&& subscription-manager register --org $RHC_ORGID --activationkey $RHC_ACTIVATION_KEY --force \
+			|| subscription-manager register --username $RHC_USER --password $RHC_PASS --auto-attach --force
 
 		# Register with Insights
 		insights-client --register > /var/log/anaconda/post-insights-command.log 2>&1
