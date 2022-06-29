@@ -129,6 +129,8 @@ echo POST-AUTOREGISTER
 
 		# Register with Insights
 		insights-client --register > /var/log/anaconda/post-insights-command.log 2>&1
+        insights-client --enable-schedule
+		insights-client
 
 		# Enable and start RHCD service
 		systemctl enable rhcd.service
