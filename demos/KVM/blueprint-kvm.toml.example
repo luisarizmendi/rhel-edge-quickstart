@@ -33,6 +33,12 @@ version = "*"
 
 ################## openscap
 
+
+[[packages]]
+name = "openscap"
+version = "*"
+
+
 [[packages]]
 name = "openscap-scanner"
 version = "*"
