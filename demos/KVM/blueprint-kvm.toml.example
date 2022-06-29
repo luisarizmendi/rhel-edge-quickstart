@@ -111,9 +111,6 @@ version = "*"
 
 
 
-[customizations]
-hostname = "virt-edge"
-
 
 
 [customizations.services]
