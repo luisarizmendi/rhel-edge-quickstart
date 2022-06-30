@@ -52,7 +52,7 @@ service_info:
     - /var/home/admin/.config/systemd/user/pre-pull-container-image.service
     - /var/home/admin/.config/systemd/user/multi-user.target.wants/pre-pull-container-image.service
   diskencryption_clevis: 
-  - disk_label: /dev/vda
+  - disk_label: /dev/vda4
     binding:
       pin: tpm2
       config: "{}"
