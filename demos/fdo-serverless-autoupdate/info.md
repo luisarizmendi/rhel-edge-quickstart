@@ -23,7 +23,7 @@ cd ..
 
 
 
-3) Prepare the blueprint using the `blueprint-serverless.toml.example` as reference
+2) Prepare the blueprint using the `blueprint-serverless.toml.example` as reference
 
 Make a copy of the blueprint example file (ie, `cp blueprint-serverless.toml.example ../../blueprint.toml`) and include the SSH key and the password hash.
 
@@ -36,9 +36,9 @@ Make a copy of the blueprint example file (ie, `cp blueprint-serverless.toml.exa
 4) Run the `prepare-fdo-server.sh` script to prepare the required files on the fdo server.
 
 
-5) Use the [Non-Network based deployment methods](https://github.com/luisarizmendi/rhel-edge-quickstart#non-network-based-deployment) but including the FDO serve (`-f`) during the last step.
+5) Back to the root folder (`../../`) and use the blueprint.toml with any of the [Non-Network based deployment methods](https://github.com/luisarizmendi/rhel-edge-quickstart#non-network-based-deployment) but including the FDO serve (`-f`) during the last step.
 
-Example using default values:
+Example using default values during last step:
 
 ```
 ./3-create-offline-deployment.sh -f -d vda

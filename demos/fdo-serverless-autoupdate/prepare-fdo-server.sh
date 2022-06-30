@@ -25,7 +25,7 @@ systemctl restart fdo-aio
 
 
 
-
+sleep 5
 
 service_info_auth_token=$(grep service_info_auth_token /etc/fdo/aio/configs/serviceinfo_api_server.yml | awk '{print $2}')
 admin_auth_token=$(grep admin_auth_token /etc/fdo/aio/configs/serviceinfo_api_server.yml | awk '{print $2}')
