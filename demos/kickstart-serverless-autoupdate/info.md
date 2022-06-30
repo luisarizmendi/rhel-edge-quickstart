@@ -44,10 +44,10 @@ Once the edge device is deployed, you can check your **Serverless** service by d
 
 1) Find the edge device IP address and ssh to it (using the `admin` user if you used the blueprint example)
 
-2) Check that the container image has been auto-pulled for the `core` user (it could take some time depending on your connection): `sudo runuser -l core -c "podman image list"`
+2) Check that the container image has been auto-pulled for the `admin` user (it could take some time depending on your connection): `sudo runuser -l admin -c "podman image list"`
 
 ```
-[admin@edge-node ~]$ sudo runuser -l core -c "podman image list"
+[admin@edge-node ~]$ sudo runuser -l admin -c "podman image list"
 
 [sudo] password for admin:
 
@@ -56,7 +56,7 @@ quay.io/luisarizmendi/simple-http  prod      d5a11c5eb672  3 hours ago  435 MB
 
 ```
 
-3) Continuously check that the containers running on the system (at this point you should find an empty list): `sudo runuser -l core -c "watch podman ps"`
+3) Continuously check that the containers running on the system (at this point you should find an empty list): `sudo runuser -l admin -c "watch podman ps"`
 
 4) Access the service published on port 8080 on the edge device (`http://<edge-device-ip>:8080`)
 
