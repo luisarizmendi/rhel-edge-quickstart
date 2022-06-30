@@ -59,6 +59,9 @@ service_info:
     - podman-auto-update.timer 
     - expose-application.service
     - enable-linger.service
+
+  - command: /var/home/admin/./additional-tasks.sh
+
   diskencryption_clevis: 
   - disk_label: /dev/vda4
     binding:
