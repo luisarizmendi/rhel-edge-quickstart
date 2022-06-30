@@ -18,19 +18,18 @@ service_info:
   - command: systemctl
     args:
     - daemon-reload
-  - command: systemctl
-    args:
-    - enable 
-    - --now
-    - rpm-ostreed-automatic.timer 
-    - applyupdate.timer 
-    - podman-auto-update.timer 
-    - expose-application.service
   - command: rpm-ostree
     args:
     - kargs
     - --append=console=tty0
     - --append=console=ttyS0,115200
+  - command: mkdir
+    args:
+    - -p
+    - /var/home/admin/.config/systemd/user/default.target.wants
+    - /var/home/admin/.config/systemd/user/sockets.target.wants
+    - /var/home/admin/.config/systemd/user/timers.target.wants
+    - /var/home/admin/.config/systemd/user/multi-user.target.wants
   - command: ln
     args:
     - -s
@@ -51,6 +50,14 @@ service_info:
     - -s
     - /var/home/admin/.config/systemd/user/pre-pull-container-image.service
     - /var/home/admin/.config/systemd/user/multi-user.target.wants/pre-pull-container-image.service
+  - command: systemctl
+    args:
+    - enable 
+    - --now
+    - rpm-ostreed-automatic.timer 
+    - applyupdate.timer 
+    - podman-auto-update.timer 
+    - expose-application.service
   diskencryption_clevis: 
   - disk_label: /dev/vda4
     binding:
