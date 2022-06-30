@@ -5,22 +5,16 @@ service_info:
     sshkeys:
     - "ssh-rsa AAAA...."
   files:
-  - path: /etc/rpm-ostreed.conf
+  - path: /root/cfg.tar.xz
     permissions: 644
-    source_path: /etc/fdo-configs/device0/cfg/etc/rpm-ostreed.conf 
-  - path: /var/home/admin/.config
-    permissions: 644
-    source_path: /etc/fdo-configs/device0/cfg/var/home/admin/.config
-  - path: /etc/systemd/system
-    permissions: 644
-    source_path: /etc/fdo-configs/device0/cfg/etc/systemd/system
-  - path: /etc/sudoers.d/admin
-    permissions: 644
-    source_path: /etc/fdo-configs/device0/cfg/etc/sudoers.d/admin
-  - path: /etc/greenboot/check/required.d/01_check_upgrade.sh
-    permissions: 644
-    source_path: /etc/fdo-configs/device0/cfg/etc/greenboot/check/required.d/01_check_upgrade.sh
+    source_path: /etc/fdo-configs/device0/cfg/cfg.tar.xz
   commands: 
+  - command: tar
+    args:
+    - xvf
+    - /root/cfg.tar.xz
+    - -C
+    - /
   - command: systemctl
     args:
     - daemon-reload

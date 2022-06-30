@@ -1,8 +1,0 @@
-[Unit]
-Requires=container-httpd.service
-After=container-httpd.service
-Requires=container-httpd-proxy.socket
-After=container-httpd-proxy.socket
-
-[Service]
-ExecStart=/usr/lib/systemd/systemd-socket-proxyd --exit-idle-time=30 127.0.0.1:8080
