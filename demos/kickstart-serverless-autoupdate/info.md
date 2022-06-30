@@ -30,7 +30,7 @@ You should look for the string `192.168.122.157:8090` (1 occurrence) and substit
 
 
 
-3) Prepare the blueprint using the `blueprint-serverless.toml.example` as reference
+3) Prepare the blueprint using the `blueprint-serverless.toml.example` as reference including the ssh key and user information.
 
 Make a copy of the blueprint example file (ie, `cp blueprint-serverless.toml.example ../../blueprint.toml`) and include the SSH key and the password hash.
 

@@ -23,7 +23,7 @@ cd ..
 
 
 
-2) Prepare the blueprint using the `blueprint-serverless.toml.example` as reference
+2) Prepare the blueprint using the `blueprint-serverless.toml.example` as reference including the ssh key and user information.
 
 Make a copy of the blueprint example file (ie, `cp blueprint-serverless.toml.example ../../blueprint.toml`) and include the SSH key and the password hash.
 
