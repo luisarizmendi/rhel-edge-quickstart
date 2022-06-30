@@ -48,6 +48,9 @@ Example using default values and vda as disk where to install the OS:
 ./3-create-offline-deployment.sh -f -d vda
 ```
 
+> NOTE: Remember to use UEFI loader in your system
+
+
 
 ### Running the demo
 
