@@ -38,9 +38,13 @@ Make a copy of the blueprint example file (ie, `cp blueprint-serverless.toml.exa
 
 5) Back to the root folder (`../../`) and use the blueprint.toml with any of the [Non-Network based deployment methods](https://github.com/luisarizmendi/rhel-edge-quickstart#non-network-based-deployment) but including the FDO serve (`-f`) during the last step.
 
-Example using default values during last step:
+Example using default values and vda as disk where to install the OS:
 
 ```
+./1-create-image.sh -b blueprint.toml
+
+./2-publish-image.sh -i 5676ff58-a6c7-4c49-a402-b70467602224
+
 ./3-create-offline-deployment.sh -f -d vda
 ```
 
