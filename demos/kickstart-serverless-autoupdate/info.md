@@ -26,7 +26,7 @@ cd ..
 
 You will need to point to the right repository IP in the kickstart and also to the service image (on the registry) that you will use, so make a copy of the kickstart example file (ie, `cp kickstart-serverless.ks.example ../../kickstart.ks`) and change the required values.
 
-You should look for the string `192.168.122.157:8090` (1 occurrence) and substitute it by your repo server (review the RHEL release on the path too) and `quay.io/luisarizmendi/simple-http:prod` (2 occurrences) by the URL that points to your image in the registry.
+You should look for the string `192.168.122.200:8090` (1 occurrence) and substitute it by your repo server (review the RHEL release on the path too) and `quay.io/luisarizmendi/simple-http:prod` (2 occurrences) by the URL that points to your image in the registry.
 
 
 
