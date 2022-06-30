@@ -185,13 +185,12 @@ cat > /etc/greenboot/check/required.d/01_check_upgrade.sh <<EOF
 
 FILE=/root/mustfail
 if [ -f "$FILE" ]; then
-    echo "$FILE exists."
-    exit -1
-else 
-    echo "$FILE does not exist."
+    echo "$FILE exists: Check FAILED!"
+    exit 1
+else
+    echo "$FILE does not exist: Check PASSED!"
     exit 0
 fi
-
 
 
 EOF
