@@ -1,7 +1,7 @@
 ---
 service_info:
   initial_user: 
-    username: core
+    username: admin
     sshkeys:
     - "ssh-rsa AAAA...."
   files:
@@ -38,9 +38,9 @@ service_info:
   - path: /etc/systemd/system/expose-application.service
     permissions: 644
     source_path: /etc/fdo-configs/device0/cfg/etc/systemd/system//expose-application.service
-  - path: /etc/sudoers.d/core
+  - path: /etc/sudoers.d/admin
     permissions: 644
-    source_path: /etc/fdo-configs/device0/cfg/etc/sudoers.d/core
+    source_path: /etc/fdo-configs/device0/cfg/etc/sudoers.d/admin
   - path: /etc/greenboot/check/required.d/01_check_upgrade.sh
     permissions: 644
     source_path: /etc/fdo-configs/device0/cfg/etc/greenboot/check/required.d/01_check_upgrade.sh
