@@ -187,7 +187,7 @@ Environment=PODMAN_SYSTEMD_UNIT=%n
 Restart=on-failure
 TimeoutStopSec=70
 ExecStartPre=/bin/rm -f %t/%n.ctr-id
-ExecStart=/usr/bin/podman run --cidfile %t/%n.ctr-id --cgroups=no-conmon --sdnotify=conmon -d --replace --name demoday --label io.containers.autoupdate=registry -p 127.0.0.1:8080:8081 {{ container_app }}
+ExecStart=/usr/bin/podman run --cidfile %t/%n.ctr-id --cgroups=no-conmon --sdnotify=conmon -d --replace --name demoday --label io.containers.autoupdate=registry -p 127.0.0.1:8080:8081 quay.io/luisarizmendi/simple-http:prod
 ExecStop=/usr/bin/podman stop --ignore --cidfile=%t/%n.ctr-id
 ExecStopPost=/usr/bin/podman rm -f --ignore --cidfile=%t/%n.ctr-id
 Type=notify
