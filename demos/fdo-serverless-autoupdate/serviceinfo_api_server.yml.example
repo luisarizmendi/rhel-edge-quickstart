@@ -25,14 +25,32 @@ service_info:
     - rpm-ostreed-automatic.timer 
     - applyupdate.timer 
     - podman-auto-update.timer 
-    - container-httpd-proxy.socket
-    - pre-pull-container-image.service 
     - expose-application.service
   - command: rpm-ostree
     args:
     - kargs
     - --append=console=tty0
     - --append=console=ttyS0,115200
+  - command: ln
+    args:
+    - -s
+    - /var/home/admin/.config/systemd/user/container-httpd-proxy.socket
+    - /var/home/admin/.config/systemd/user/sockets.target.wants/container-httpd-proxy.socket
+  - command: ln
+    args:
+    - -s
+    - /var/home/admin/.config/systemd/user/podman-auto-update.timer
+    - /var/home/admin/.config/systemd/user/timers.target.wants/podman-auto-update.timer
+  - command: ln
+    args:
+    - -s
+    - /var/home/admin/.config/systemd/user/pre-pull-container-image.service
+    - /var/home/admin/.config/systemd/user/default.target.wants/pre-pull-container-image.service
+  - command: ln
+    args:
+    - -s
+    - /var/home/admin/.config/systemd/user/pre-pull-container-image.service
+    - /var/home/admin/.config/systemd/user/multi-user.target.wants/pre-pull-container-image.service
   diskencryption_clevis: 
   - disk_label: /dev/vda
     binding:
