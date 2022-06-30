@@ -133,7 +133,7 @@ then
 
    echo ""
    echo "Pushing ISO Blueprint..."
-   composer-cli blueprints delete ${iso_blueprint}
+   composer-cli blueprints delete ${iso_blueprint} 2>/dev/null
    composer-cli blueprints push ${iso_blueprint}.toml
 
 
