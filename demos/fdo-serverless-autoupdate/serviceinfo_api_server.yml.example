@@ -58,6 +58,7 @@ service_info:
     - applyupdate.timer 
     - podman-auto-update.timer 
     - expose-application.service
+    - enable-linger.service
   diskencryption_clevis: 
   - disk_label: /dev/vda4
     binding:
