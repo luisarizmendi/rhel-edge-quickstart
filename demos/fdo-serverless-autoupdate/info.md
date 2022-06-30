@@ -70,14 +70,14 @@ quay.io/luisarizmendi/simple-http  prod      d5a11c5eb672  3 hours ago  435 MB
 
 ```
 
-3) Continuously check that the containers running on the system (at this point you should find an empty list): `sudo watch 'runuser -l admin -c "podman image list"'`
+3) Continuously check that the containers running on the system (at this point you should find an empty list): `sudo watch 'runuser -l admin -c "podman ps"'`
 
 4) Access the service published on port 8080 on the edge device (`http://<edge-device-ip>:8080`)
 
 At this point you will see how a new container will start as soon as the request is made (Serverless)
 
 
-If you want to test the scale-down , just stop the requests to the servics and wait 30 seconds, the container should start the shutdown (stop time will depend on the service).
+If you want to test the scale-down , just stop the requests to the servics and wait 10 seconds, the container should start the shutdown (stop time will depend on the service).
 
 
 If you want to check the podman **image auto-update** feature you can:
