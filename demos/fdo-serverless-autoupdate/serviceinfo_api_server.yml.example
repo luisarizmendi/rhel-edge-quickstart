@@ -7,7 +7,7 @@ service_info:
   files:
   - path: /root/cfg.tar.xz
     permissions: 644
-    source_path: /etc/fdo-configs/device0/cfg/cfg.tar.xz
+    source_path: /etc/fdo-configs/device0/cfg.tar.xz
   commands: 
   - command: tar
     args:
