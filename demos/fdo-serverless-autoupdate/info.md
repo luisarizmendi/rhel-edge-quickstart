@@ -70,7 +70,12 @@ quay.io/luisarizmendi/simple-http  prod      d5a11c5eb672  3 hours ago  435 MB
 At this point you will see how a new container will start as soon as the request is made (Serverless)
 
 
+If you want to test the scale-down , just stop the requests to the servics and wait 30 seconds, the container should start the shutdown (stop time will depend on the service).
+
+
 If you want to check the podman **image auto-update** feature you can:
+
+> NOTE: Podman auto-update works if the container is running. If you scaled-down to zero the new version won't ge pulled.
 
 1) Access the service published on port 8080 on the edge device (`http://<edge-device-ip>:8080`) and check the message
 
@@ -87,5 +92,3 @@ cd ..
 ```
 
 3) Wait some seconds and try to access again the service on the edge device (the new message should appear)
-
-4) Stop requests to the servics and wait 30 seconds, the container should be stopped (stop time will depend on the service)
