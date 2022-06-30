@@ -118,7 +118,7 @@ clearpart --all --initlabel
 autopart
 reboot
 rootpw --iscrypted !\$6\$0XQkWnCyj3XZqA6F\$MOHw/Sn3hec23mKjtxqGa.qnflkLb6FNR8s72yCsk.xVDoI35EOpgetjII/DkJVYrHVwF.ET3TLvVl7WYbMef0
-user --name=core --group=wheel
+user --name=admin --group=wheel
 network --bootproto=dhcp --device=link --activate --onboot=on
 
 ostreesetup --nogpg --osname=rhel --remote=edge --url=http://${repo_server_ip}:${repo_server_port}/repo/ --ref=rhel/${baserelease}/${basearch}/edge
