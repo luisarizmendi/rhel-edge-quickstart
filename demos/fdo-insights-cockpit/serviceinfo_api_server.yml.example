@@ -18,6 +18,11 @@ service_info:
   - command: systemctl
     args:
     - daemon-reload
+  - command: rpm-ostree
+    args:
+    - kargs
+    - --append=console=tty0
+    - --append=console=ttyS0,115200
   - command: mkdir
     args:
     - -p

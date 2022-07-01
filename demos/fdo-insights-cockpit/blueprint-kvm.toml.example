@@ -1,5 +1,5 @@
-name = "r4e-kvm"
-description = "Sample KVM blueprint"
+name = "r4e-insights-cockpit"
+description = "Deploy Cockpit and include in Insights"
 
 version = "0.0.1"
 modules = [ ]
