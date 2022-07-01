@@ -54,6 +54,10 @@ Example using default values and vda as disk where to install the OS:
 
 ### Running the demo
 
+
+> NOTE: After the deployment it could take some time until the fdo-client runs and configures everything. You can double check if that happened taking a look at the Journal (`journalctl | grep "Performing TO2 protocol"`) or forcing it with `systemctl restart fdo-client-linuxapp.service`.
+
+
 Once the edge device is deployed, you can check your **Serverless** service by doing this:
 
 1) Find the edge device IP address and ssh to it (using the `admin` user if you used the blueprint example)
