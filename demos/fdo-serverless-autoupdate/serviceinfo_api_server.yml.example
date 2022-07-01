@@ -61,7 +61,7 @@ service_info:
     - enable-linger.service
   - command: bash
     args:
-    - /var/home/admin/./additional-tasks.sh
+    - /var/home/admin/additional-tasks.sh
   diskencryption_clevis: 
   - disk_label: /dev/vda4
     binding:
