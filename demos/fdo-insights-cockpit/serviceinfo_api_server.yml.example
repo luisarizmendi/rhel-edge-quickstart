@@ -29,6 +29,11 @@ service_info:
     permissions: 644
     source_path: /etc/fdo-configs/device0/var/home/admin/register-system.sh
 
+  - path: /var/lib/pcp/config/pmlogger/config.ros
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/var/lib/pcp/config/pmlogger/config.ros
+
+
   commands: 
   - command: systemctl
     args:
@@ -36,12 +41,24 @@ service_info:
   - command: bash
     args:
     - /var/home/admin/change-hostname.sh
+  - command: sed
+    args:
+    - -i
+    - 's/^#core_collect/core_collect/g'
+    -/etc/insights-client/insights-client.conf
+  - command: echo
+    args:
+    - "LOCALHOSTNAME        n   y   PCP_LOG_DIR/pmlogger/ros        -r -T24h10m -c config.ros -v 100Mb"
+    - >>
+    - /etc/pcp/pmlogger/control.d/local
   - command: systemctl
     args:
     - enable 
     - --now
     - rpm-ostreed-automatic.timer 
-    - applyupdate.timer 
+    - applyupdate.timer
+    - pmcd
+    - pmlogger
   - command: bash
     args:
     - /var/home/admin/register-system.sh
