@@ -11,7 +11,7 @@ service_info:
 
   - path: /etc/systemd/system/applyupdate.service
     permissions: 644
-    source_path: /etc/fdo-configs/device0/ /etc/systemd/system/applyupdate.service
+    source_path: /etc/fdo-configs/device0/etc/systemd/system/applyupdate.service
 
   - path:  /etc/systemd/system/applyupdate.timer
     permissions: 644
