@@ -1,0 +1,68 @@
+---
+service_info:
+  initial_user: 
+    username: admin
+    sshkeys:
+    - "ssh-rsa AAAA...."
+  files:
+  - path: /etc/greenboot/check/required.d/01_check_demo_file.sh
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/etc/greenboot/check/required.d/01_check_demo_file.sh
+
+  - path: /etc/systemd/system/applyupdate.service
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/ /etc/systemd/system/applyupdate.service
+
+  - path:  /etc/systemd/system/applyupdate.timer
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/etc/systemd/system/applyupdate.timer
+
+  - path: /etc/rpm-ostreed.conf
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/etc/rpm-ostreed.conf
+
+  - path: /var/home/admin/change-hostname.sh
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/var/home/admin/change-hostname.sh
+
+  - path: /var/home/admin/register-system.sh
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/var/home/admin/register-system.sh
+
+  commands: 
+  - command: tar
+    args:
+    - xvf
+    - /root/cfg.tar.xz
+    - -C
+    - /
+  - command: systemctl
+    args:
+    - daemon-reload
+  - command: bash
+    args:
+    - /var/home/admin/change-hostname.sh
+  - command: systemctl
+    args:
+    - enable 
+    - --now
+    - rpm-ostreed-automatic.timer 
+    - applyupdate.timer 
+  - command: bash
+    args:
+    - /var/home/admin/register-system.sh
+    - <MY ORGID>
+    - <MY ACTIVATIONKEY>
+  diskencryption_clevis: 
+  - disk_label: /dev/vda4
+    binding:
+      pin: tpm2
+      config: "{}"
+    reencrypt: true
+  additional_serviceinfo: ~
+bind: "0.0.0.0:8083"
+service_info_auth_token: g0bzYqDEqjV4kqf/NJc/1ajl1iS9g4+tBCzALMC8zew=
+admin_auth_token: 97huveLqSJovlVaalaA2Yu1wDvVP15psZtuJYHOJvQs=
+device_specific_store_driver:
+  Directory:
+    path: /etc/fdo/aio/stores/serviceinfo_api_devices

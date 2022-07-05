@@ -1,0 +1,13 @@
+[Unit]
+Description=Daily Update Reboot Check.
+
+[Timer]
+# activate every minute
+OnBootSec=30
+OnUnitActiveSec=30
+
+#weekly example for Sunday at midnight
+#OnCalendar=Sun *-*-* 00:00:00
+
+[Install]
+WantedBy=multi-user.target
