@@ -30,12 +30,6 @@ service_info:
     source_path: /etc/fdo-configs/device0/var/home/admin/register-system.sh
 
   commands: 
-  - command: tar
-    args:
-    - xvf
-    - /root/cfg.tar.xz
-    - -C
-    - /
   - command: systemctl
     args:
     - daemon-reload
