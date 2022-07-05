@@ -45,7 +45,7 @@ service_info:
     args:
     - -i
     - 's/^#core_collect/core_collect/g'
-    -/etc/insights-client/insights-client.conf
+    - /etc/insights-client/insights-client.conf
   - command: echo
     args:
     - "LOCALHOSTNAME        n   y   PCP_LOG_DIR/pmlogger/ros        -r -T24h10m -c config.ros -v 100Mb"
