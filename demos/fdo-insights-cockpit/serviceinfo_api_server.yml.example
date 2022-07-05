@@ -33,6 +33,9 @@ service_info:
     permissions: 644
     source_path: /etc/fdo-configs/device0/var/lib/pcp/config/pmlogger/config.ros
 
+  - path: /etc/pcp/pmlogger/control.d/local
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/etc/pcp/pmlogger/control.d/local
 
   commands: 
   - command: systemctl
@@ -46,13 +49,6 @@ service_info:
     - -i
     - 's/^#core_collect/core_collect/g'
     - /etc/insights-client/insights-client.conf
-  - command: echo
-    args:
-    - "LOCALHOSTNAME        n   y   PCP_LOG_DIR/pmlogger/ros        -r -T24h10m -c config.ros -v 100Mb"
-    - |
-    - tee
-    - -a
-    - /etc/pcp/pmlogger/control.d/local
   - command: systemctl
     args:
     - enable 
