@@ -49,7 +49,9 @@ service_info:
   - command: echo
     args:
     - "LOCALHOSTNAME        n   y   PCP_LOG_DIR/pmlogger/ros        -r -T24h10m -c config.ros -v 100Mb"
-    - >>
+    - |
+    - tee
+    - -a
     - /etc/pcp/pmlogger/control.d/local
   - command: systemctl
     args:
