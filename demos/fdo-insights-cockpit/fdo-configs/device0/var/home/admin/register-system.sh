@@ -4,6 +4,10 @@ RHC_ACTIVATION_KEY=$2
 
 
 
+subscription-manager status | grep Unknown
+
+if [ $(echo $?) = 0 ]
+then
 		# Register with RHSM
 [[ -v RHC_ORGID ]] \
 	&& subscription-manager register --org $RHC_ORGID --activationkey $RHC_ACTIVATION_KEY --force \
@@ -23,3 +27,6 @@ systemctl restart rhcd.service
 || rhc connect --username $RHC_USER --password $RHC_PASS
 
 #		systemctl status rhcd
+fi
+
+insights-client --compliance
