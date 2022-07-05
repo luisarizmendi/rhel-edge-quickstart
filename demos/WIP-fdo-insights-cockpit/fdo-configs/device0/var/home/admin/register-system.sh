@@ -10,9 +10,8 @@ RHC_ACTIVATION_KEY=$2
 	|| subscription-manager register --username $RHC_USER --password $RHC_PASS --auto-attach --force
 
 # Register with Insights
-insights-client --register > /var/log/anaconda/post-insights-command.log 2>&1
-insights-client --enable-schedule
-insights-client
+insights-client --register --group=edge-factory
+insights-client --enable-schedule 
 
 # Enable and start RHCD service
 systemctl enable rhcd.service
