@@ -79,7 +79,7 @@ done
 
 
 
-if [ $fdo_server = "" ]
+if [ -z $fdo_server ]
 then
 
 cat <<EOF > blueprint-iso.toml
