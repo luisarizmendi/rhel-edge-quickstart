@@ -89,8 +89,6 @@ version = "0.0.1"
 modules = [ ]
 groups = [ ]
 
-[customizations]
-installation_device = "/dev/${disk_device}"
 EOF
 
 iso_blueprint="blueprint-iso"
