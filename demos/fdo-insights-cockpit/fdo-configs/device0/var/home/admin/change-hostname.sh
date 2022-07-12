@@ -2,6 +2,7 @@
 
 if [ $(hostname --short) == "localhost" ]
 then
-hostnamectl set-hostname edge-virt-$(echo $RANDOM | md5sum | head -c 8; echo;)
-hostnamectl --pretty set-hostname edge-virt-$(echo $RANDOM | md5sum | head -c 8; echo;)
+this_hostname=$(echo $RANDOM | md5sum | head -c 8; echo;)
+hostnamectl set-hostname edge-virt-${this_hostname}
+hostnamectl --pretty set-hostname edge-virt-${this_hostname}
 fi

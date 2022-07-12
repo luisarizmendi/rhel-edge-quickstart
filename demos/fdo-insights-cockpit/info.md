@@ -22,70 +22,36 @@ Make a copy of the blueprint example file (ie, `cp blueprint-insights.toml.examp
 4) Run the `prepare-fdo-server.sh` script to prepare the required files on the fdo server, which completes the information contained by `serviceinfo_api_server.yml.example` and make it affective in the FDO service running on the server. 
 
 
-5) Back to the root folder (`../../`) and use the blueprint-insights.toml with any of the [Non-Network based deployment methods](https://github.com/luisarizmendi/rhel-edge-quickstart#non-network-based-deployment) including the FDO serve (`-f`) during the last step.
+5) Back to the root folder (`cd ../../`) and use the blueprint-insights.toml with any of the [Non-Network based deployment methods](https://github.com/luisarizmendi/rhel-edge-quickstart#non-network-based-deployment) including the FDO serve (`-f`) during the last step.
 
 Example using default values and vda as disk where to install the OS:
 
 ```
-./1-create-image.sh -b blueprint-insights.toml.toml
+./1-create-image.sh -b blueprint-insights.toml
 
 ./2-publish-image.sh -i 5676ff58-a6c7-4c49-a402-b70467602224
 
 ./3-create-offline-deployment.sh -f -d vda
 ```
 
-> NOTE: Remember to use UEFI loader in your system
+> NOTE: Remember to use UEFI boot loader in your system
 
 
 
 ### Running the demo
 
+The demo will focus first on managing and get some information directly from the device (using a GUI) and then move to [Red Hat console](https://console.redhat.com) and show some of its features. 
 
 > NOTE: After the deployment it could take some time until the fdo-client runs and configures everything. You can double check if that happened taking a look at the Journal (`journalctl | grep "Performing TO2 protocol"`) or forcing it with `systemctl restart fdo-client-linuxapp.service`.
 
 
-Once the edge device is deployed, you can check your **Serverless** service by doing this:
+Once the edge device is deployed, you can find the IP of the device in the console screen (if any) since you will see a message like this one:
 
-1) Find the edge device IP address and ssh to it (using the `admin` user if you used the blueprint example)
+`Web console: https://localhost:9090/ or https://<device ip>:9090/ `
 
-2) Check that the container image has been auto-pulled for the `admin` user (it could take some time depending on your connection): `sudo runuser -l admin -c "podman image list"`
+1) The blueprint used to deploy the device includes `Cockpit` GUI to manage directly the node, so try to log into it in `https://<device ip>:9090/` using the user and password configured in the blueprint. You should see something like this:
 
-```
-[admin@edge-node ~]$ sudo runuser -l admin -c "podman image list"
-
-[sudo] password for admin:
-
-REPOSITORY                         TAG         IMAGE ID      CREATED      SIZE
-quay.io/luisarizmendi/simple-http  prod      d5a11c5eb672  3 hours ago  435 MB
-
-```
-
-3) Continuously check that the containers running on the system (at this point you should find an empty list): `sudo watch 'runuser -l admin -c "podman ps"'`
-
-4) Access the service published on port 8080 on the edge device (`http://<edge-device-ip>:8080`)
-
-At this point you will see how a new container will start as soon as the request is made (Serverless)
+> NOTE: Probably you won't be using root user, so in order to get all the Cockpit functions you should "Turn on administrative access" (sudo) by clicking on the blue button on top of the page.
 
 
-If you want to test the scale-down , just stop the requests to the servics and wait 10 seconds, the container should start the shutdown (stop time will depend on the service).
 
-
-If you want to check the podman **image auto-update** feature you can:
-
-> NOTE: Podman auto-update works if the container is running. If you scaled-down to zero the new version won't ge pulled.
-
-1) Access the service published on port 8080 on the edge device (`http://<edge-device-ip>:8080`) and check the message
-
-2) Change the message in the `index.html` file, create a new container image and push it to the registry using the same tag that you used
-
-```
-cd demos/fdo-serverless-autoupdate
-cd service
-echo "NEW MESSAGE IN v2" > index.html
-buildah build .
-podman tag <image id> <registry/user/image:tag>
-podman push <registry/user/image:tag>
-cd ..
-```
-
-3) Wait some seconds and try to access again the service on the edge device (the new message should appear)
