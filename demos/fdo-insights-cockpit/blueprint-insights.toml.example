@@ -26,14 +26,13 @@ version = "*"
 
 
 [[packages]]
-name = "PackageKit"
+name = "pcp"
 version = "*"
 
 
 [[packages]]
-name = "pcp"
+name = "tuned"
 version = "*"
-
 
 ################## openscap
 
@@ -87,10 +86,6 @@ version = "*"
 
 [[packages]]
 name = "cockpit-pcp"
-version = "*"
-
-[[packages]]
-name = "cockpit-packagekit"
 version = "*"
 
 
