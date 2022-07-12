@@ -85,6 +85,28 @@ name = "cockpit-bridge"
 version = "*"
 
 
+[[packages]]
+name = "cockpit-pcp"
+version = "*"
+
+[[packages]]
+name = "cockpit-packagekit"
+version = "*"
+
+
+[[packages]]
+name = "cockpit-composer"
+version = "*"
+
+
+[[packages]]
+name = "cockpit-storaged"
+version = "*"
+
+
+[[packages]]
+name = "cockpit-session-recording"
+version = "*"
 
 
 ################## KVM 

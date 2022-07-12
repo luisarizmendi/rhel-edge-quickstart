@@ -53,5 +53,6 @@ Once the edge device is deployed, you can find the IP of the device in the conso
 
 > NOTE: Probably you won't be using root user, so in order to get all the Cockpit functions you should "Turn on administrative access" (sudo) by clicking on the blue button on top of the page.
 
+<p align="center">  <img src="../../doc/demos/fdo-insights-cockpit/cockpit-overview.png" alt="Cockpit GUI"/></p>
 
-
+> NOTE: Available updates failed becase they are based in RHEL based on RPM packages, not OSTree
