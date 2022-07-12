@@ -57,6 +57,7 @@ service_info:
     - applyupdate.timer
     - pmcd
     - pmlogger
+    - cockpit.socket
   - command: bash
     args:
     - /var/home/admin/register-system.sh

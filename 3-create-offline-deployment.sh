@@ -82,6 +82,24 @@ done
 if [ -z $fdo_server ]
 then
 
+
+   if [ $simplified_installer = false ]
+   then
+
+      ######## Not sure if a code BUG or a change of requirements, but now, in order to use simplified installer, you will need to include FDO
+      echo ""
+      echo "***********************************************************************************"
+      echo "At this moment, in order to use simplified installer, you will need to use FDO too"
+      echo ""
+      echo "Either incluye FDO (-f) or not use the simplified installer (-a)"
+      echo ""
+      echo "***********************************************************************************"
+      echo ""
+
+      ################################
+   fi
+
+
 cat <<EOF > blueprint-iso.toml
 name = "blueprint-iso"
 description = "Blueprint for ISOs"
