@@ -205,6 +205,8 @@ If you want to use this approach you need to:
  ./3-create-offline-deployment.sh
 ```
 
+> NOTE: With the latests releases, this kind of deployment (edge-simplified-installer) needs to use FDO! You can find examples in the `demos` directory.
+
 4) Install the Edge server by booting from the created ISO that you will find in `images` directory (the file name will be something like `<image-id>-simplified-installer.iso`)
 
 > NOTE: Install using this ISO with UEFI boot loader otherwise you will get `error code 0009`
@@ -329,7 +331,15 @@ You can check that there is a new update for the image with `rpm-ostree update -
 
 ### Updating a system using a local repository
 
-In the "Non-network based deployments" you won't find any "OSTree" remote, so you will be using the system-local repository that was deployed using either the ISO or the RAW/QCOW2 image.
+If you use the ISO install you will be using the system-local repository. You can check it by running these command:
+
+```
+# ostree remote list
+rhel
+
+# ostree remote show-url rhel
+file://run/install/repo/ostree/repo
+```
 
 If you want to update these systems, you will need to either create a new build on the system or by using a new build comming from an external resource such as an USB or SD card.
 
