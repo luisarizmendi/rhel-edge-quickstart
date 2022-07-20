@@ -83,7 +83,7 @@ if [ -z $fdo_server ]
 then
 
 
-   if [ $simplified_installer = false ]
+   if [ $simplified_installer = true ]
    then
 
       ######## Not sure if a code BUG or a change of requirements, but now, in order to use simplified installer, you will need to include FDO
