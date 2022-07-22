@@ -275,6 +275,8 @@ If you want to use this approach you need to:
 
 4) You can use the files (`<image-id>-image.raw` and `<image-id>-image.qcow2` in `images` directory) to directly `dd` to a hard drive or to create a VM using it as main disk.
 
+> NOTE: If you want to use your RHEL for Edge image into a Raspberry Pi 4 (remember that's not under Red Hat's support), you might want to take a look to the [pify RHEL script](https://github.com/luisarizmendi/pify-rhel) that I've created to simplify the deployment.
+
 
 # RHEL for Edge image update
 
