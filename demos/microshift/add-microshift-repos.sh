@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Using upstream will take less time since you are using already built RPMs from Fedora..
-upstream="false"
-
-
 echo "Starting..."
 # By default use latest OCP release less 2
 RHOCP_release="4.$(( $(subscription-manager repos | grep rhocp-4 | awk -F - '{print $2}' | awk -F . '{print $2}' | sort -nr | head -n1) - 2 ))"
@@ -15,14 +11,11 @@ basearch=$(arch)
 current_dir="$(pwd)"
 
 
-mkdir -p ${current_dir}/microshift/scripts/image-builder/_builds
-cd ${current_dir}/microshift/scripts/image-builder/_builds
+
+
 
 
 ###### MICROSHIFT REPO
-
-if [ $upstream = false ]
-then
 
     dnf install -y golang git rpm-build selinux-policy-devel createrepo yum-utils
 
@@ -33,14 +26,15 @@ then
 
     git pull
 
-    ROOTDIR=$(git rev-parse --show-toplevel)/scripts/image-builder
-
     make 
 
     make rpm
     make srpm
 
-    cd ..
+
+
+    mkdir -p ${current_dir}/microshift/scripts/image-builder/_builds
+    cd ${current_dir}/microshift/scripts/image-builder/_builds
 
 
 
@@ -63,21 +57,6 @@ check_ssl = false
 system = false
 EOF
 
-
-else 
-
-cat <<EOF > microshift-repo.toml
-id = "microshift"
-name = "MicroShift"
-type = "yum-baseurl"
-url = "https://download.copr.fedorainfracloud.org/results/@redhat-et/microshift/epel-${baserelease}-${basearch}/"
-check_gpg = false
-check_ssl = false
-system = false
-EOF
-
-
-fi 
 
 
 
