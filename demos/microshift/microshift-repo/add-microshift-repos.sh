@@ -12,7 +12,11 @@ RHOCP_release="4.$(( $(subscription-manager repos | grep rhocp-4 | awk -F - '{pr
 baserelease=$(cat /etc/redhat-release  | awk '{print $6}' | awk -F . '{print $1}')
 basearch=$(arch)
 
+current_dir="$(pwd)"
 
+
+mkdir -p ${current_dir}/microshift/scripts/image-builder/_builds
+cd ${current_dir}/microshift/scripts/image-builder/_builds
 
 
 ###### MICROSHIFT REPO
@@ -50,8 +54,8 @@ then
 
 
 cat <<EOF > microshift-repo.toml
-id = "microshift-local"
-name = "MicroShift Local Repo"
+id = "microshift"
+name = "MicroShift Repo"
 type = "yum-baseurl"
 url = "file://$(pwd)/microshift/scripts/image-builder/_builds/microshift-local/"
 check_gpg = false
