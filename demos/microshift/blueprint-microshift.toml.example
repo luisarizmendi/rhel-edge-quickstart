@@ -45,7 +45,7 @@ hostname = "microshift-node"
 
 
 [customizations.firewall]
-ports = ["22:tcp", "80:tcp", "443:tcp", "6443:tcp, "5353:udp"]
+ports = ["22:tcp", "80:tcp", "443:tcp", "6443:tcp", "5353:udp"]
 
 
 [[customizations.sshkey]]
