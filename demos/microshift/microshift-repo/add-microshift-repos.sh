@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Using upstream will take less time since you are using already built RPMs from Fedora..
-upstream="true"
+upstream="false"
 
 
 echo "Starting..."
