@@ -47,9 +47,9 @@ current_dir="$(pwd)"
 
 
 
-cat <<EOF > microshift-repo.toml
-id = "microshift"
-name = "MicroShift Repo"
+cat <<EOF > microshift-local.toml
+id = "microshift-local"
+name = "MicroShift Local Repo"
 type = "yum-baseurl"
 url = "file://${current_dir}/microshift/scripts/image-builder/_builds/microshift-local/"
 check_gpg = false
@@ -60,8 +60,8 @@ EOF
 
 
 
-sudo composer-cli sources delete microshift 2>/dev/null || true
-sudo composer-cli sources add microshift-repo.toml
+sudo composer-cli sources delete microshift-local 2>/dev/null || true
+sudo composer-cli sources add microshift-local.toml
 
 
 
@@ -89,9 +89,9 @@ sudo composer-cli sources add microshift-repo.toml
     createrepo openshift-local >/dev/null
     ########
 
-cat <<EOF > openshift-repo.toml
-id = "openshift"
-name = "OpenShift Repo"
+cat <<EOF > openshift-local.toml
+id = "openshift-local"
+name = "OpenShift Local Repo"
 type = "yum-baseurl"
 url = "file://${current_dir}/microshift/scripts/image-builder/_builds/openshift-local/"
 check_gpg = false
@@ -103,8 +103,8 @@ EOF
 
 
 
-sudo composer-cli sources delete openshift 2>/dev/null || true
-sudo composer-cli sources add openshift-repo.toml
+sudo composer-cli sources delete openshift-local 2>/dev/null || true
+sudo composer-cli sources add openshift-local.toml
 
 
 
