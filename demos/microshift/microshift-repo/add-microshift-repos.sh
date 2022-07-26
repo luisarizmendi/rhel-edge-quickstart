@@ -57,7 +57,7 @@ cat <<EOF > microshift-repo.toml
 id = "microshift"
 name = "MicroShift Repo"
 type = "yum-baseurl"
-url = "file://$(pwd)/microshift/scripts/image-builder/_builds/microshift-local/"
+url = "file://${current_dir}/microshift/scripts/image-builder/_builds/microshift-local/"
 check_gpg = false
 check_ssl = false
 system = false
@@ -114,7 +114,7 @@ cat <<EOF > openshift-repo.toml
 id = "openshift"
 name = "OpenShift Repo"
 type = "yum-baseurl"
-url = "file://$(pwd)/microshift/scripts/image-builder/_builds/openshift-local/"
+url = "file://${current_dir}/microshift/scripts/image-builder/_builds/openshift-local/"
 check_gpg = false
 check_ssl = false
 system = false
@@ -134,3 +134,6 @@ sudo composer-cli sources add openshift-repo.toml
 
 
 sudo systemctl restart osbuild-composer.service
+
+
+cd  ${current_dir}
