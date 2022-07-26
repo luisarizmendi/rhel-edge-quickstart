@@ -7,3 +7,4 @@ Dockerfile-http-boot
 /images
 /microshift/additional-repos.json
 .lastimagecommit
+*pull-secret.json
