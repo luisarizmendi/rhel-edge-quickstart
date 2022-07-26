@@ -2,6 +2,8 @@
 
 This demo shows the deployment of a RHEL for Edge system registered in Red Hat Console using [FIDO Device Onboard](https://fidoalliance.org/intro-to-fido-device-onboard/), so you won't need to include any sensitive information (such as Red Hat console credentials) into the ISO image that you will need to deliver to deploy the system, and with the local Cockpit GUI tool installed.
 
+> NOTE: Tested with RHEL 9.0
+
 ## Preparing the demo
 
 The steps to prepare this demo are:

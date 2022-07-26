@@ -3,9 +3,14 @@
 
 In this demo you can show how to deploy a RHEL for Edge image including [Microshift](https://github.com/redhat-et/microshift).
 
+> NOTE: At this moment, you will need to use RHEL 8.6+ since the required repos are not yet in RHEL 9
+
 ### Preparing the demo
 
 The steps to prepare this demo are:
+
+0) Run the Image Builder pre-requisites if you have not done it yet: `./0-pre-requisites-osbuild.sh`
+
 
 1) If you want to include [Microshift](https://github.com/redhat-et/microshift) in the deployment you will need to add some additional repositories in the image-builder, so I created the script `microshift-repo/add-microshift-repos.sh` that you will need to execute right **before** creating the image with script `1-create-image.sh`.
 
@@ -19,10 +24,19 @@ cd ..
 
 2)  Prepare the blueprint using the `blueprint-microshift.toml.example` as reference
 
-Make a copy of the blueprint example file (ie, `cp blueprint-microshift.toml.example ../../blueprint.toml`) and include the SSH key and the password hash.
+Make a copy of the blueprint example file (ie, `cp blueprint-microshift.toml.example ../../blueprint-microshift.toml`) and include the SSH key and the password hash.
 
 
 3) Create the RHEL for Edge image using that blueprint and deploy it into the edge device
+
+```
+cd ../..
+
+./1-create-image.sh -b blueprint-microshift.toml
+
+./2-publish-image.sh -i xxxxxx
+
+```
 
 
 ### Running the demo

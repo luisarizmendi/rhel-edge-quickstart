@@ -2,6 +2,8 @@
 
 This demo,based on a [Red Hat Summit 2021 demo](https://github.com/RedHatGov/RFESummit2021), shows how you can create a Serverless service using  [Podman](https://podman.io/) automating the installation using [FIDO Device Onboard](https://fidoalliance.org/intro-to-fido-device-onboard/) file. You will be also able to play with the [Podman auto-update feature](https://docs.podman.io/en/latest/markdown/podman-auto-update.1.html).
 
+> NOTE: In order to service auto downscaling you will need to use RHEL 9. With RHEL 8 the container will be creted on request but will never be shutdown automatically when it stops receiving request
+
 ### Preparing the demo
 
 The steps to prepare this demo are:
