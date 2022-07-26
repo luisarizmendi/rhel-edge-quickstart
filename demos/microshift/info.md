@@ -17,7 +17,7 @@ The steps to prepare this demo are:
 > NOTE: This script will build the required Microshift RPMs so it will take some time
 
 ```
-cd demos/microshift/microshift-repo
+cd demos/microshift
 ./add-microshift-repos.sh
 cd ..
 ```
@@ -30,7 +30,7 @@ Make a copy of the blueprint example file (ie, `cp blueprint-microshift.toml.exa
 3) Create the RHEL for Edge image using that blueprint and deploy it into the edge device
 
 ```
-cd ../..
+cd ..
 
 ./1-create-image.sh -b blueprint-microshift.toml
 
