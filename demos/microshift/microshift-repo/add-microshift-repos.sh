@@ -8,6 +8,7 @@ echo "Starting..."
 # By default use latest OCP release less 2
 RHOCP_release="4.$(( $(subscription-manager repos | grep rhocp-4 | awk -F - '{print $2}' | awk -F . '{print $2}' | sort -nr | head -n1) - 2 ))"
 
+
 baserelease=$(cat /etc/redhat-release  | awk '{print $6}' | awk -F . '{print $1}')
 basearch=$(arch)
 
@@ -86,11 +87,6 @@ sudo composer-cli sources add microshift-repo.toml
 
 ###### OPENSHIFT REPO
 
-
-
-if [ $upstream = false ]
-then
-
     ########
     ######## Download openshift local RPM packages (noarch for python and selinux packages)
     rm -rf openshift-local 2>/dev/null || true
@@ -121,22 +117,6 @@ system = false
 EOF
 
 
-
-
-else 
-
-cat <<EOF > openshift-repo.toml
-id = "openshift"
-name = "OpenShift Repo"
-type = "yum-baseurl"
-url = "https://cdn.redhat.com/content/dist/layered/rhel${baserelease}/${basearch}/rhocp/${RHOCP_release}/os"
-check_gpg = false
-check_ssl = false
-system = false
-EOF
-
-
-fi 
 
 
 
