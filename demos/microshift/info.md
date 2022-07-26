@@ -30,7 +30,7 @@ Make a copy of the blueprint example file (ie, `cp blueprint-microshift.toml.exa
 3) Create the RHEL for Edge image using that blueprint and deploy it into the edge device
 
 ```
-cd ..
+cd ../..
 
 ./1-create-image.sh -b blueprint-microshift.toml
 
