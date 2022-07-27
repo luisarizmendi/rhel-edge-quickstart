@@ -24,14 +24,19 @@ cd ..
 
 2)  Prepare the blueprint using the `blueprint-microshift.toml.example` as reference
 
-Make a copy of the blueprint example file (ie, `cp blueprint-microshift.toml.example ../../blueprint-microshift.toml`) and include the SSH key and the password hash.
-
-
-3) Create the RHEL for Edge image using that blueprint and deploy it into the edge device following one of the methods shown in [rhel-edge-quickstart README](https://github.com/luisarizmendi/rhel-edge-quickstart) for example:
+Make a copy of the blueprint example file and include the SSH key and the password hash.
 
 ```
+cp blueprint-microshift.toml.example ../../blueprint-microshift.toml
+
 cd ../..
 
+vi blueprint-microshift.toml
+```
+
+3) Create the RHEL for Edge image using that blueprint and deploy it into the edge device following one of the methods shown in [rhel-edge-quickstart README](https://github.com/luisarizmendi/rhel-edge-quickstart), for example:
+
+```
 ./1-create-image.sh -b blueprint-microshift.toml
 
 ./2-publish-image.sh -i xxxxxx
