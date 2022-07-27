@@ -3,7 +3,7 @@
 
 In this demo you can show how to deploy a RHEL for Edge image including [Microshift](https://github.com/redhat-et/microshift).
 
-> NOTE: At this moment, you will need to use RHEL 8.6+ since the required repos are not yet in RHEL 9
+> NOTE: At this moment, there are no repos for RHEL 9, so if you use it, RHEL 8 OCP repositories will be used
 
 ### Preparing the demo
 
