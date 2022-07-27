@@ -12,7 +12,7 @@ The steps to prepare this demo are:
 0) Run the Image Builder pre-requisites if you have not done it yet: `./0-pre-requisites-osbuild.sh`
 
 
-1) If you want to include [Microshift](https://github.com/redhat-et/microshift) in the deployment you will need to add some additional repositories in the image-builder, so I created the script `microshift-repo/add-microshift-repos.sh` that you will need to execute right **before** creating the image with script `1-create-image.sh`.
+1) If you want to include [Microshift](https://github.com/redhat-et/microshift) in the deployment you will need to add some additional repositories in the image-builder, so I created the script `microshift-repo/add-microshift-repos.sh` that you will need to execute **as a privileged user** right **before** creating the image with script `1-create-image.sh`.
 
 > NOTE: This script will build the required Microshift RPMs so it will take some time
 

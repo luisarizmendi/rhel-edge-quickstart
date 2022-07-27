@@ -66,6 +66,8 @@ sudo composer-cli sources add microshift-local.toml
 
 
 
+if [ $baserelease = "8" ]
+then
 
 
 ###### OPENSHIFT REPO
@@ -106,7 +108,7 @@ EOF
 sudo composer-cli sources delete openshift-local 2>/dev/null || true
 sudo composer-cli sources add openshift-local.toml
 
-
+fi
 
 
 
