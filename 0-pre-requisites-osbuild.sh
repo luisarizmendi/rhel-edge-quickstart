@@ -16,12 +16,12 @@ fi
 systemctl enable osbuild-composer.socket --now
 systemctl enable cockpit.socket --now
 
-firewall-cmd --add-service=cockpit && firewall-cmd --add-service=cockpit --permanent
+firewall-cmd --add-service=cockpit && firewall-cmd --add-service=cockpit --permanent 2>/dev/null
 
-firewall-cmd --add-port=8090-8091/tcp --permanent
-firewall-cmd --reload
+firewall-cmd --add-port=8090-8091/tcp --permanent 2>/dev/null
+firewall-cmd --reload 2>/dev/null
 
-systemctl restart firewalld
+systemctl restart firewalld 2>/dev/null
 
 source  /etc/bash_completion.d/composer-cli
 
