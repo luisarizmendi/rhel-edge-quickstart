@@ -41,8 +41,8 @@ current_dir="$(pwd)"
     ########
     ######## Copy MicroShift RPM packages
     rm -rf microshift-local 2>/dev/null || true
-    cp -TR microshift/packaging/rpm/_rpmbuild/RPMS microshift-local
-    createrepo microshift-local >/dev/null
+    cp -TR ${current_dir}/microshift/packaging/rpm/_rpmbuild/RPMS ${current_dir}/microshift/scripts/image-builder/_builds/microshift-local/
+    createrepo ${current_dir}/microshift/scripts/image-builder/_builds/microshift-local/ >/dev/null
     ########
 
 
