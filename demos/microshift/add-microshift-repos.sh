@@ -159,7 +159,7 @@ EOF
 
 
 
-
+rm -rf additional-repos.json
 
 fi
 
