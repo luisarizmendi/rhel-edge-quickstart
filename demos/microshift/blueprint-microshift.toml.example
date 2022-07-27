@@ -15,18 +15,6 @@ version = "*"
 # MicroShift dependencies
 
 [[packages]]
-name = "podman"
-version = "*"
-
-[[packages]]
-name = "firewalld"
-version = "*"
-
-[[packages]]
-name = "conntrack-tools"
-version = "*"
-
-[[packages]]
 name = "net-tools"
 version = "*"
 

@@ -35,7 +35,6 @@ cd ../..
 ./1-create-image.sh -b blueprint-microshift.toml
 
 ./2-publish-image.sh -i xxxxxx
-
 ```
 
 
@@ -53,9 +52,12 @@ sudo sed 's/server:*.*/server: https:\/\/<SERVER IP>:6443/' /var/lib/microshift/
 
 > Example: `sudo sed 's/server:*.*/server: https:\/\/192.168.122.117:6443/' /var/lib/microshift/resources/kubeadmin/kubeconfig > kubeconfig-microshift`
 
-3) Download and use the new kubeconfig created (`kubeconfig-microshift`) to access the Microshift API
+3) Download (the example RHEL for Edge image does not have `kubectl` or `oc` clients installed) and use the new kubeconfig created (`kubeconfig-microshift`) to access the Microshift API
+
 
 ```
+scp <USER>@<SERVER IP>:/var/home/admin/kubeconfig-microshift .
+
 oc --kubeconfig kubeconfig-microshift get namespace
 ```
 
