@@ -34,6 +34,7 @@ Make a copy of the blueprint example file (ie, `cp blueprint-serverless.toml.exa
 
 > NOTE: There are other parameters such as `service_info_auth_token` and `admin_auth_token` that will be completed by the `prepare-fdo-server.sh` during next step.
 
+> NOTE: The file `serviceinfo_api_server.yml.example` has configured the usage of a TPM device to encrypt the disk, so be sure that you device or VM has a TPM or remove that section from the file.
 
 4) Run the `prepare-fdo-server.sh` script to prepare the required files on the fdo server.
 
