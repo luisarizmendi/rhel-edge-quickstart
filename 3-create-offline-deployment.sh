@@ -91,7 +91,7 @@ then
       echo "***********************************************************************************"
       echo "At this moment, in order to use simplified installer, you will need to use FDO too"
       echo ""
-      echo "Either incluye FDO (-f) or not use the simplified installer (-a)"
+      echo "Either incluye FDO [-f] or not use the simplified installer [-a] (not for qcow2)"
       echo ""
       echo "***********************************************************************************"
       echo ""
