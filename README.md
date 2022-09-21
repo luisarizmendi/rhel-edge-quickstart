@@ -1,7 +1,7 @@
 # Description
 
 
-These scripts help to quickly create and publish RHEL for Edge images. You should execute them in a RHEL 9 server which will become the image-builder and repo server for RHEL for Edge images (it should work with RHEL 8 but I don't test it anymore, if you want to be sure about it, use the `rhel-8` branch).
+These scripts help to quickly create and publish RHEL for Edge images. You should execute them in a RHEL 9 server which will become the image-builder and repo server for RHEL for Edge images (scripts should work with RHEL 8 but I don't test it anymore, and you can find issues with the demos).
 
 > NOTE: Remember that if you want to install RHEL for Edge on ARM systems, the image will need to be created in an image-builder RHEL deployed also in an ARM server.
 
