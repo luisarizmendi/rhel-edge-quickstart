@@ -1,0 +1,7 @@
+[Service]
+Type=oneshot
+ExecStart=podman pull quay.io/luisarizmendi/2048:prod
+
+
+[Install]
+WantedBy=multi-user.target default.target
