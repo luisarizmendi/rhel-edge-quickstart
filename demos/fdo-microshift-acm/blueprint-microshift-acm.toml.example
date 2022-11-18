@@ -1,0 +1,176 @@
+name = "r4e-insights-cockpit"
+description = "Deploy Cockpit and include in Insights"
+
+version = "0.0.1"
+modules = [ ]
+groups = [ ]
+
+
+################## base packages
+
+[[packages]]
+name = "insights-client"
+version = "*"
+
+[[packages]]
+name = "rhc"
+version = "*"
+
+[[packages]]
+name = "subscription-manager"
+version = "*"
+
+[[packages]]
+name = "redhat-release"
+version = "*"
+
+
+[[packages]]
+name = "pcp"
+version = "*"
+
+
+[[packages]]
+name = "tuned"
+version = "*"
+
+################## openscap
+
+
+[[packages]]
+name = "openscap"
+version = "*"
+
+
+[[packages]]
+name = "openscap-scanner"
+version = "*"
+
+
+[[packages]]
+name = "scap-workbench"
+version = "*"
+
+[[packages]]
+name = "scap-security-guide"
+version = "*"
+
+
+
+
+################## cockpit
+
+[[packages]]
+name = "cockpit"
+version = "*"
+
+[[packages]]
+name = "cockpit-machines"
+version = "*"
+
+
+[[packages]]
+name = "cockpit-podman"
+version = "*"
+
+
+[[packages]]
+name = "cockpit-system"
+version = "*"
+
+
+[[packages]]
+name = "cockpit-bridge"
+version = "*"
+
+
+[[packages]]
+name = "cockpit-pcp"
+version = "*"
+
+
+[[packages]]
+name = "cockpit-composer"
+version = "*"
+
+
+[[packages]]
+name = "cockpit-storaged"
+version = "*"
+
+
+[[packages]]
+name = "cockpit-session-recording"
+version = "*"
+
+
+################## KVM 
+
+[[packages]]
+name = "virt-install"
+version = "*"
+
+[[packages]]
+name = "libvirt-daemon-config-network"
+version = "*"
+
+[[packages]]
+name = "libvirt-daemon-kvm"
+version = "*"
+
+[[packages]]
+name = "qemu-kvm"
+version = "*"
+
+[[packages]]
+name = "libguestfs-tools"
+version = "*"
+
+[[packages]]
+name = "python3-libguestfs"
+version = "*"
+
+[[packages]]
+name = "virt-top"
+version = "*"
+
+
+
+
+# MicroShift dependencies
+
+[[packages]]
+name = "net-tools"
+version = "*"
+
+# Microshift
+
+[[packages]]
+name = "microshift"
+version = "*"
+
+
+
+
+[customizations.services]
+enabled = ["cockpit","insights-client","crio", "microshift"]
+
+
+[customizations.firewall]
+ports = ["9090:tcp","22:tcp", "80:tcp", "443:tcp", "6443:tcp", "5353:udp"]
+
+
+
+[[customizations.sshkey]]
+user = "root"
+key = "<ssh public key>"
+
+
+[[customizations.user]]
+name = "admin"
+description = "Admin user"
+password = '<password hash obatained with:        python3 -c 'import crypt,getpass;pw=getpass.getpass();print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit())'       >'
+key = "<ssh public key>"
+home = "/home/admin/"
+shell = "/usr/bin/bash"
+groups = ["users", "wheel"]
