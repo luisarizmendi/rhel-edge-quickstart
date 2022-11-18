@@ -16,8 +16,10 @@ chmod -R 777 ${target_dir}
 
 
 # Added because some dependencies
-sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+#sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+
 dnf update -y
+
 
 
 ###### MICROSHIFT REPO
