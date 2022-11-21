@@ -29,6 +29,10 @@ service_info:
     permissions: 644
     source_path: /etc/fdo-configs/device0/var/home/admin/register-system.sh
 
+  - path: /var/home/admin/micoshift-custom.sh
+    permissions: 644
+    source_path: /etc/fdo-configs/device0/var/home/admin/micoshift-custom.sh
+
   - path: /var/lib/pcp/config/pmlogger/config.ros
     permissions: 644
     source_path: /etc/fdo-configs/device0/var/lib/pcp/config/pmlogger/config.ros
@@ -44,6 +48,9 @@ service_info:
   - command: bash
     args:
     - /var/home/admin/change-hostname.sh
+  - command: bash
+    args:
+    - /var/home/admin/micoshift-custom.sh
   - command: sed
     args:
     - -i

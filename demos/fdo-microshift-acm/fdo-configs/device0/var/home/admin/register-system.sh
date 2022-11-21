@@ -30,3 +30,5 @@ systemctl restart rhcd.service
 fi
 
 insights-client --compliance
+
+exit 0

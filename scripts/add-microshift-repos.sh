@@ -1,6 +1,6 @@
 #!/bin/bash
 
-branch="kubecon-na-2022"
+branch="main"
 
 
 baserelease=$(cat /etc/redhat-release  | awk '{print $6}' | awk -F . '{print $1}')
