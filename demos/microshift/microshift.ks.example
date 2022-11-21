@@ -1,0 +1,146 @@
+##
+## Initial ostree install
+##
+
+# set locale defaults for the Install
+lang en_US.UTF-8
+keyboard us
+timezone Etc/UTC --isUtc
+
+# initialize any invalid partition tables and destroy all of their contents
+zerombr
+
+# erase all disk partitions and create a default label
+clearpart --all --initlabel
+
+# automatically create xfs partitions with no LVM and no /home partition
+autopart --type=lvm --fstype=xfs --nohome
+
+# installation will run in text mode
+text
+
+# activate network devices and configure with static ip
+#network --bootproto=static --ip=192.168.122.134 --netmask=255.255.255.0 --gateway=192.168.122.1 --nameserver=8.8.8.8 --hostname=rheledge.acme.es --noipv6
+network --bootproto=dhcp --device=link --activate --onboot=on
+
+
+rootpw --iscrypted !$6$0XQkWnCyj3XZqA6F$MOHw/Sn3hec23mKjtxqGa.qnflkLb6FNR8s72yCsk.xVDoI35EOpgetjII/DkJVYrHVwF.ET3TLvVl7WYbMef0
+# Kickstart requires that we create a default user (which will run the contenerized services)
+user --name=admin --groups=wheel --homedir=/var/home/admin
+
+# set up the OSTree-based install with disabled GPG key verification, the base
+# URL to pull the installation content, 'rhel' as the management root in the
+# repo, and 'rhel/8/x86_64/edge' as the branch for the installation
+ostreesetup --nogpg  --osname=rhel --remote=edge --url=http://192.168.122.208:8090/repo/ --ref=rhel/8/x86_64/edge
+
+# reboot after installation is successfully completed
+reboot --eject
+
+
+
+
+
+
+%post --log=/var/log/anaconda/post-install.log 
+
+
+## Download CLI
+curl -o /root/openshift-client-linux.tar.gz https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz
+tar -xvf /root/openshift-client-linux.tar.gz
+chmod +x /root/oc 
+cp /root/oc /var/usrlocal/bin/
+chmod +x /root/kubectl 
+cp /root/kubectl /var/usrlocal/bin/
+
+mkdir /root/.kube
+cp /var/lib/microshift/resources/kubeadmin/kubeconfig /root/.kube/config
+
+
+####### firewalld
+#######
+# Mandatory settings
+sudo firewall-cmd --permanent --zone=trusted --add-source=10.85.0.0/16 
+sudo firewall-cmd --permanent --zone=trusted --add-source=169.254.169.1
+sudo firewall-cmd --reload
+# Optional settings
+sudo firewall-cmd --permanent --zone=public --add-port=80/tcp
+sudo firewall-cmd --permanent --zone=public --add-port=443/tcp
+sudo firewall-cmd --permanent --zone=public --add-port=5353/udp
+sudo firewall-cmd --permanent --zone=public --add-port=30000-32767/tcp
+sudo firewall-cmd --permanent --zone=public --add-port=30000-32767/udp
+sudo firewall-cmd --permanent --zone=public --add-port=6443/tcp
+sudo firewall-cmd --reload
+
+
+
+
+
+cat <<EOF > /etc/containers/policy.json
+{
+    "default": [
+        {
+            "type": "insecureAcceptAnything"
+        }
+    ],
+    "transports": {
+        "docker": {
+            "registry.access.redhat.com": [
+                {
+                    "type": "signedBy",
+                    "keyType": "GPGKeys",
+                    "keyPath": "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"
+                }
+            ],
+            "registry.redhat.io": [
+                {
+                    "type": "signedBy",
+                    "keyType": "GPGKeys",
+                    "keyPath": "/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release"
+                }
+            ]
+        },
+        "docker-daemon": {
+            "": [
+                {
+                    "type": "insecureAcceptAnything"
+                }
+            ]
+        }
+    }
+}
+EOF
+
+
+
+## Create volume group for PV 
+
+
+
+
+
+cat <<EOF > /etc/crio/openshift-pull-secret
+< PULL SECRET >
+EOF
+
+
+
+chmod 600 /etc/crio/openshift-pull-secret
+
+
+
+systemctl restart crio
+
+systemctl restart microshift
+
+
+
+
+
+
+%end
+
+
+
+
+
+
