@@ -3,7 +3,7 @@ service_info:
   initial_user: 
     username: admin
     sshkeys:
-    - "ssh-rsa AAAA...."
+    - "ssh-rsa AAAA"
   files:
   - path: /etc/greenboot/check/required.d/01_check_demo_file.sh
     permissions: 644
@@ -61,8 +61,8 @@ service_info:
   - command: bash
     args:
     - /var/home/admin/register-system.sh
-    - <MY ORGID>
-    - <MY ACTIVATIONKEY>
+    - <MY_ORGID>
+    - <MY_ACTIVATIONKEY>
   diskencryption_clevis: 
   - disk_label: /dev/vda4
     binding:
