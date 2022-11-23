@@ -85,37 +85,6 @@ sudo firewall-cmd --reload
 
 
 
-cat <<EOF > /etc/microshift/config.yaml
-# Cluster settings
-cluster:
-
-  # IP range for use by the cluster
-  #clusterCIDR: 10.42.0.0/16
-
-  # Base DNS domain used to construct fully qualified pod and service domain names
-  #domain: <DOMAIN>
-
-  # IP range for services in the cluster
-  #serviceCIDR: 10.43.0.0/16
-
-  # Node ports allowed for services
-  #serviceNodePortRange: 30000-32767
-
-  # URL of the API server for the cluster
-  #url: https://127.0.0.1:6443
-
-# Log verbosity (0-5)
-#logVLevel: 0
-
-# The IP of the node (defaults to IP of default route)
-#nodeIP: ""
-
-# The name of the node (defaults to hostname)
-#nodeName: ""
-EOF
-
-
-
 cat <<EOF > /etc/containers/policy.json
 {
     "default": [
@@ -278,8 +247,8 @@ EOF
 
 
 
-#/var/usrlocal/bin/oc --kubeconfig /var/lib/microshift/resources/kubeadmin/kubeconfig -n openshift-ingress wait --for=condition=Available --timeout=300s deployment router-default
-#/var/usrlocal/bin/oc --kubeconfig /var/lib/microshift/resources/kubeadmin/kubeconfig -n openshift-ingress set env deployment/router-default ROUTER_SUBDOMAIN="\${name}-\${namespace}.apps.<DOMAIN>" ROUTER_ALLOW_WILDCARD_ROUTES="true" ROUTER_OVERRIDE_HOSTNAME="true"
+#oc -n openshift-ingress wait --for=condition=Available --timeout=300s deployment router-default
+#oc -n openshift-ingress set env deployment/router-default ROUTER_SUBDOMAIN="\${name}-\${namespace}.apps.<DOMAIN>" ROUTER_ALLOW_WILDCARD_ROUTES="true" ROUTER_OVERRIDE_HOSTNAME="true"
 
 
 

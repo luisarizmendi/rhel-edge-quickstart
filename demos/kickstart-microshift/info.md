@@ -41,7 +41,6 @@ vi blueprint-microshift.toml
 
 Also look for the line `< PULL SECRET >` and include there your Pull Secret ([you can download it from here](https://console.redhat.com/openshift/downloads#tool-pull-secret))
 
-Finally include your domain uncommenting the line and including your domain where you find the `< DOMAIN >` TAG. If you don't have one, let it comment and include a nip.io entry after the install.
 
 4) Create the RHEL for Edge image using that blueprint and deploy it using the kickstart into the edge device following one of the methods shown in [rhel-edge-quickstart README](https://github.com/luisarizmendi/rhel-edge-quickstart), for example:
 
