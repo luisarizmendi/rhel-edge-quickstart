@@ -22,7 +22,7 @@ cd demos/microshift
 cd ..
 ```
 
-2)  Prepare the blueprint using the `blueprint-microshift.toml.example` as reference
+2) Create a new blueprint file using the `blueprint-microshift.toml.example` as reference
 
 Make a copy of the blueprint example file and include the SSH key and the password hash.
 
@@ -35,19 +35,20 @@ vi blueprint-microshift.toml
 ```
 
 
-3) Prepare the kickstart file using the `microshift.ks.example` as reference. You need to setup in the `ostreesetup` line the right IP of the HTTP server where the OSTree repo is located (you image builder if you didn't changed it) along with the right RHEL release and arch. For example, if you are using a RHEL 8 on x86 image hosted in 192.168.122.208:8090
+3) Create a new kickstart file using the `microshift.ks.example` as reference. You need to setup in the `ostreesetup` line the right IP of the HTTP server where the OSTree repo is located (you image builder if you didn't changed it) along with the right RHEL release and arch. For example, if you are using a RHEL 8 on x86 image hosted in 192.168.122.208:8090
 
 `ostreesetup --nogpg  --osname=rhel --remote=edge --url=http://192.168.122.208:8090/repo/ --ref=rhel/8/x86_64/edge`
 
 Also look for the line `< PULL SECRET >` and include there your Pull Secret ([you can download it from here](https://console.redhat.com/openshift/downloads#tool-pull-secret))
 
+Finally include your domain uncommenting the line and including your domain where you find the `< DOMAIN >` TAG. If you don't have one, let it comment and include a nip.io entry after the install.
 
-4) Create the RHEL for Edge image using that blueprint and deploy it into the edge device following one of the methods shown in [rhel-edge-quickstart README](https://github.com/luisarizmendi/rhel-edge-quickstart), for example:
+4) Create the RHEL for Edge image using that blueprint and deploy it using the kickstart into the edge device following one of the methods shown in [rhel-edge-quickstart README](https://github.com/luisarizmendi/rhel-edge-quickstart), for example:
 
 ```
 ./1-create-image.sh -b blueprint-microshift.toml
 
-./2-publish-image.sh -i xxxxxx
+./2-publish-image.sh -i xxxxxx -k kickstart.ks
 ```
 
 
