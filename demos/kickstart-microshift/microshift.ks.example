@@ -246,6 +246,19 @@ spec:
     port: 8080
     targetPort: 8080
 
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: hello-openshift
+  namespace: demo
+spec:
+  port:
+    targetPort: 8080 
+  to:
+    kind: Service
+    name: demo-service
+    weight: 10
 EOF
 
 
