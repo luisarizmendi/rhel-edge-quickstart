@@ -219,7 +219,7 @@ spec:
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: hello-openshift
+  name: webapp
   namespace: demo
 spec:
   port:
