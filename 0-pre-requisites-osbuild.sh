@@ -8,13 +8,14 @@ if [ $(arch) = aarch64 ]
 then
     dnf install -y podman osbuild-composer composer-cli cockpit-composer bash-completion isomd5sum genisoimage jq buildah 
 else
-    dnf install -y podman osbuild-composer composer-cli cockpit-composer bash-completion isomd5sum genisoimage jq buildah syslinux 
+    dnf install -y podman osbuild-composer composer-cli cockpit-composer bash-completion isomd5sum genisoimage jq buildah syslinux firewalld
 fi
 
 
 
 systemctl enable osbuild-composer.socket --now
 systemctl enable cockpit.socket --now
+systemctl enable firewalld.service --now
 
 firewall-cmd --add-service=cockpit && firewall-cmd --add-service=cockpit --permanent 2>/dev/null
 
