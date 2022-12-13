@@ -76,3 +76,4 @@ oc --kubeconfig kubeconfig-microshift get namespace
 
 > NOTE: It could take some time to Microshift to start, if you get a "connection refused" error message wait a little bit longer and try again
 
+There is also [a guided lab](https://luisarizmendi.github.io/tutorial-secure-onboarding/fdo-tutorial/index.html) where you can better understand the OSTree RHEL image creation steps and FDO servers preparation.

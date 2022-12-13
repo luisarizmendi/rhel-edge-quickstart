@@ -4,6 +4,8 @@ This demo shows the deployment of a RHEL for Edge system registered in Red Hat C
 
 > NOTE: Tested with RHEL 9.0
 
+If you are interested on running the steps of this demo manually, you can [follow this guide](https://luisarizmendi.github.io/tutorial-secure-onboarding/fdo-tutorial/index.html).
+
 ## Preparing the demo
 
 The steps to prepare this demo are:
