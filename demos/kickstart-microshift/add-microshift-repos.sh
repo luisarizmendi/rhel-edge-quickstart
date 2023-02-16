@@ -1,6 +1,6 @@
 #!/bin/bash
 
-branch="kubecon-na-2022"
+branch="microshift-4.12.1"
 
 
 baserelease=$(cat /etc/redhat-release  | awk '{print $6}' | awk -F . '{print $1}')
